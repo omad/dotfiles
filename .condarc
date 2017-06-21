@@ -1,0 +1,5 @@
+ssl_verify: false
+channels:
+  - conda-forge
+  - synthicity
+  - defaults
