@@ -62,7 +62,7 @@ export CASE_SENSITIVE="true"
 ZSH_THEME=avit
 
 export ZSH="$HOME/.oh-my-zsh/"
-plugins=(brew brew-cask zsh-syntax-highlighting ssh-agent)
+plugins=(brew brew-cask zsh-syntax-highlighting docker docker-compose colorize colored-man-pages git git-extras gnu-utils python man tmux) # ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,25 +99,26 @@ bindkey "^H" backward-delete-char
 
 
 # Turn on vi keybindings <3 <3 <3 :D and other things
-bindkey -v
+#bindkey -v
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
 bindkey "^U" backward-kill-line
+bindkey '^R' history-incremental-search-backward
 
 # Sometimes pressing ESC + / quickly (i.e., to do a reverse-i-search with
 # bindkey -v turned on) would not work properly. This fixes it.
-vi-search-fix() {
-  zle vi-cmd-mode
-  zle .vi-history-search-backward
-}
-autoload vi-search-fix
-zle -N vi-search-fix
-bindkey -M viins '\e/' vi-search-fix
-
-# history search backwords with j/k in vi normal mode
-bindkey -M vicmd 'k' history-beginning-search-backward
-bindkey -M vicmd 'j' history-beginning-search-forward
-
+#vi-search-fix() {
+#  zle vi-cmd-mode
+#  zle .vi-history-search-backward
+#}
+#autoload vi-search-fix
+#zle -N vi-search-fix
+#bindkey -M viins '\e/' vi-search-fix
+#
+## history search backwords with j/k in vi normal mode
+#bindkey -M vicmd 'k' history-beginning-search-backward
+#bindkey -M vicmd 'j' history-beginning-search-forward
+#
 
 # Initialize zsh history files
 HISTFILE=~/.histfile
@@ -175,10 +176,6 @@ export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
 
 export PATH=$PATH:/Users/omad/bin
 
-# added by Anaconda3 2.5.0 installer
-#export PATH="/Users/omad/anaconda3/bin:$PATH"
-
-export HOMEBREW_GITHUB_API_TOKEN=4ba528c94411e958d772bb8fcf291f5c8ed64285
 
 # added by Miniconda3 4.1.11 installer
 export PATH="/Users/omad/miniconda3/bin:$PATH"
@@ -186,5 +183,21 @@ export PATH="/Users/omad/miniconda3/bin:$PATH"
 export PATH="$PATH:/usr/local/sbin"
 
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-bindkey '^R' history-incremental-search-backward
+alias git=hub
 
+WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
+
+# If I'm at work
+if [ "$WIFI_SSID" = 'GA Staff' ]; then
+    # curl -s $(scutil --proxy | grep ProxyAutoConfigURLString | cut -f 2,3 -d :) | grep PROXY | cut -d \" -f 2 | cut -d ' ' -f 2
+    export http_proxy=proxy.inno.lan:3128
+fi
+
+update_vdi_host () {
+    sed -E -i .bak "s/vdi-n[0-9]+.nci.org.au/vdi-n$1.nci.org.au/" ~/.ssh/config
+    grep vdi- ~/.ssh/config
+}
+export PATH="/usr/local/sbin:$PATH"
+
+# added by travis gem
+[ -f /Users/omad/.travis/travis.sh ] && source /Users/omad/.travis/travis.sh
