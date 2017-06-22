@@ -19,6 +19,8 @@ nnoremap <leader><space> :nohlsearch<CR>   # ,<space>
 set autoindent
 set smartindent
 
+set bg=dark
+
 " Custom Keybindings
 let mapleader=","       " leader is comma
 " jk is escape
@@ -41,6 +43,9 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 "Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"
+
+Plug 'pearofducks/ansible-vim'
 
 " Using a non-master branch
 "Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
