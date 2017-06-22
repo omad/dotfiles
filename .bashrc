@@ -97,3 +97,33 @@ fi
 function preexec {
     refresh-tmux-env-vars
 }
+
+
+# pip should only run if there is a virtualenv currently activated
+export PIP_REQUIRE_VIRTUALENV=true
+# cache pip-installed packages to avoid re-downloading
+export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+
+
+system_type=$(uname -s)
+
+if [ "$system_type" = "Darwin" ]; then
+    WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
+
+    # If I'm at work
+    if [ "$WIFI_SSID" = 'GA Staff' ]; then
+        export http_proxy=proxy.inno.lan:3128
+    fi
+
+# scutil --proxy
+# ...
+#  ProxyAutoConfigURLString : http://win-dhcp-prod03.inno.lan/wpad.dat
+# curl http://win-dhcp-prod03.inno.lan/wpad.dat
+#
+#  return "PROXY proxy.inno.lan:3128";
+#
+fi
+
+
+# added by travis gem
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
