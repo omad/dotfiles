@@ -47,6 +47,8 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 Plug 'pearofducks/ansible-vim'
 
+Plug 'christoomey/vim-tmux-navigator'
+
 " Using a non-master branch
 "Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
@@ -64,3 +66,8 @@ Plug 'pearofducks/ansible-vim'
 
 " Initialize plugin system
 call plug#end()
+
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 2
+
+
