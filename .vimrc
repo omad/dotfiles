@@ -15,6 +15,23 @@ set relativenumber " Display relative numbers
 set ruler " Display cursor position
 set scrolloff=3 " Display at least 3 lines around you cursor
 
+syntax enable      " enable syntax highlighting
+set expandtab      " tabs are spaces
+set tabstop=4      " number of visual spaces per tab
+set softtabstop=4  " number of spaces in tab when editing
+set shiftwidth=4
+
+filetype indent on " load filetype-specific indent files
+set wildmenu       " visual autocomplete for command menu
+set showmatch      " highlight matching [{()}]
+
+set incsearch      " search as characters are entered
+set hlsearch       " highlight matches
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>   # ,<space>
+set autoindent
+set smartindent
+
 set wrap " Wrap lines when they are too long
 set textwidth=79
 set formatoptions=qrn1
@@ -39,6 +56,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
+" On-demand loading
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
 
 " Write all buffers before navigating from Vim to tmux pane
@@ -58,16 +77,10 @@ set guioptions=T " Enable the toolbar
 set ignorecase " Ignore case when searching
 set smartcase " If there is an uppercase in your search term
 
-" search case sensitive again
-set incsearch " Highlight search results when typing
-set hlsearch " Highlight search results
-set showmatch " highlight matching brackets
 
 " replace multiple occurances on a line by default
 set gdefault
 
-" Turn off highlights with ,<space>
-nnoremap <leader><space> :noh<cr>
 " Jump between brackets with <tab>
 nnoremap <tab> %
 vnoremap <tab> %
@@ -89,23 +102,11 @@ set backspace=indent,eol,start
 set hidden
 
 
-" Handle tabs sensibly
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-
-set autoindent
-set smartindent
-
 " Backup files and Swap files
 " trailing double slash means use full path, so same name in different dirs doesn't clobber
 set backupdir^=~/.vim/backup//
 set directory^=~/.vim/swap//
 set undodir^=~/.vim/undo//
-
-" Enable syntax highlighting
-syntax enable
 
 " GUI Options | Gvim Options
 if has('gui_running')
@@ -130,3 +131,64 @@ if has ('autocmd') " Remain compatible with earlier versions
     autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
   augroup END
 endif " has autocmd
+
+" Splits
+" ===================================
+set splitright            " vertical splits use right half of screen
+set splitbelow            " horizontal splits use bottom half of screen
+
+" Auto completion
+" ===================================
+" Show potential matches above completion, complete first immediately
+set browsedir=buffer                       " browse files in same dir as open file, make tab completion for files/buffers act like bash
+set wildmenu                               " Enhanced command line completion.
+set wildmode=list:longest,list,full        " Complete files using a menu AND list
+set wildignorecase
+
+" Ignore
+" ===================================
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*.swp,.lock,.DS_Store,._*
+set wildignore+=.sass-cache
+set wildignore+=*.eot,*.otf,*.ttf,*.woff
+set wildignore+=*.doc,*.pdf,*.retry
+
+
+" Other
+" ===================================
+set isk+=_,$,@,%,#,-      " none word dividers
+set list listchars=tab:\ \ ,trail:· " Display tabs and trailing spaces visually
+
+
+" NetRW Setup
+" ===================================
+let g:netrw_banner = 0       " No Banner
+
+let g:netrw_liststyle = 3    " Tree list style
+
+let g:netrw_browse_split = 4 " Open file in previous window to right of project drawer
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+" Open NetRW draw on vim startup
+"augroup ProjectDrawer
+"    autocmd!
+"    autocmd VimEnter * :Vexplore
+"augroup END
+let g:netrw_list_hide= '.*\.swp$'
+
+
+" Fix vim-tmux-navigator keys in netrw
+" Thanks https://github.com/christoomey/vim-tmux-navigator/issues/53
+augroup navigator
+  autocmd!
+  autocmd FileType netrw call s:reset_netrw_keys()
+augroup END
+
+function! s:reset_netrw_keys() abort
+"  nmap <buffer> <silent> <c-h> <Plug>NetrwHideEdit
+"  nmap <buffer> <silent> <c-l> <Plug>NetrwRefresh
+  noremap <buffer> <c-h> <c-w><c-h>
+  noremap <buffer> <c-l> <c-w><c-l>
+endfunction
+
