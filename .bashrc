@@ -16,7 +16,7 @@ fi
 
 nf_bashrc_sourced=YES
 
-
+system_type=$(uname -s)
 
 HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 HISTSIZE=100000                   # big big history
@@ -50,6 +50,13 @@ for PATTERN in .cvs .git .hg .svn .work; do
 done
 export GREP_OPTIONS
 
+if [[ $system_type =~ MINGW ]]; then
+    # ssh-pageant
+    # Not able to use file sockets in windows...
+    #eval $(ssh-pageant.exe -r -a "/c/Temp/.ssh-pageant-$USERNAME")
+    eval $(ssh-pageant)
+fi
+
 
 function gimmesomedatacube {
     module load agdc-py3-prod/1.4.1
@@ -78,7 +85,6 @@ export PIP_REQUIRE_VIRTUALENV=true
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 
-system_type=$(uname -s)
 
 if [ "$system_type" = "Darwin" ]; then
     WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
@@ -103,9 +109,6 @@ fi
 
 
 
-
-
-
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
@@ -114,7 +117,10 @@ alias parallel='parallel --citation'
 export PGHOST=agdc-db.nci.org.au
 export PGDATABASE=datacube
 
-alias git=hub
+if command_exists hub; then
+    alias git=hub
+fi
+alias ls='ls --color'
 
 alias quota='quota -sQ' # Human readable and ignore NFS errors
 

@@ -13,4 +13,35 @@
 	default = simple
 [core]
 	autocrlf = input
-	excludesfile = /Users/omad/.gitignore_global
+	safecrlf = warn
+[alias]
+	lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
+	dl = "!git ll -1"
+	dlc = diff --cached HEAD^
+	st = status -s
+	# reset commands {{{
+	r1 = reset HEAD^
+	r2 = reset HEAD^^
+	rh = reset --hard
+	rh1 = reset HEAD^ --hard
+	rh2 = reset HEAD^^ --hard
+	branches = !legit branches
+	graft = !legit graft
+	harvest = !legit harvest
+	publish = !legit publish
+	unpublish = !legit unpublish
+	sprout = !legit sprout
+	sync = !legit sync
+	switch = !legit switch
+	resync = !legit resync
+	# }}}
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[pull]
+	rebase = true
+
