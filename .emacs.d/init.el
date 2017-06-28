@@ -31,3 +31,15 @@
 (setq-default indent-tabs-mode nil)
 
 
+(use-package all-the-icons
+	     :ensure t)
+
+
+(use-package all-the-icons-dired
+	     :ensure t)
+(use-package all-the-icons
+  :ensure t)
+
+(use-package all-the-icons-dired
+	     :ensure t)
+
