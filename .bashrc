@@ -103,6 +103,8 @@ if [ "$system_type" = "Darwin" ]; then
 #
 fi
 
+export PGHOST=agdc-db.nci.org.au
+export PGDATABASE=datacube
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
