@@ -18,7 +18,7 @@ if [ "$system_type" = "Darwin" ]; then
     export PATH="$PATH:$HOME/android-sdk/platform-tools"
 
     export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
-    # added by Miniconda3 4.1.11 installer
+
     export PATH="$HOME/miniconda3/bin:$PATH"
 fi
 
@@ -30,3 +30,4 @@ export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
 export CPATH=$HOME/include
 
+MANPATH=$MANPATH:$HOME/share/man
