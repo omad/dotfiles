@@ -79,8 +79,6 @@ function preexec {
 }
 
 
-# pip should only run if there is a virtualenv currently activated
-export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
@@ -133,6 +131,8 @@ if [[ `hostname` =~ vdi ]]; then
     mkdir -p /local/u46/dra547/tmp/dotcondapkgcache
     mkdir -p /local/u46/dra547/tmp/dotcache
     export PATH=$PATH:$HOME/src/damootils/scripts
+    export PIP_DOWNLOAD_CACHE=$TMPDIR/pipcache
+    mkdir -p $PIP_DOWNLOAD_CACHE
 fi
 
 
