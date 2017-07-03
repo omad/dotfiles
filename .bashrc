@@ -44,17 +44,20 @@ EDITOR=vim
 VISUAL=vim
 
 # Grep default options, that you don't have to type with the command
-GREP_OPTIONS='--color=auto'
-for PATTERN in .cvs .git .hg .svn .work; do
-  GREP_OPTIONS="$GREP_OPTIONS --exclude-dir=$PATTERN"
+grep_options='--color=auto'
+for PATTERN in .git .hg .svn .work; do
+  grep_options="$grep_options --exclude-dir=$PATTERN"
 done
-export GREP_OPTIONS
+alias grep="grep $grep_options"
 
 if [[ $system_type =~ MINGW ]]; then
     # ssh-pageant
     # Not able to use file sockets in windows...
     #eval $(ssh-pageant.exe -r -a "/c/Temp/.ssh-pageant-$USERNAME")
     eval $(ssh-pageant)
+
+    export PATH=$PATH:/c/msys64/mingw64/bin
+    export GIT_GUI_LIB_DIR=/c/msys64/usr/share/git-gui/lib
 fi
 
 
@@ -138,3 +141,6 @@ fi
 
 complete -C aws_completer aws
 
+. ~/.bash/git-completion.bash
+. ~/.bash/git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
