@@ -1,9 +1,9 @@
 set nocompatible
 
+" Use the same config dirs between Windows and *nix
 if has('win32')
     set runtimepath=~/.vim,$VIMRUNTIME
 endif
-
 
 " Easier to type than \
 let mapleader = ","
@@ -191,4 +191,12 @@ function! s:reset_netrw_keys() abort
   noremap <buffer> <c-h> <c-w><c-h>
   noremap <buffer> <c-l> <c-w><c-l>
 endfunction
+
+" Switch cursor charactors if using mintty
+if !empty($MSYSCON) && $MSYSCON == "mintty.exe"
+    let &t_ti.="\e[1 q"
+    let &t_SI.="\e[5 q"
+    let &t_EI.="\e[1 q"
+    let &t_te.="\e[0 q"
+endif
 
