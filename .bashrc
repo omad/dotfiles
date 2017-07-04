@@ -107,6 +107,10 @@ if [[ $system_type =~ MINGW ]]; then
     export GIT_GUI_LIB_DIR=/c/msys64/usr/share/git-gui/lib
 fi
 
+# For install ruby gems into user home
+if command_exists ruby; then
+    export PATH=$PATH:$(ruby -rubygems -e "puts Gem.user_dir")/bin
+fi
 
 function gimmesomedatacube {
     module load agdc-py3-prod/1.4.1
