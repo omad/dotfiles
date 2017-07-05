@@ -1,5 +1,14 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+#  Source global definitions to get the module command defined.
+#  If you remove this from your file and/or you reset the BASH_ENV (or
+#  ENV) variables,  you risk getting "module command not found"
+#  errors from batch jobs.
+
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
     export PATH="$PATH:$HOME/android-sdk/platform-tools"
@@ -18,7 +27,7 @@ if [ -d "${HOME}/miniconda3/bin" ]; then
     export PATH="$HOME/miniconda3/bin:$PATH"
 fi
 # set PATH so it includes user's private bin directories
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 
 # Set MANPATH so it includes users' private man if it exists
@@ -45,14 +54,6 @@ esac
 
 [ -n "$nf_bashrc_sourced" ] && return
 
-#  Source global definitions to get the module command defined.
-#  If you remove this from your file and/or you reset the BASH_ENV (or
-#  ENV) variables,  you risk getting "module command not found"
-#  errors from batch jobs.
-
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
 
 
 nf_bashrc_sourced=YES
@@ -89,13 +90,6 @@ export LANGUAGE=en_US.UTF-8
 
 EDITOR=vim
 VISUAL=vim
-
-# Grep default options, that you don't have to type with the command
-grep_options='--color=auto'
-for PATTERN in .git .hg .svn .work; do
-  grep_options="$grep_options --exclude-dir=$PATTERN"
-done
-alias grep="grep $grep_options"
 
 if [[ $system_type =~ MINGW ]]; then
     # ssh-pageant
@@ -162,29 +156,13 @@ export PGDATABASE=datacube
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 
-
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
-
-alias parallel='parallel --citation'
-
-export PGHOST=agdc-db.nci.org.au
-export PGDATABASE=datacube
-
-if command_exists hub; then
-    alias git=hub
-fi
-alias ls='ls --color'
-
-alias quota='quota -sQ' # Human readable and ignore NFS errors
-
 export PYTEST_ADDOPTS='--pdbcls=IPython.terminal.debugger:TerminalPdb'
 
 
 if [[ `hostname` =~ vdi ]]; then
     mkdir -p /local/u46/dra547/tmp/dotcondapkgcache
     mkdir -p /local/u46/dra547/tmp/dotcache
-    export PATH=$PATH:$HOME/src/damootils/scripts
+    export PATH="${PATH}:${HOME}/src/damootils/scripts"
     export PIP_DOWNLOAD_CACHE=$TMPDIR/pipcache
     mkdir -p $PIP_DOWNLOAD_CACHE
 fi
