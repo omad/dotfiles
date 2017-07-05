@@ -156,7 +156,7 @@ export PGDATABASE=datacube
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 
-export PYTEST_ADDOPTS='--pdbcls=IPython.terminal.debugger:TerminalPdb'
+export PYTEST_ADDOPTS='--pdbcls=IPython.core.debugger:Pdb'
 
 
 if [[ `hostname` =~ vdi ]]; then
