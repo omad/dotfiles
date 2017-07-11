@@ -103,7 +103,8 @@ fi
 
 # For install ruby gems into user home
 if command_exists ruby; then
-    export PATH=$PATH:$(ruby -rubygems -e "puts Gem.user_dir")/bin
+    gems_path=$(ruby -rubygems -e "puts Gem.user_dir" 2> /dev/null)
+    export PATH=$PATH:${gems_path:+:${gems_path}/bin}
 fi
 
 function gimmesomedatacube {
