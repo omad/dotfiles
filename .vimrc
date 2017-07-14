@@ -52,7 +52,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/vim-easy-align'
   Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-"  Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
