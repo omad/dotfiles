@@ -108,7 +108,7 @@ if command_exists ruby; then
 fi
 
 function gimmesomedatacube {
-    module load agdc-py3-prod/1.4.1
+    module load agdc-py3-prod/1.5.1
     unset PYTHONNOUSERSITE
 }
 
