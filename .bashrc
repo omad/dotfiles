@@ -88,8 +88,8 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
 
-EDITOR=`which vim`
-VISUAL=`which vim`
+export EDITOR=vim
+export VISUAL=vim
 
 if [[ $system_type =~ MINGW ]]; then
     # ssh-pageant
