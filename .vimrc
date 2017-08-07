@@ -55,6 +55,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'dracula/vim'
 " On-demand loading
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
@@ -120,7 +121,7 @@ endif
 set background=dark
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
-colorscheme molokai
+colorscheme darkblue
 
 
 " Automatically reload VIM config files when they change
