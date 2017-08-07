@@ -2,6 +2,7 @@
 \pset null '¤'
 
 \set PROMPT1 '%[%033[1m%][%/] # '
+-- \set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
 -- SELECT * FROM<enter>. %R shows what type of input it expects.
 \set PROMPT2 '... > '
 
