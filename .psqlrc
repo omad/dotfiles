@@ -1,18 +1,28 @@
 \set QUIET 1
 \pset null '¤'
 
-\set PROMPT1 '%[%033[1m%][%/] # '
--- \set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
--- SELECT * FROM<enter>. %R shows what type of input it expects.
+-- %M = database server
+-- %/ = database name
+-- %n = database user
+-- %> = port number
+\set PROMPT1 '\n%[%033[1;31;40m%] ➤ %[%033[32m%]psql:%[%033[36m%]//%n%[%033[34m%]@%[%033[36m%]%m:%>%[%033[33m%]/%/ %[%033[K%]%[%033[0m%] %[%033[1;33m%]%#%[%033[0m%] '
+
+-- from http://i-dba.blogspot.com.au/2014/02/colorizing-psql-prompt-guide.html
+-- and a guide for terminal control codes http://www.termsys.demon.co.uk/vtansi.htm
+--  You can change the colors by changing the [33 string to another number in the ASCII foreground list:
+--  black 30 red 31 green 32 yellow 33 blue 34 magenta 35 cyan 36 white 37
+
 \set PROMPT2 '... > '
 
 \timing
 
-\x auto
+-- \x auto
 \set VERBOSITY verbose
 \set HISTFILE ~/.psql_history- :DBNAME
 \set HISTCONTROL ignoredups
 \set COMP_KEYWORD_CASE upper
 \unset QUIET
+
+-- \setenv PAGER 'vim -R -u ~/.vimdbpager -'
 
 -- https://www.citusdata.com/blog/2017/07/16/customizing-my-postgres-shell-using-psqlrc/
