@@ -88,8 +88,8 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
 
-EDITOR=vim
-VISUAL=vim
+EDITOR=`which vim`
+VISUAL=`which vim`
 
 if [[ $system_type =~ MINGW ]]; then
     # ssh-pageant
@@ -219,3 +219,4 @@ if [ "$system_type" = "Darwin" ]; then
     fi
 fi
 
+test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
