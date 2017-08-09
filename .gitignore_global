@@ -6,3 +6,5 @@ vim/backups/
 *.swp
 *.swo
 tags
+*~
+.DS_Store
