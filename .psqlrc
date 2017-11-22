@@ -26,3 +26,8 @@
 -- \setenv PAGER 'vim -R -u ~/.vimdbpager -'
 
 -- https://www.citusdata.com/blog/2017/07/16/customizing-my-postgres-shell-using-psqlrc/
+
+-- Switch pagers with :x and :xx commands
+\set x '\\setenv PAGER less'
+\set xx '\\setenv PAGER \'pspg -bX --no-mouse\''
+:xx
