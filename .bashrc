@@ -111,7 +111,7 @@ function gimmesomedatacube {
     module load agdc-py3-prod/1.5.1
     unset PYTHONNOUSERSITE
 }
-
+ 
 
 if [ -n "$TMUX" ]; then
     function refresh-tmux-env-vars {
@@ -139,6 +139,7 @@ if [ "$system_type" = "Darwin" ]; then
     # If I'm at work
     if [ "$WIFI_SSID" = 'GA Staff' ]; then
         export http_proxy=proxy.inno.lan:3128
+        export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
     fi
 
 # scutil --proxy
