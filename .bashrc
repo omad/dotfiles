@@ -80,6 +80,7 @@ command_exists () {
 
 if command_exists module; then
     module use /g/data/v10/public/modules/modulefiles --append
+    module use /g/data/v10/private/modules/modulefiles
 fi
 
 
@@ -108,8 +109,9 @@ if command_exists ruby; then
 fi
 
 function gimmesomedatacube {
-    module load agdc-py3-prod/1.5.1
-    unset PYTHONNOUSERSITE
+    module load dea-prod
+#    module load dea-prod/dea-20170920
+#    unset PYTHONNOUSERSITE
 }
  
 
