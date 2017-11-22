@@ -176,11 +176,12 @@ export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
 
 export PATH=$PATH:/Users/omad/bin
 
+export PATH="$PATH:/usr/local/sbin"
 
 # added by Miniconda3 4.1.11 installer
-export PATH="/Users/omad/miniconda3/bin:$PATH"
+export PATH="$PATH:/Users/omad/miniconda3/bin"
+#. ~/miniconda3/bin/activate
 
-export PATH="$PATH:/usr/local/sbin"
 
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git=hub
@@ -191,6 +192,7 @@ WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Curre
 if [ "$WIFI_SSID" = 'GA Staff' ]; then
     # curl -s $(scutil --proxy | grep ProxyAutoConfigURLString | cut -f 2,3 -d :) | grep PROXY | cut -d \" -f 2 | cut -d ' ' -f 2
     export http_proxy=proxy.inno.lan:3128
+    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
 fi
 
 update_vdi_host () {
@@ -201,3 +203,5 @@ export PATH="/usr/local/sbin:$PATH"
 
 # added by travis gem
 [ -f /Users/omad/.travis/travis.sh ] && source /Users/omad/.travis/travis.sh
+
+#source aws_zsh_completer.sh
