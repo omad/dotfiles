@@ -223,3 +223,9 @@ if [ "$system_type" = "Darwin" ]; then
 fi
 
 test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
+
+alias datacube_activity="psql -h 130.56.244.105 datacube -c 'select datname, usename, state, application_name, current_timestamp-query_start as duration from pg_stat_activity';"
+alias datacube_sizes="psql -h 130.56.244.105 datacube -c \"SELECT nspname || '.' || relname AS relation, pg_size_pretty(pg_relation_size(C.oid)) AS size FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN ('pg_catalog', 'information_schema') ORDER BY pg_relation_size(C.oid) DESC;\""
+alias datacube_pgbouncer_activity="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show clients;'"
+alias datacube_pgbouncer_pools="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show pools;'"
+
