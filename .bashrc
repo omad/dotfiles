@@ -229,3 +229,8 @@ alias datacube_sizes="psql -h 130.56.244.105 datacube -c \"SELECT nspname || '.'
 alias datacube_pgbouncer_activity="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show clients;'"
 alias datacube_pgbouncer_pools="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show pools;'"
 
+function lb() {
+    # thanks https://routley.io/tech/2017/11/23/logbook.html
+    mkdir -p ~/logbook
+    vim ~/logbook/$(date '+%Y-%m-%d').md
+}
