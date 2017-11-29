@@ -200,3 +200,10 @@ if !empty($MSYSCON) && $MSYSCON == "mintty.exe"
     let &t_te.="\e[0 q"
 endif
 
+" Toggle Line numbers
+nnoremap <leader>nn :set number! relativenumber!<cr>
+
+" Toggle paste mode
+nnoremap <leader>p :set paste!<cr>
+
+
