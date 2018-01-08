@@ -170,16 +170,6 @@ alias help="run-help"
 
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
-export PATH="$PATH:$HOME/android-sdk/platform-tools"
-
-export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
-
-export PATH=$PATH:/Users/omad/bin
-
-export PATH="$PATH:/usr/local/sbin"
-
-# added by Miniconda3 4.1.11 installer
-export PATH="$PATH:/Users/omad/miniconda3/bin"
 #. ~/miniconda3/bin/activate
 
 
@@ -199,9 +189,17 @@ update_vdi_host () {
     sed -E -i .bak "s/vdi-n[0-9]+.nci.org.au/vdi-n$1.nci.org.au/" ~/.ssh/config
     grep vdi- ~/.ssh/config
 }
-export PATH="/usr/local/sbin:$PATH"
 
 # added by travis gem
 [ -f /Users/omad/.travis/travis.sh ] && source /Users/omad/.travis/travis.sh
 
 #source aws_zsh_completer.sh
+
+function package_dea_lambda {
+    docker run -v /Users/omad/PycharmProjects/dea-orchestration/:/working -w /working -e http_proxy=http://proxy.inno.lan:3128  --rm python:3.6 bash -c "apt-get update && apt-get install -y zip && ./scripts/package_lambda ${1} ${1}"
+    cd /Users/omad/PycharmProjects/dea-orchestration/
+    mkdir -p dist
+    mv "${1}.zip" dist
+}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
