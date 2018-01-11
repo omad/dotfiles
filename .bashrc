@@ -235,3 +235,5 @@ function lb() {
     vim ~/logbook/$(date '+%Y-%m-%d').md
 }
 alias qsub_interactive="qsub -I -q express -l wd,walltime=5:00:00,mem=20GB,ncpus=1 -P u46"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
