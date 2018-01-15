@@ -181,7 +181,7 @@ WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Curre
 # If I'm at work
 if [ "$WIFI_SSID" = 'GA Staff' ]; then
     # curl -s $(scutil --proxy | grep ProxyAutoConfigURLString | cut -f 2,3 -d :) | grep PROXY | cut -d \" -f 2 | cut -d ' ' -f 2
-    export http_proxy=proxy.inno.lan:3128
+    export http_proxy=http://proxy.inno.lan:3128
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
 fi
 
