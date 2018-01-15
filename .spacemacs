@@ -31,23 +31,22 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; -------------- --------------------------------------------------
-     helm
-     ;; auto-completion
+     auto-completion
      ;; better-defaults - mostly for emacs keybindings
-     (org :variables org-enable-github-support t)
+     helm
      (python :variables python-test-runner 'pytest)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
             shell-default-term-shell "/bin/zsh"
             shell-default-shell 'ansi-term)
-     ;; spell-checking
+     (org :variables org-enable-github-support t)
+     html
      emacs-lisp
      evernote
      (geolocation :variables
@@ -63,6 +62,7 @@ values."
      restclient
      shell-scripts
      sql
+     spell-checking
      syntax-checking
      version-control
      yaml
@@ -75,10 +75,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages
-   '(
-     org-projectile
-     )
+   dotspacemacs-excluded-packages '()
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -349,6 +346,7 @@ you should place your code here."
   (dra/configure-org-mode)
   (setq sunshine-units 'metric)
   (setq sunshine-show-icons t)
+  (setq org-completion-use-ido nil)
   )
 
 (defun dra/configure-org-mode ()
@@ -379,10 +377,32 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build")
+ '(helm-org-headings-fontify t)
  '(org-agenda-files
    (quote
     ("/Users/omad/org/todo.org" "/Users/omad/org/datacube.org" "/Users/omad/org/journal.org" "/Users/omad/org/learning.org" "/Users/omad/org/nov2017hours.org" "/Users/omad/org/publish_fc.org")))
+ '(org-capture-templates
+   (quote
+    (("t" "Todo" entry
+      (file+headline "~/org/todo.org" "Tasks")
+      "* TODO %^{Task}
+%?
+:LOGBOOK:
+- Added: %U
+:END:")
+     ("j" "Journal" entry
+      (file+olp+datetree "~/org/journal.org")
+      "* %?
+Entered on %U
+  %i"))))
  '(org-outline-path-complete-in-steps nil)
+ '(org-refile-use-outline-path t)
  '(package-selected-packages
    (quote
-    (theme-changer sunshine rase osx-location geeknote helm-gtags ggtags ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache sql-indent restclient-helm ob-restclient restclient ob-http plantuml-mode unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company-shell company-anaconda company auto-yasnippet yasnippet ac-ispell ein skewer-mode request-deferred auto-complete websocket deferred js2-mode simple-httpd insert-shebang fish-mode yaml-mode yapfify xterm-color shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements pandoc-mode ox-pandoc ht multi-term live-py-mode hy-mode dash-functional helm-pydoc git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help diff-hl cython-mode anaconda-mode pythonic livereload auto-complete-rst sphinx-frontend ox-rst reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash))))
+    (flyspell-correct-helm flyspell-correct auto-dictionary ghub let-alist company-web web-completion-data company-restclient know-your-http-well theme-changer sunshine rase osx-location geeknote helm-gtags ggtags ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache sql-indent restclient-helm ob-restclient restclient ob-http plantuml-mode unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company-shell company-anaconda company auto-yasnippet yasnippet ac-ispell ein skewer-mode request-deferred auto-complete websocket deferred js2-mode simple-httpd insert-shebang fish-mode yaml-mode yapfify xterm-color shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements pandoc-mode ox-pandoc ht multi-term live-py-mode hy-mode dash-functional helm-pydoc git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help diff-hl cython-mode anaconda-mode pythonic livereload auto-complete-rst sphinx-frontend ox-rst reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
