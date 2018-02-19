@@ -47,8 +47,9 @@ endif
 call plug#begin('~/.vim/plugged')
 
   Plug 'tomasr/molokai'
-  Plug 'xolox/vim-misc'
-  Plug 'xolox/vim-easytags'
+"  Plug 'xolox/vim-misc'
+"  Plug 'xolox/vim-easytags'
+  Plug 'ludovicchabant/vim-gutentags'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/vim-easy-align'
   Plug 'https://github.com/junegunn/vim-github-dashboard.git'
