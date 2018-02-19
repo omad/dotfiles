@@ -55,7 +55,8 @@ values."
      github
      gtags
      ipython-notebook
-     markdown
+     javascript
+     (markdown :variables markdown-live-preview-engine 'vmd)
      osx
      pandoc
      plantuml
@@ -354,8 +355,8 @@ you should place your code here."
   (add-hook 'markdown-mode-hook 'auto-fill-mode)
   (add-hook 'markdown-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
-  (setq org-default-notes-file (concat org-directory "notes.org"))
-  (setq org-capture-templates
+  (setq org-default-notes-file (concat org-directory "notes.org")
+        org-capture-templates
         (quote
          (("t" "Todo" entry
            (file+headline "~/org/todo.org" "Tasks")
@@ -363,6 +364,7 @@ you should place your code here."
           ("j" "Journal" entry
            (file+olp+datetree "~/org/journal.org")
            "* %?\nEntered on %U\n  %i\n  %a"))))
+  (setq gravatar-base-url "https://www.gravatar.com/avatar")
   (setq org-agenda-files '("~/org/"))
   (setq org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
   (setq org-enforce-todo-dependencies t)
@@ -399,7 +401,7 @@ Entered on %U
  '(org-refile-use-outline-path t)
  '(package-selected-packages
    (quote
-    (flyspell-correct-helm flyspell-correct auto-dictionary ghub let-alist company-web web-completion-data company-restclient know-your-http-well theme-changer sunshine rase osx-location geeknote helm-gtags ggtags ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache sql-indent restclient-helm ob-restclient restclient ob-http plantuml-mode unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company-shell company-anaconda company auto-yasnippet yasnippet ac-ispell ein skewer-mode request-deferred auto-complete websocket deferred js2-mode simple-httpd insert-shebang fish-mode yaml-mode yapfify xterm-color shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements pandoc-mode ox-pandoc ht multi-term live-py-mode hy-mode dash-functional helm-pydoc git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help diff-hl cython-mode anaconda-mode pythonic livereload auto-complete-rst sphinx-frontend ox-rst reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash))))
+    (web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc company-tern tern coffee-mode org-mime vmd-mode flyspell-correct-helm flyspell-correct auto-dictionary ghub let-alist company-web web-completion-data company-restclient know-your-http-well theme-changer sunshine rase osx-location geeknote helm-gtags ggtags ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache sql-indent restclient-helm ob-restclient restclient ob-http plantuml-mode unfill mwim helm-company helm-c-yasnippet fuzzy company-statistics company-shell company-anaconda company auto-yasnippet yasnippet ac-ispell ein skewer-mode request-deferred auto-complete websocket deferred js2-mode simple-httpd insert-shebang fish-mode yaml-mode yapfify xterm-color shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements pandoc-mode ox-pandoc ht multi-term live-py-mode hy-mode dash-functional helm-pydoc git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flycheck-pos-tip pos-tip flycheck eshell-z eshell-prompt-extras esh-help diff-hl cython-mode anaconda-mode pythonic livereload auto-complete-rst sphinx-frontend ox-rst reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit with-editor ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
