@@ -62,7 +62,7 @@ export CASE_SENSITIVE="true"
 ZSH_THEME=avit
 
 export ZSH="$HOME/.oh-my-zsh/"
-plugins=(brew brew-cask zsh-syntax-highlighting docker docker-compose colorize colored-man-pages git git-extras gnu-utils python man tmux) # ssh-agent)
+plugins=(brew brew-cask zsh-syntax-highlighting osx docker docker-compose colorize colored-man-pages git git-extras gnu-utils python man tmux github httpie )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -148,6 +148,11 @@ autoload -Uz promptinit && promptinit
 # zmv '*.c' '*.cpp' and it Just Works™ :o
 autoload -Uz zmv
 
+# Enable bash compatibility for completion
+# For use with python argcomplete
+autoload -U bashcompinit
+bashcompinit
+
 
 # --- Homebrew specific -------------------------------------------------------
 
@@ -203,3 +208,6 @@ function package_dea_lambda {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
