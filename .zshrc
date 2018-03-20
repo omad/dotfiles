@@ -173,9 +173,9 @@ alias help="run-help"
 
 # -----------------------------------------------------------------------------
 
+export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-alias ls='ls -GFh'
-#. ~/miniconda3/bin/activate
+#alias ls='ls -GFh --color'
 
 
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -207,7 +207,33 @@ function package_dea_lambda {
     mv "${1}.zip" dist
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ $TERM == "dumb" ]]; then	# in emacs. Also uses `eterm-color`
+    PS1='%(?..[%?])%!:%~%# '
+    # for tramp to not hang, need the following. cf:
+    # http://www.emacswiki.org/emacs/TrampMode
+    unsetopt zle
+    unsetopt prompt_cr
+    unsetopt prompt_subst
+    unfunction precmd
+    unfunction preexec
+    unset zle_bracketed_paste
+fi
+
+#################
+# Setup FZF
+
+# Auto-completion
+# ---------------
+#[[ $- == *i* ]] && source "/usr/local/opt/fzf/shell/completion.zsh" 2> /dev/null
+
+# Key bindings
+# ------------
+#source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+
+
+alias e='emacsclient --no-wait'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
