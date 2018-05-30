@@ -1,44 +1,3 @@
-#
-# zshrc.zsh - Example starter zshrc
-#
-# Sets up oh-my-zsh, some completions, fixes ^H and backspace, and more.
-#
-# Author
-#   Jake Zimmerman <jake@zimmerman.io>
-#
-# Usage
-#   Move this file to `~/.zshrc`
-#
-# Notes
-#   This is an example _starter_ zshrc. What I mean by this is that it's more
-#   of a skeleton zshrc. It's been crafted with the assumption that you're
-#   coming from bash and you already have some bash config that you're weary to
-#   part with. The content here aims to be minimally invasive, and since zsh is
-#   largely compatible with bash, the rest of your config should fit right in.
-#
-#   By default, though, it depends on two external plugins (so it's not as
-#   minimal as it could be). These are oh-my-zsh[1] and
-#   zsh-syntax-highlighting[2].
-#
-#   To install oh-my-zsh, just run
-#
-#     git clone https://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
-#
-#   After installing oh-my-zsh, to install zsh-syntax-highlighting run
-#
-#     git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-#
-#   There are other options to install these extras which you can find by
-#   reading their READMEs[1][2]. Depending on the route you end up taking, you
-#   might have to adjust some of the settings in the file below.
-#
-#   [1]: https://github.com/robbyrussell/oh-my-zsh
-#   [2]: https://github.com/zsh-users/zsh-syntax-highlighting
-#
-# License
-#   MIT License (c) 2016 Jake Zimmerman
-
-
 # --- Oh My Zsh specific ------------------------------------------------------
 #
 # I'm not using oh-my-zsh for too much. Mostly, it makes adding completion
@@ -60,9 +19,34 @@ export CASE_SENSITIVE="true"
 
 # One of the many oh-my-zsh themes shipped by default
 ZSH_THEME=avit
+#ZSH_THEME=mh
+ZSH_THEME=agnoster
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 export ZSH="$HOME/.oh-my-zsh/"
-plugins=(brew brew-cask zsh-syntax-highlighting osx docker docker-compose colorize colored-man-pages git git-extras gnu-utils python man tmux github httpie )
+plugins=(
+    brew
+    brew-cask
+    colored-man-pages
+    colorize
+    common-aliases
+    docker
+    docker-compose
+    git
+    git-extras
+    github
+    gnu-utils
+    httpie
+    man
+    npm
+    osx
+    pip
+    pyenv
+    pylint
+    python
+    tmux
+    zsh-syntax-highlighting
+        )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -178,7 +162,6 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 #alias ls='ls -GFh --color'
 
 
-alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias git=hub
 
 WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
@@ -233,7 +216,10 @@ fi
 
 alias e='emacsclient --no-wait'
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source /Users/omad/miniconda3/etc/profile.d/conda.sh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
