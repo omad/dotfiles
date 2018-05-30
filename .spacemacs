@@ -543,7 +543,14 @@ This function is called at the very end of Spacemacs initialization."
 :LOGBOOK:
 - Entered on %U
 :END:
-  %i"))))
+  %i")
+     ("w" "Work Todo" entry
+      (file "~/org/work_todo.org")
+      "* TODO %?
+:LOGBOOK:
+- Added: %U
+:END:
+" :prepend t :clock-in t :clock-resume t))))
  '(org-confirm-babel-evaluate nil)
  '(org-default-notes-file "/Users/omad/org/notes.org")
  '(org-hide-leading-stars t)
