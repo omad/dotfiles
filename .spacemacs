@@ -76,6 +76,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      yaml
+     omad
      )
 
    ;; List of additional packages that will be installed without being
@@ -527,6 +528,28 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build")
+ '(org-capture-templates
+   (quote
+    (("t" "Todo" entry
+      (file "~/org/todo.org")
+      "* TODO %?
+:LOGBOOK:
+- Added: %U
+:END:")
+     ("j" "Journal" entry
+      (file+olp+datetree "~/org/journal.org")
+      "* %?
+:LOGBOOK:
+- Entered on %U
+:END:
+  %i"))))
+ '(org-confirm-babel-evaluate nil)
+ '(org-default-notes-file "/Users/omad/org/notes.org")
+ '(org-hide-leading-stars t)
+ '(org-refile-use-outline-path (quote file))
+ '(org-startup-indented t)
+ '(org-startup-with-inline-images t)
  '(package-selected-packages
    (quote
     (pcre2el yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs rase rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pippel pipenv pip-requirements persp-mode pdf-tools pbcopy password-generator paradox pandoc-mode ox-pandoc overseer osx-trash osx-location osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-ipython ob-http neotree nameless mwim multi-term move-text mmm-mode markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lorem-ipsum livid-mode live-py-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc insert-shebang indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md ggtags fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-elm flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav ein editorconfig dumb-jump diminish diff-hl cython-mode counsel-projectile company-web company-tern company-statistics company-shell company-restclient company-lua company-anaconda column-enforce-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
