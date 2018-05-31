@@ -529,6 +529,16 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build")
+ '(org-agenda-custom-commands
+   (quote
+    (("n" "Agenda and all TODOs"
+      ((agenda "" nil)
+       (alltodo "" nil))
+      nil)
+     ("w" "Work Agenda"
+      ((agenda "" nil)
+       (tags-todo "+LEVEL=1+WORK" nil))
+      nil nil))))
  '(org-agenda-files (quote ("~/org/")))
  '(org-capture-templates
    (quote
