@@ -1,4 +1,3 @@
 channels:
-  - conda-forge/label/dev
   - conda-forge
   - defaults
