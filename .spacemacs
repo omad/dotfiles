@@ -536,8 +536,18 @@ This function is called at the very end of Spacemacs initialization."
        (alltodo "" nil))
       nil)
      ("w" "Work Agenda"
-      ((agenda "" nil)
-       (tags-todo "+LEVEL=1+WORK" nil))
+      ((agenda ""
+               ((org-agenda-start-on-weekday nil)
+                (org-agenda-span
+                 (quote 8))))
+       (tags-todo "+LEVEL=1+WORK"
+                  ((org-agenda-sorting-strategy
+                    (quote
+                     (priority-down)))
+                   (org-agenda-todo-ignore-deadlines t)
+                   (org-agenda-todo-ignore-scheduled t)
+                   (org-agenda-todo-ignore-with-date t)
+                   (org-agenda-tags-todo-honor-ignore-options t))))
       nil nil))))
  '(org-agenda-files (quote ("~/org/")))
  '(org-capture-templates
