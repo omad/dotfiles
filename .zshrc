@@ -41,7 +41,7 @@ plugins=(
     npm
     osx
     pip
-    pyenv
+#    pyenv
     pylint
     python
     tmux
@@ -215,6 +215,9 @@ fi
 
 
 alias e='emacsclient --no-wait'
+
+# Make Plantuml behave itself on OSX
+export JAVA_TOOL_OPTIONS=-Djava.awt.headless=true
 
 source /Users/omad/miniconda3/etc/profile.d/conda.sh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
