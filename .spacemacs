@@ -555,7 +555,7 @@ This function is called at the very end of Spacemacs initialization."
                    (org-agenda-tags-todo-honor-ignore-options t))))
       nil nil))))
  '(org-agenda-files (quote ("~/org/")))
- '(org-blank-before-new-entry (quote ((heading . t) (plain-list-item . t))))
+ '(org-blank-before-new-entry (quote ((heading) (plain-list-item))))
  '(org-capture-templates
    (quote
     (("t" "Todo" entry
