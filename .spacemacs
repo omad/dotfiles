@@ -555,6 +555,7 @@ This function is called at the very end of Spacemacs initialization."
                    (org-agenda-tags-todo-honor-ignore-options t))))
       nil nil))))
  '(org-agenda-files (quote ("~/org/")))
+ '(org-blank-before-new-entry (quote ((heading . t) (plain-list-item . t))))
  '(org-capture-templates
    (quote
     (("t" "Todo" entry
@@ -581,6 +582,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-default-notes-file "/Users/omad/org/notes.org")
  '(org-hide-leading-stars t)
  '(org-refile-use-outline-path (quote file))
+ '(org-src-preserve-indentation t)
  '(org-startup-indented t)
  '(org-startup-with-inline-images t)
  '(package-selected-packages
