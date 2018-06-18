@@ -534,6 +534,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build")
+ '(importmagic-python-interpreter "/Users/omad/miniconda3/envs/odc/bin/python")
  '(org-agenda-custom-commands
    (quote
     (("n" "Agenda and all TODOs"
