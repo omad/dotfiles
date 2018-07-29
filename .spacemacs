@@ -89,7 +89,6 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(direnv
                                       magithub
-                                      writeroom-mode
                                       lsp-vue
                                       vue-mode
                                       ox-clip)
