@@ -25,6 +25,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 export ZSH="$HOME/.oh-my-zsh/"
 plugins=(
+    bash
     brew
     brew-cask
     colored-man-pages
@@ -35,18 +36,21 @@ plugins=(
     git
     git-extras
     github
-    gnu-utils
+#    gnu-utils
+    golang
     httpie
     man
     npm
+    node
+    notify
     osx
     pip
-#    pyenv
+    postgres
     pylint
     python
     tmux
     zsh-syntax-highlighting
-        )
+    )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -174,7 +178,7 @@ if [ "$WIFI_SSID" = 'GA Staff' ]; then
 fi
 
 update_vdi_host () {
-    sed -E -i .bak "s/vdi-n[0-9]+.nci.org.au/vdi-n$1.nci.org.au/" ~/.ssh/config
+    sed -E -i .bak "s/vdi-n[0-9]+.nci.org.au/$1/" ~/.ssh/config
     grep vdi- ~/.ssh/config
 }
 
@@ -189,6 +193,17 @@ function package_dea_lambda {
     mkdir -p dist
     mv "${1}.zip" dist
 }
+
+function do-vdi {
+    ~/miniconda3/envs/py36/bin/vdi launch
+    update_vdi_host `~/miniconda3/envs/py36/bin/vdi host`
+    ssh vdi
+}
+
+# This allows running `shell` properly within Emacs
+if [ -n "$INSIDE_EMACS" ]; then
+  export TERM=dumb
+fi
 
 if [[ $TERM == "dumb" ]]; then	# in emacs. Also uses `eterm-color`
     PS1='%(?..[%?])%!:%~%# '
@@ -226,3 +241,16 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/omad/PycharmProjects/dea-orchestration/lambda_functions/execute_ingest/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/omad/PycharmProjects/dea-orchestration/lambda_functions/execute_ingest/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/omad/PycharmProjects/dea-orchestration/lambda_functions/execute_ingest/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/omad/PycharmProjects/dea-orchestration/lambda_functions/execute_ingest/node_modules/tabtab/.completions/sls.zsh
+
+function magit {
+    emacsclient -n -e \(magit-status\)
+}
+
+eval "$(direnv hook zsh)"
