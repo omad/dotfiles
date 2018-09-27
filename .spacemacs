@@ -29,11 +29,11 @@ This function should only modify configuration layer settings."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacslayers")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(asciidoc
      lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -41,7 +41,10 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t)
      better-defaults ;;- mostly for emacs keybindings
      (python :variables python-test-runner 'pytest)
      (shell :variables
@@ -49,8 +52,10 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom
             shell-default-term-shell "/bin/zsh"
             shell-default-shell 'ansi-term)
-     ;; (org :variables org-enable-github-support t)
-     org
+     (org :variables
+          org-enable-github-support t
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t)
      html
      elm
      emacs-lisp
@@ -71,13 +76,26 @@ This function should only modify configuration layer settings."
      plantuml
      pdf
      restclient
+     shell
      shell-scripts
      sql
      spell-checking
      syntax-checking
      version-control
      yaml
-     omad
+     ;; omad
+     colors
+     theming
+     themes-megapack
+     typography
+     copy-as-format
+     docker
+     go
+     json
+     restructuredtext
+     sphinx
+     olivetti
+
      )
 
    ;; List of additional packages that will be installed without being
@@ -88,9 +106,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(direnv
-                                      magithub
-                                      lsp-vue
-                                      vue-mode
+                                      ;; vue-mode
                                       ox-clip)
 
    ;; A list of packages that cannot be updated.
@@ -296,9 +312,9 @@ It should only modify the values of Spacemacs settings."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
 
-   ;; If non-nil, the paste transient-state is enabled. While enabled, pressing
-   ;; `p' several times cycles through the elements in the `kill-ring'.
-   ;; (default nil)
+   ;; If non-nil, the paste transient-state is enabled. While enabled, after you
+   ;; paste something, pressing `C-j' and `C-k' several times cycles through the
+   ;; elements in the `kill-ring'. (default nil)
    dotspacemacs-enable-paste-transient-state nil
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
@@ -334,7 +350,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
@@ -379,7 +395,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
-   dotspacemacs-folding-method 'evil
+   dotspacemacs-folding-method 'origami
 
    ;; If non-nil `smartparens-strict-mode' will be enabled in programming modes.
    ;; (default nil)
@@ -468,6 +484,70 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (let ((sans-font    "Source Sans Pro")
+        (serif-font   "Merriweather")
+        (et-font      "EtBembo")
+        (sans-mono-font "Souce Code Pro")
+        (serif-mono-font "Verily Serif Mono"))
+    (setq theming-modifications
+          '(spacemacs-dark
+            (variable-pitch
+             (:family et-font
+                      :background nil
+                      :height 1.7))
+            (org-agenda-date
+             (:inherit variable-pitch
+                       :height 1.2))
+            (org-agenda-date-today
+             (:height 1.4
+                      :inherit variable-pitch))
+            (org-agenda-date-weekend
+             (:inherit org-agenda-date
+                       :height 1.0))
+            (org-document-title
+             (:inherit variable-pitch
+                       :height 1.3
+                       :weight normal))
+            (org-done
+             (:inherit variable-pitch))
+            (org-indent
+             (:inherit (org-hide fixed-pitch)))
+            (org-level-1
+             (:inherit variable-pitch
+                       :height 1.3
+                       :weight bold))
+            (org-level-2
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.2))
+            (org-level-3
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-level-4
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-level-5
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-level-6
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-level-7
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-level-8
+             (:inherit variable-pitch
+                       :weight bold
+                       :height 1.1))
+            (org-table
+             (:inherit fixed-pitch))
+            )
+          ))
   )
 
 (defun dotspacemacs/user-load ()
@@ -493,23 +573,24 @@ before packages are loaded."
   (setq gravatar-base-url "https://www.gravatar.com/avatar") ; Override to try and use https
   (setq ispell-program-name "aspell")
   (setq ob-ipython-command "/Users/omad/miniconda3/envs/py36/bin/jupyter")
-  ;; (use-package magithub
-    ;; :after magit
-    ;; :config
-    ;; (magithub-feature-autoinject t)
-    ;; (setq magithub-clone-default-directory "~/github"))
-  (direnv-mode)
 
+  (add-hook 'text-mode-hook (lambda ()
+                              (interactive)
+                              (message "Olivetti text-mode-hook")
+                              (olivetti-set-width 81)
+                              (hidden-mode-line-mode)
+                              (spacemacs/toggle-vi-tilde-fringe-off)
+                              (olivetti-mode 1)))
   ;; See https://medium.com/@aria_39488/improving-vue-mode-for-better-vue-js-editing-inside-of-spacemacs-4509f0577ea0
-  (require 'vue-mode)
-  (add-to-list 'vue-mode-hook #'smartparens-mode)
-  (require 'lsp-mode)
-  (require 'lsp-vue)
-  (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
+  ;; (require 'vue-mode)
+  ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
+  ;; (require 'lsp-mode)
+  ;; (require 'lsp-vue)
+  ;; (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
   ;; (with-eval-after-load 'lsp-mode
     ;; (require 'lsp-flycheck))
-  (require 'company-lsp)
-  (push 'company-lsp company-backends)
+  ;; (require 'company-lsp)
+  ;; (push 'company-lsp company-backends)
   )
 
 (defun dra/configure ()
@@ -545,13 +626,81 @@ before packages are loaded."
      ;; (dot . t)
      ;; (http . t)
      ;; ))
-  (setq org-completion-use-ido nil)
+  (setq org-completion-use-ido nil
+        flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build"
+        importmagic-python-interpreter "/Users/omad/miniconda3/envs/odc/bin/python"
+        org-deadline-warning-days 4
+        org-agenda-custom-commands
+        (quote
+         (("n" "Agenda and all TODOs"
+           ((agenda "" nil)
+            (alltodo "" nil))
+           nil)
+          ("w" "Work Agenda"
+           ((agenda ""
+                    ((org-agenda-start-on-weekday nil)
+                     (org-agenda-span (quote 5))))
+            (tags "REFILE"
+                  ((org-agenda-overriding-header "Tasks to Refile")
+                   (org-tags-match-list-sublevels nil)))
+            (tags-todo "+WORK"
+                       ((org-agenda-sorting-strategy
+                         (quote
+                          (priority-down)))
+                        (org-agenda-todo-ignore-deadlines t)
+                        (org-agenda-todo-ignore-scheduled t)
+                        (org-agenda-todo-ignore-with-date t)
+                        (org-agenda-tags-todo-honor-ignore-options t))))
+           nil nil)))
+        org-agenda-files '("~/org/") ;; org-agenda-files (quote ("~/org/"))
+        ;; org-agenda-file-regexp
+        org-blank-before-new-entry (quote ((heading) (plain-list-item)))
+        org-capture-templates (quote
+                               (("t" "Todo" entry
+                                 (file "~/org/refile.org")
+                                 "* TODO %?
+:LOGBOOK:
+- Added: %U
+:END:")
+                                ("j" "Journal" entry
+                                 (file+olp+datetree "~/org/journal.org")
+                                 "* %?
+:LOGBOOK:
+- Entered on %U
+:END:
+  %i")
+                                ("m" "Meeting" entry
+                                 (file "~/org/refile.org")
+                                 "* MEETING: %? \n:MEETING:\n%U\n%a" :clock-in t :clock-resume t)
+                                ("w" "Work Todo" entry
+                                 (file "~/org/refile.org")
+                                 "* TODO %?
+:LOGBOOK:
+- Added: %U
+:END:\n%a\n%i" :prepend t :clock-in t :clock-resume t)))
+        org-confirm-babel-evaluate nil
+        org-default-notes-file "/Users/omad/org/notes.org"
+        org-hide-leading-stars t
+        org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil  ; Required to make helm work with the above
+        ; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+        org-refile-targets '((nil . (:maxlevel . 5))
+                             (org-agenda-files . (:maxlevel . 5)))
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-src-preserve-indentation t
+        org-startup-indented t
+        org-ellipsis "↴"
+        org-hide-emphasis-markers t
+        org-startup-with-inline-images t
+        tramp-default-method "ssh"
+        tramp-remote-path (quote
+         (tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" tramp-own-remote-path))
+        )
   )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -562,66 +711,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flycheck-rst-sphinx-executable "/Users/omad/miniconda3/envs/py36/bin/sphinx-build")
- '(importmagic-python-interpreter "/Users/omad/miniconda3/envs/odc/bin/python")
- '(org-agenda-custom-commands
-   (quote
-    (("n" "Agenda and all TODOs"
-      ((agenda "" nil)
-       (alltodo "" nil))
-      nil)
-     ("w" "Work Agenda"
-      ((agenda ""
-               ((org-agenda-start-on-weekday nil)
-                (org-agenda-span
-                 (quote 8))))
-       (tags-todo "+LEVEL=1+WORK"
-                  ((org-agenda-sorting-strategy
-                    (quote
-                     (priority-down)))
-                   (org-agenda-todo-ignore-deadlines t)
-                   (org-agenda-todo-ignore-scheduled t)
-                   (org-agenda-todo-ignore-with-date t)
-                   (org-agenda-tags-todo-honor-ignore-options t))))
-      nil nil))))
- '(org-agenda-files (quote ("~/org/")))
- '(org-blank-before-new-entry (quote ((heading) (plain-list-item))))
- '(org-capture-templates
-   (quote
-    (("t" "Todo" entry
-      (file "~/org/todo.org")
-      "* TODO %?
-:LOGBOOK:
-- Added: %U
-:END:")
-     ("j" "Journal" entry
-      (file+olp+datetree "~/org/journal.org")
-      "* %?
-:LOGBOOK:
-- Entered on %U
-:END:
-  %i")
-     ("w" "Work Todo" entry
-      (file "~/org/work_todo.org")
-      "* TODO %?
-:LOGBOOK:
-- Added: %U
-:END:
-" :prepend t :clock-in t :clock-resume t))))
- '(org-confirm-babel-evaluate nil)
- '(org-default-notes-file "/Users/omad/org/notes.org")
- '(org-hide-leading-stars t)
- '(org-refile-use-outline-path (quote file))
- '(org-src-preserve-indentation t)
- '(org-startup-indented t)
- '(org-startup-with-inline-images t)
  '(package-selected-packages
    (quote
-    (pcre2el yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs rase rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pippel pipenv pip-requirements persp-mode pdf-tools pbcopy password-generator paradox pandoc-mode ox-pandoc overseer osx-trash osx-location osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file ob-restclient ob-ipython ob-http neotree nameless mwim multi-term move-text mmm-mode markdown-toc magithub magit-svn magit-gitflow magit-gh-pulls macrostep lorem-ipsum livid-mode live-py-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc insert-shebang indent-guide importmagic impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md ggtags fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-elm flycheck-bashate flx-ido fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav ein editorconfig dumb-jump diminish diff-hl cython-mode counsel-projectile company-web company-tern company-statistics company-shell company-restclient company-lua company-anaconda column-enforce-mode clean-aindent-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell)))
- '(tramp-default-method "ssh" nil (tramp))
- '(tramp-remote-path
-   (quote
-    (tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" tramp-own-remote-path)) nil (tramp)))
+    (olivetti origami ox-twbs ox-reveal ox-gfm plantuml-mode lush-theme lsp-python kaolin-themes impatient-mode expand-region evil-matchit ein editorconfig dumb-jump doom-themes docker counsel-projectile counsel ivy lsp-mode flycheck projectile magit ghub helm helm-core org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum white-sand-theme which-key websocket web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme typo twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme reveal-in-osx-finder restclient-helm restart-emacs request-deferred rebecca-theme rase rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pdf-tools pcre2el password-generator paradox pandoc-mode ox-pandoc ox-clip overseer osx-trash osx-location osx-dictionary orgit organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-restclient ob-ipython ob-http noctilux-theme neotree naquadah-theme nameless mwim mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magithub magit-svn magit-gitflow magit-gh-pulls madhat2r-theme macrostep lsp-ui lsp-javascript-typescript lsp-go lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme insert-shebang inkpot-theme indent-guide importmagic hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md ggtags gandalf-theme fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-elm flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav dracula-theme dotenv-mode dockerfile-mode docker-tramp django-theme direnv diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme copy-as-format company-web company-tern company-statistics company-shell company-restclient company-quickhelp company-lua company-lsp company-go company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-complete-rst auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
