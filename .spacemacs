@@ -582,17 +582,6 @@ before packages are loaded."
   ;;                             (hidden-mode-line-mode)
   ;;                             (spacemacs/toggle-vi-tilde-fringe-off)
   ;;                             (olivetti-mode 1)))
-
-  ;; ;; See https://medium.com/@aria_39488/improving-vue-mode-for-better-vue-js-editing-inside-of-spacemacs-4509f0577ea0
-  ;; (require 'vue-mode)
-  ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
-  ;; (require 'lsp-mode)
-  ;; (require 'lsp-vue)
-  ;; (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
-  ;; (with-eval-after-load 'lsp-mode
-    ;; (require 'lsp-flycheck))
-  ;; (require 'company-lsp)
-  ;; (push 'company-lsp company-backends)
   )
 
 (defun dra/configure ()
