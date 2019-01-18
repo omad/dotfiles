@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(asciidoc
+   '((haskell :variables haskell-process-type 'stack-ghci)
+     asciidoc
      lua
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -87,6 +88,7 @@ This function should only modify configuration layer settings."
      colors
      theming
      themes-megapack
+     copy-as-format
      typography
      copy-as-format
      docker
@@ -563,25 +565,25 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; (setq org-ditaa-jar-path "/usr/local/Cellar/ditaa/0.10/libexec/ditaa0_10.jar"
-  ;;       org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar"
-  ;;       plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
-;;  (customize-set-variable url-proxy-services '(("http" . "proxy.inno.lan:3128")))
+;;(customize-set-variable url-proxy-services '(("http" . "proxy.inno.lan:3128")))
   (dra/configure)
+  (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (setq sunshine-units 'metric)
   (setq sunshine-show-icons t)
   (setq gravatar-base-url "https://www.gravatar.com/avatar") ; Override to try and use https
   (setq ispell-program-name "aspell")
   (setq ob-ipython-command "/Users/omad/miniconda3/envs/py36/bin/jupyter")
 
-  (add-hook 'text-mode-hook (lambda ()
-                              (interactive)
-                              (message "Olivetti text-mode-hook")
-                              (olivetti-set-width 81)
-                              (hidden-mode-line-mode)
-                              (spacemacs/toggle-vi-tilde-fringe-off)
-                              (olivetti-mode 1)))
-  ;; See https://medium.com/@aria_39488/improving-vue-mode-for-better-vue-js-editing-inside-of-spacemacs-4509f0577ea0
+  ;; (add-hook 'text-mode-hook (lambda ()
+  ;;                             (interactive)
+  ;;                             (message "Olivetti text-mode-hook")
+  ;;                             (olivetti-set-width 81)
+  ;;                             (hidden-mode-line-mode)
+  ;;                             (spacemacs/toggle-vi-tilde-fringe-off)
+  ;;                             (olivetti-mode 1)))
+
+  ;; ;; See https://medium.com/@aria_39488/improving-vue-mode-for-better-vue-js-editing-inside-of-spacemacs-4509f0577ea0
   ;; (require 'vue-mode)
   ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
   ;; (require 'lsp-mode)
@@ -690,13 +692,14 @@ before packages are loaded."
         org-src-preserve-indentation t
         org-startup-indented t
         org-ellipsis "↴"
-        org-hide-emphasis-markers t
+;;        org-hide-emphasis-markers t
         org-startup-with-inline-images t
         tramp-default-method "ssh"
         tramp-remote-path (quote
          (tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" tramp-own-remote-path))
         )
   )
+
 
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -713,7 +716,10 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (olivetti origami ox-twbs ox-reveal ox-gfm plantuml-mode lush-theme lsp-python kaolin-themes impatient-mode expand-region evil-matchit ein editorconfig dumb-jump doom-themes docker counsel-projectile counsel ivy lsp-mode flycheck projectile magit ghub helm helm-core org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum white-sand-theme which-key websocket web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill underwater-theme ujelly-theme typo twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme toc-org tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme reveal-in-osx-finder restclient-helm restart-emacs request-deferred rebecca-theme rase rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme pyvenv pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pdf-tools pcre2el password-generator paradox pandoc-mode ox-pandoc ox-clip overseer osx-trash osx-location osx-dictionary orgit organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme ob-restclient ob-ipython ob-http noctilux-theme neotree naquadah-theme nameless mwim mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magithub magit-svn magit-gitflow magit-gh-pulls madhat2r-theme macrostep lsp-ui lsp-javascript-typescript lsp-go lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme insert-shebang inkpot-theme indent-guide importmagic hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md ggtags gandalf-theme fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-elm flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme eyebrowse exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode elisp-slime-nav dracula-theme dotenv-mode dockerfile-mode docker-tramp django-theme direnv diminish diff-hl darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme copy-as-format company-web company-tern company-statistics company-shell company-restclient company-quickhelp company-lua company-lsp company-go company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-identifiers-mode clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-complete-rst auto-compile apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes aggressive-indent afternoon-theme adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (tao-theme pyvenv pdf-tools org-brain magithub ghub lsp-ui kaolin-themes ggtags eyebrowse evil-surround evil-nerd-commenter evil-matchit eshell-prompt-extras elm-test-runner elm-mode ein editorconfig dumb-jump doom-themes doom-modeline eldoc-eval docker diff-hl counsel-projectile counsel ivy company-lsp color-theme-sanityinc-tomorrow auto-compile apropospriate-theme alect-themes ace-window smartparens flycheck flyspell-correct company lsp-mode markdown-mode projectile magit git-commit helm helm-core spaceline powerline evil goto-chg async org-plus-contrib zenburn-theme zen-and-art-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum white-sand-theme which-key websocket web-mode web-beautify volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill undo-tree underwater-theme ujelly-theme typo twilight-theme twilight-bright-theme twilight-anti-bright-theme treepy toxi-theme toc-org tangotango-theme tango-plus-theme tango-2-theme tagedit tablist symon swiper sunny-day-theme sublime-themes subatomic256-theme subatomic-theme string-inflection sql-indent spaceline-all-the-icons spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shrink-path shell-pop seti-theme scss-mode sass-mode reverse-theme reveal-in-osx-finder restclient-helm restart-emacs rebecca-theme rase rainbow-mode rainbow-identifiers rainbow-delimiters railscasts-theme pytest pyenv-mode py-isort purple-haze-theme pug-mode professional-theme prettier-js popwin plantuml-mode planet-theme pippel pipenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme persp-mode pcre2el password-generator paradox pandoc-mode packed ox-twbs ox-reveal ox-pandoc ox-gfm ox-clip overseer osx-trash osx-location osx-dictionary origami orgit organic-green-theme org-projectile org-present org-pomodoro org-mime org-download org-bullets open-junk-file omtose-phellack-theme olivetti oldlace-theme occidental-theme obsidian-theme ob-restclient ob-ipython ob-http noctilux-theme neotree naquadah-theme nameless mwim mustang-theme multi-term move-text monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc majapahit-theme magit-svn magit-gitflow magit-gh-pulls madhat2r-theme macrostep lush-theme lsp-python lsp-go lorem-ipsum livid-mode live-py-mode link-hint light-soap-theme launchctl json-navigator json-mode js2-refactor js-doc jbeans-theme jazz-theme ir-black-theme insert-shebang inkpot-theme indent-guide importmagic impatient-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation heroku-theme hemisu-theme helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-mode-manager helm-make helm-hoogle helm-gtags helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag hc-zenburn-theme haskell-snippets gruvbox-theme gruber-darker-theme graphql grandshell-theme gotham-theme google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates github-search github-clone gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist ghub+ gh-md gandalf-theme fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-haskell flycheck-elm flycheck-bashate flx-ido flatui-theme flatland-theme fish-mode fill-column-indicator farmhouse-theme fancy-battery eziam-theme expand-region exotica-theme evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-org evil-numbers evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu espresso-theme eshell-z esh-help emmet-mode elisp-slime-nav dracula-theme dotenv-mode dockerfile-mode docker-tramp django-theme direnv diminish darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme copy-as-format company-web company-tern company-statistics company-shell company-restclient company-quickhelp company-lua company-go company-ghci company-cabal company-anaconda column-enforce-mode color-theme-sanityinc-solarized color-identifiers-mode cmm-mode clues-theme clean-aindent-mode cherry-blossom-theme centered-cursor-mode busybee-theme bubbleberry-theme browse-at-remote birds-of-paradise-plus-theme badwolf-theme auto-yasnippet auto-highlight-symbol auto-dictionary auto-complete-rst anti-zenburn-theme ample-zen-theme ample-theme aggressive-indent afternoon-theme adoc-mode ace-link ace-jump-helm-line ac-ispell)))
+ '(tramp-remote-path
+   (quote
+    (tramp-default-remote-path "~/bin" "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin" tramp-own-remote-path)) nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
