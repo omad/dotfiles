@@ -7,6 +7,9 @@
 # It messes around with and adds things like aliases and other things, so it's
 # not for everyone, but it generally works just fine.
 
+# For pycharm
+ export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 # Configure zsh-syntax-highlighting (it's an oh-my-zsh plugin)
 # (Uses the defaults plus 'brackets', which tell if parens, etc. are unmatched)
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main brackets)
@@ -21,7 +24,7 @@ export CASE_SENSITIVE="true"
 ZSH_THEME=avit
 #ZSH_THEME=mh
 ZSH_THEME=agnoster
-ZSH_THEME="powerlevel9k/powerlevel9k"
+#ZSH_THEME="powerlevel9k/powerlevel9k"
 
 export ZSH="$HOME/.oh-my-zsh/"
 plugins=(
@@ -30,6 +33,7 @@ plugins=(
     brew-cask
     colored-man-pages
     colorize
+    command-time
     common-aliases
     docker
     docker-compose
@@ -50,6 +54,8 @@ plugins=(
     python
     tmux
     zsh-syntax-highlighting
+    zsh-aws-vault
+    zsh-autosuggestions
     )
 
 source $ZSH/oh-my-zsh.sh
@@ -60,6 +66,14 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=green,bold'
 
 # -----------------------------------------------------------------------------
 
+# If command execution time above min. time, plugins will not output time.
+ZSH_COMMAND_TIME_MIN_SECONDS=3
+
+# Message to display (set to "" for disable).
+ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
+
+# Message color.
+ZSH_COMMAND_TIME_COLOR="cyan"
 
 # General zshzle options
 setopt autocd                     # cd by just typing in a directory name
@@ -253,4 +267,50 @@ function magit {
     emacsclient -n -e \(magit-status\)
 }
 
+function ap {
+    aws-vault --debug exec --keychain=login --no-session --assume-role-ttl=4h $1
+}
+
+# peek() { tmux split-window -p 33 "$EDITOR" "$@" || exit; }
+peek() { tmux split-window -p 33 /usr/bin/vim "$@"  }
+
 eval "$(direnv hook zsh)"
+eval $(thefuck --alias)
+
+pycd () {
+    pushd `python -c "import os.path, $1; print(os.path.dirname($1.__file__))"`;
+}
+
+# branches that were touched lately 
+nb() {
+    git for-each-ref --sort=-committerdate refs/heads/ -- format='%(committerdate:short) %(authorname) %(refname:short)' | head -n 10
+}
+
+# squash!
+squash() {
+    if [ -n "$1" ]; then
+        git reset --soft HEAD~$1 && git commit --edit -m"$(git log --format=%B --reverse HEAD..HEAD@{1})"
+    fi
+}
+
+# check who uses port 
+port() {
+    lsof -i tcp:"$@"
+}
+
+# rebases local branch from origin /master and force pushes it
+repush(){
+    git fetch origin master
+    git stash
+    git rebase origin/master
+    git push --force
+    git stash pop
+}
+
+# open pr page on github for current branch
+pr () {
+    local repo=`git remote -v | grep -m 1 "(push)" | sed -e "s/.*github.com[:/]\(.*\)\.git.*/\1/"`
+    local branch=`git name-rev --name-only HEAD`
+    echo "... creating pull request for branch \"$branch\" in \"$repo\""
+    open "https://github.com/$repo/pull/new/$branch?expand=1"
+}
