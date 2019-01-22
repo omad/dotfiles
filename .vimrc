@@ -51,6 +51,7 @@ call plug#begin('~/.vim/plugged')
 "  Plug 'xolox/vim-easytags'
   Plug 'ludovicchabant/vim-gutentags'
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
   Plug 'junegunn/vim-easy-align'
   Plug 'https://github.com/junegunn/vim-github-dashboard.git'
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
