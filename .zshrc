@@ -158,7 +158,8 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={a-zA-Z}'
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 # zsh has this really cool feature where you can attach descriptions to any tab
 # completion entry. I personally don't like them.
-zstyle ':completion:*' verbose false
+
+#zstyle ':completion:*' verbose false
 
 # Turn on all the completion stuff
 autoload -Uz compinit && compinit
@@ -217,14 +218,6 @@ update_vdi_host () {
 # added by travis gem
 [ -f /Users/omad/.travis/travis.sh ] && source /Users/omad/.travis/travis.sh
 
-#source aws_zsh_completer.sh
-
-function package_dea_lambda {
-    docker run -v /Users/omad/PycharmProjects/dea-orchestration/:/working -w /working -e http_proxy=http://proxy.inno.lan:3128  --rm python:3.6 bash -c "apt-get update && apt-get install -y zip && ./scripts/package_lambda ${1} ${1}"
-    cd /Users/omad/PycharmProjects/dea-orchestration/
-    mkdir -p dist
-    mv "${1}.zip" dist
-}
 
 function do-vdi {
     ~/miniconda3/envs/py36/bin/vdi launch
@@ -253,10 +246,6 @@ export JAVA_TOOL_OPTIONS=-Djava.awt.headless=true
 source /Users/omad/miniconda3/etc/profile.d/conda.sh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
@@ -283,7 +272,7 @@ pycd () {
     pushd `python -c "import os.path, $1; print(os.path.dirname($1.__file__))"`;
 }
 
-# branches that were touched lately 
+# branches that were touched recently
 nb() {
     git for-each-ref --sort=-committerdate refs/heads/ -- format='%(committerdate:short) %(authorname) %(refname:short)' | head -n 10
 }
@@ -295,7 +284,7 @@ squash() {
     fi
 }
 
-# check who uses port 
+# check who uses TCP port
 port() {
     lsof -i tcp:"$@"
 }
