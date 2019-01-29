@@ -40,7 +40,6 @@ plugins=(
     git
     git-extras
     github
-#    gnu-utils
     golang
     httpie
     man
@@ -57,6 +56,25 @@ plugins=(
     zsh-aws-vault
     zsh-autosuggestions
     )
+
+# This allows running `shell` properly within Emacs
+if [ -n "$INSIDE_EMACS" ]; then
+    export TERM=eterm-color
+    plugins=(git)
+    ZSH_THEME="simple"
+    # for tramp to not hang, need the following. cf:
+    # http://www.emacswiki.org/emacs/TrampMode
+    #    unsetopt zle
+    #    unsetopt prompt_cr
+    #    unsetopt prompt_subst
+    #    unfunction precmd
+    #    unfunction preexec
+    #    unset zle_bracketed_paste
+    #fi
+
+    #if [[ $TERM == "dumb" ]]; then	# in emacs. Also uses `eterm-color`
+    #    PS1='%(?..[%?])%!:%~%# '
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -214,22 +232,6 @@ function do-vdi {
     ssh vdi
 }
 
-# This allows running `shell` properly within Emacs
-if [ -n "$INSIDE_EMACS" ]; then
-  export TERM=dumb
-fi
-
-if [[ $TERM == "dumb" ]]; then	# in emacs. Also uses `eterm-color`
-    PS1='%(?..[%?])%!:%~%# '
-    # for tramp to not hang, need the following. cf:
-    # http://www.emacswiki.org/emacs/TrampMode
-    unsetopt zle
-    unsetopt prompt_cr
-    unsetopt prompt_subst
-    unfunction precmd
-    unfunction preexec
-    unset zle_bracketed_paste
-fi
 
 #################
 # Setup FZF
