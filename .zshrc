@@ -80,7 +80,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Change zsh-syntax-highlighting comment color once the defaults have been set
 # (Gray in Solarized color palette)
-ZSH_HIGHLIGHT_STYLES[comment]='fg=green,bold'
+
+if [ "$ZSH_THEME" != 'simple' ]; then
+    ZSH_HIGHLIGHT_STYLES[comment]='fg=green,bold'
+fi
 
 # -----------------------------------------------------------------------------
 
@@ -284,7 +287,7 @@ squash() {
     fi
 }
 
-# check who uses TCP port
+# check who uses port
 port() {
     lsof -i tcp:"$@"
 }
