@@ -71,11 +71,11 @@
 	prompt = false
 [hub]
 	protocol = ssh
-[url "ssh://git@github.com"]
-	insteadOf = https://github.com
+#[url "ssh://git@github.com"]
+#	insteadOf = https://github.com
 
-[url "ssh://git@github.com"]
-	pushInsteadOf = https://github.com
+#[url "ssh://git@github.com"]
+#	pushInsteadOf = https://github.com
 
 [diff]
 	tool = vimdiff
