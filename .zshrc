@@ -199,10 +199,8 @@ alias help="run-help"
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-#alias ls='ls -GFh --color'
 
 
-alias git=hub
 
 WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
 
@@ -241,7 +239,6 @@ function do-vdi {
 #source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 
 
-alias e='emacsclient --no-wait'
 
 # Make Plantuml behave itself on OSX
 export JAVA_TOOL_OPTIONS=-Djava.awt.headless=true
@@ -270,6 +267,7 @@ peek() { tmux split-window -p 33 /usr/bin/vim "$@"  }
 
 eval "$(direnv hook zsh)"
 eval $(thefuck --alias)
+
 
 pycd () {
     pushd `python -c "import os.path, $1; print(os.path.dirname($1.__file__))"`;
@@ -308,3 +306,5 @@ pr () {
     echo "... creating pull request for branch \"$branch\" in \"$repo\""
     open "https://github.com/$repo/pull/new/$branch?expand=1"
 }
+
+. ~/.aliases
