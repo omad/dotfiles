@@ -70,10 +70,10 @@
 [mergetool]
 	prompt = false
 [hub]
-	protocol = ssh
+	protocol = https
 #[url "ssh://git@github.com"]
 #	insteadOf = https://github.com
-
+#
 #[url "ssh://git@github.com"]
 #	pushInsteadOf = https://github.com
 
