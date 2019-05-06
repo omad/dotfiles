@@ -25,12 +25,14 @@ ZSH_THEME=avit
 #ZSH_THEME=mh
 ZSH_THEME=agnoster
 #ZSH_THEME="powerlevel9k/powerlevel9k"
+#
+
+# For Conda completion
+fpath+="$HOME/github/conda-zsh-completion"
 
 export ZSH="$HOME/.oh-my-zsh/"
 plugins=(
-    bash
     brew
-    brew-cask
     colored-man-pages
     colorize
     command-time
@@ -308,3 +310,7 @@ pr () {
 }
 
 . ~/.aliases
+
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
