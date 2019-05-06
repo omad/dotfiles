@@ -66,11 +66,12 @@ call plug#end()
 let g:tmux_navigator_save_on_switch = 2
 
 set mouse=a
-if has("mouse_sgr")
-    set ttymouse=sgr
-else
-    set ttymouse=xterm2
-end
+" For using with Neovim
+" if has("mouse_sgr")
+"     set ttymouse=sgr
+" else
+"     set ttymouse=xterm2
+" end
 
 " (for scrolling)
 set guioptions=T " Enable the toolbar
