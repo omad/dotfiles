@@ -15,7 +15,7 @@
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main brackets)
 
 # Disable Oh My Zsh's annoying auto updates
-DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="false"
 
 # I prefer not to have autocompletion be case-insensitive, which is the default
 export CASE_SENSITIVE="true"
@@ -314,3 +314,5 @@ pr () {
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
