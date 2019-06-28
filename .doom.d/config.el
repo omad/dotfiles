@@ -20,4 +20,6 @@
 (setq deft-directory "~/Dropbox/org/"
       deft-extensions '("txt" "org" "md")
       deft-recursive t
+      deft-use-filename-as-title nil
+      deft-use-filter-string-for-filename t
       )
