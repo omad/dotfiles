@@ -1,11 +1,12 @@
 \set QUIET 1
 \pset null '¤'
 
+
 -- %M = database server
 -- %/ = database name
 -- %n = database user
 -- %> = port number
-\set PROMPT1 '\n%[%033[1;31;40m%] ➤ %[%033[32m%]psql:%[%033[36m%]//%n%[%033[34m%]@%[%033[36m%]%m:%>%[%033[33m%]/%/ %[%033[K%]%[%033[0m%] %[%033[1;33m%]%#%[%033[0m%] '
+\set PROMPT1 '\n%[%033[1;31;40m%] ➤ %[%033[32m%]psql:%[%033[36m%]//%n%[%033[34m%]@%[%033[36m%]%m:%>%[%033[33m%]/%/ %[%033[K%]%[%033[0m%] %x %[%033[1;33m%]%#%[%033[0m%] '
 
 -- from http://i-dba.blogspot.com.au/2014/02/colorizing-psql-prompt-guide.html
 -- and a guide for terminal control codes http://www.termsys.demon.co.uk/vtansi.htm
@@ -16,11 +17,17 @@
 
 \timing
 
--- \x auto
+\x auto
 \set VERBOSITY verbose
 \set HISTFILE ~/.psql_history- :DBNAME
 \set HISTCONTROL ignoredups
 \set COMP_KEYWORD_CASE upper
+
+\pset linestyle 'unicode'
+\pset unicode_border_linestyle single
+\pset unicode_column_linestyle single
+\pset unicode_header_linestyle double
+set intervalstyle to 'postgres_verbose';
 \unset QUIET
 
 -- \setenv PAGER 'vim -R -u ~/.vimdbpager -'

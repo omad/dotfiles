@@ -22,10 +22,6 @@ export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
 export CPATH=$HOME/include
 
 
-
-if [ -d "${HOME}/miniconda3/bin" ]; then
-    export PATH="$HOME/miniconda3/bin:$PATH"
-fi
 # set PATH so it includes user's private bin directories
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
@@ -80,7 +76,7 @@ command_exists () {
 
 if command_exists module; then
     module use /g/data/v10/public/modules/modulefiles --append
-    module use /g/data/v10/private/modules/modulefiles
+#    module use /g/data/v10/private/modules/modulefiles
 fi
 
 
@@ -237,3 +233,35 @@ function lb() {
 alias qsub_interactive="qsub -I -q express -l wd,walltime=5:00:00,mem=20GB,ncpus=1 -P u46"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+#if [[ -z "$TMUX" ]] && [ "$SSH_CONNECTION" != "" ]; then
+#  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+#fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[ -f /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[ -f /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/local/u46/dra547/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/local/u46/dra547/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
