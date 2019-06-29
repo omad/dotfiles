@@ -1,11 +1,17 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here
+<<<<<<< HEAD
 ;;
 
-(setq user-full-name "Damien Ayers"
-      user-mail-address "damien@omad.net"
-      )
+(setq-default
+user-full-name    "Damien Ayers"
+ user-mail-address "damien@omad.net"
+ doom-font (font-spec :family "Input Mono" :size 12)
+ doom-big-font (font-spec :family "Fira Code" :size 20))
+
+;; Doom Settings
+(load-theme 'doom-city-lights t)
 
 ;; Have treemacs follow the currently open file
 (add-hook 'treemacs-mode #'treemacs-follow-mode)
