@@ -11,7 +11,9 @@
       doom-big-font (font-spec :family "Fira Code" :size 20))
 
 ;; Doom Settings
-(load-theme 'doom-city-lights t)
+;; (load-theme 'doom-city-lights t)
+(load-theme 'doom-one-light t)
+;; (setq doom-theme 'doom-one-light)
 
 ;; Have treemacs follow the currently open file
 (add-hook 'treemacs-mode #'treemacs-follow-mode)
