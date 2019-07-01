@@ -56,8 +56,8 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-       ;;+ranger         ; bringing the goodness of ranger to dired
-       +icons          ; colorful icons for dired-mode
+        ;;+ranger         ; bringing the goodness of ranger to dired
+        +icons          ; colorful icons for dired-mode
         )
        electric          ; smarter, keyword-based electric-indent
        vc                ; version-control and Emacs, sitting in a tree
@@ -131,6 +131,8 @@
         +export          ; Exporting org to whatever you want
         +habit           ; Keep track of your habits
         +present         ; Emacs for presentations
+        +dragndrop
+        +pandoc
         +protocol)       ; Support for org-protocol:// links
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
