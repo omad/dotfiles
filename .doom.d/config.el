@@ -91,10 +91,15 @@
 
     (url-retrieve "http://localhost:9999/openurl" 'my-kill-url-buffer)))
 
-(if (string-match-p ".*compute.internal" (system-name))
+(defun my-kill-url-buffer (status)
+  "Kill the buffer returned by `url-retrieve'."
+  (kill-buffer (current-buffer)))
+
+(when (string-match-p "compute.internal$" (system-name))
   (setq browse-url-browser-function 'dra-browse-url))
 
 
+;;; Not used
 
 (defun my-url-http-post (url args)
   "Send ARGS to URL as a POST request."
@@ -111,9 +116,6 @@
     ;; if you want, replace `my-switch-to-url-buffer' with `my-kill-url-buffer'
     (url-retrieve url 'my-switch-to-url-buffer)))
 
-(defun my-kill-url-buffer (status)
-  "Kill the buffer returned by `url-retrieve'."
-  (kill-buffer (current-buffer)))
 
 (defun my-switch-to-url-buffer (status)
   "Switch to the buffer returned by `url-retreive'.
