@@ -187,10 +187,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-save-visited-mode t)
+ '(custom-safe-themes
+   (quote
+    ("d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" default)))
  '(deft-auto-save-interval 0.0)
- '(deft-directory "~/Dropbox/org/")
- '(deft-recursive t)
- '(deft-use-filter-string-for-filename t))
+ '(deft-directory "~/Dropbox/org/" t)
+ '(deft-recursive t t)
+ '(deft-use-filter-string-for-filename t t)
+ '(org-log-done (quote time))
+ '(org-log-into-drawer t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

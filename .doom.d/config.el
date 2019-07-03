@@ -98,6 +98,9 @@
 (when (string-match-p "compute.internal$" (system-name))
   (setq browse-url-browser-function 'dra-browse-url))
 
+(unless (display-graphic-p)
+  (require 'evil-terminal-cursor-changer)
+  (evil-terminal-cursor-changer-activate))
 
 ;;; Not used
 
