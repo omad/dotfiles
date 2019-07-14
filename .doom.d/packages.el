@@ -7,4 +7,4 @@
 ;; (package! builtin-package :disable t)
 
 
-(package! evil-terminal-cursor-changer)
+(package! org-journal)
