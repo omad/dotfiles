@@ -195,7 +195,7 @@
  '(deft-directory "~/Dropbox/org/" t)
  '(deft-recursive t t)
  '(deft-use-filter-string-for-filename t t)
- '(org-journal-dir "~/Documents/org/journal/")
+ '(org-journal-dir "~/Dropbox/org/journal/")
  '(org-journal-file-type (quote weekly))
  '(org-log-done (quote time))
  '(org-log-into-drawer t))
