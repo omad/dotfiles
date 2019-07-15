@@ -56,6 +56,8 @@ nf_bashrc_sourced=YES
 
 system_type=$(uname -s)
 
+[[ $TERM == "dumb" ]] && PS1="$ " && return
+
 HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 HISTSIZE=10000                   # big big history
 HISTFILESIZE=10000               # big big history
@@ -76,7 +78,8 @@ command_exists () {
 
 if command_exists module; then
     module use /g/data/v10/public/modules/modulefiles --append
-#    module use /g/data/v10/private/modules/modulefiles
+    module use /g/data/v10/private/modules/modulefiles
+    module load psql
 fi
 
 
@@ -167,6 +170,17 @@ if [[ `hostname` =~ vdi ]]; then
     mkdir -p $PIP_DOWNLOAD_CACHE
 fi
 
+export BASH_COMPLETION_USER_DIR=$HOME/share
+[[ $PS1 && -f $HOME/share/bash-completion/bash_completion ]] && \
+        . $HOME/share/bash-completion/bash_completion
+
+# Use bash-completion, if available
+ [[ $PS1 && -f ~/share/bash-completion/bash_completion ]] && \
+         . ~/share/bash-completion/bash_completion
+
+[[ $PS1 && -f $HOME/share/tmux.completion.bash ]] && \
+    source $HOME/share/tmux.completion.bash
+
 
 complete -C aws_completer aws
 
@@ -235,33 +249,35 @@ alias qsub_interactive="qsub -I -q express -l wd,walltime=5:00:00,mem=20GB,ncpus
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 
-#if [[ -z "$TMUX" ]] && [ "$SSH_CONNECTION" != "" ]; then
-#  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
-#fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[ -f /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[ -f /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /home/547/dra547/.nvm/versions/node/v10.4.1/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/local/u46/dra547/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/local/u46/dra547/miniconda3/bin:$PATH"
-    fi
+if [[ ! -S ~/.ssh/ssh_auth_sock && -S "$SSH_AUTH_SOCK" ]]; then
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
-unset __conda_setup
-# <<< conda initialize <<<
+
+
+dc-dump-ds () {
+   local uuid=${1}
+   local dbname=${2:-"datacube"}
+   local host=${3:-"130.56.244.105"}
+   local port=${4:-6432}
+
+   cat <<EOF | psql -t -h "${host}" -p "${port}" "${dbname}"
+select metadata
+from agdc.dataset
+where id = '${uuid}';
+EOF
+}
+
+dc-dump-product () {
+   local name=${1}
+   local dbname=${2:-"datacube"}
+   local host=${3:-"130.56.244.105"}
+   local port=${4:-6432}
+
+   cat <<EOF | psql -t -h "${host}" -p "${port}" "${dbname}"
+select definition
+from agdc.dataset_type
+where name = '${name}';
+EOF
+}
+
 
