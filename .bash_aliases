@@ -24,7 +24,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
-alias parallel='parallel --citation'
+#alias parallel='parallel --citation'
 
 if command_exists hub; then
     alias git=hub

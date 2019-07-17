@@ -13,17 +13,20 @@ chmod +x Miniconda3-latest-Linux-x86_64.sh
 __conda_setup="$('/local/v10/dra547/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 eval "$__conda_setup"
 
-conda update -n base conda
+conda update -n base -y conda
 
-conda create --name omad -y python=3.7 psycopg2 click gdal jupyterlab nodejs
+conda create --name omad -y python=3.6 psycopg2 click gdal jupyterlab nodejs rasterio xarray pyyaml dask boltons netcdf4 lark-parser pypeg2
+
 conda activate omad
 
 # from https://github.com/jwkvam/jupyterlab-vim
 #jupyter labextension install jupyterlab_vim
 
 # from https://github.com/pbugnion/jupyterlab-sql
-pip install jupyterlab_sql
-jupyter serverextension enable jupyterlab_sql --py --sys-prefix
-jupyter lab build
 
-jupyter lab
+
+#pip install jupyterlab_sql
+#jupyter serverextension enable jupyterlab_sql --py --sys-prefix
+#jupyter lab build
+#
+#jupyter lab
