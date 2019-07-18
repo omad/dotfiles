@@ -98,7 +98,6 @@
 (when (string-match-p "compute.internal$" (system-name))
   (setq browse-url-browser-function 'dra-browse-url))
 
-
 ;;; Not used
 
 (defun my-url-http-post (url args)

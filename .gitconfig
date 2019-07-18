@@ -69,13 +69,6 @@
 	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 [mergetool]
 	prompt = false
-[hub]
-	protocol = https
-#[url "ssh://git@github.com"]
-#	insteadOf = https://github.com
-#
-#[url "ssh://git@github.com"]
-#	pushInsteadOf = https://github.com
 
 [diff]
 	tool = vimdiff
