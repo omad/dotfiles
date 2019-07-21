@@ -8,3 +8,9 @@
 
 
 (package! org-journal)
+
+;; https://gitlab.com/jabranham/mixed-pitch
+(package! mixed-pitch)
+;;   :hook
+;;   ;; If you want it in all text modes:
+;;   (text-mode . mixed-pitch-mode))
