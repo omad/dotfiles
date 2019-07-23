@@ -8,7 +8,13 @@
       user-mail-address "damien@omad.net"
       org-directory "~/Dropbox/org/"
       doom-font (font-spec :family "Input Mono" :size 12)
-      doom-big-font (font-spec :family "Fira Code" :size 20))
+      doom-big-font (font-spec :family "Fira Code" :size 20)
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14))
+
+(when IS-LINUX
+  (font-put doom-font :weight 'semi-light))
+(when IS-MAC)
+(setq ns-use-thin-smoothing t)
 
 ;; Doom Settings
 ;; (load-theme 'doom-city-lights t)
@@ -19,6 +25,31 @@
 (add-hook 'treemacs-mode #'treemacs-follow-mode)
 
 
+(map! ;; Easier window movement
+      :n "C-h" #'evil-window-left
+      :n "C-j" #'evil-window-down
+      :n "C-k" #'evil-window-up
+      :n "C-l" #'evil-window-right
+
+      (:map vterm-mode-map
+        ;; Easier window movement
+        :i "C-h" #'evil-window-left
+        :i "C-j" #'evil-window-down
+        :i "C-k" #'evil-window-up
+        :i "C-l" #'evil-window-right)
+
+      (:map evil-treemacs-state-map
+        "C-h" #'evil-window-left
+        "C-l" #'evil-window-right
+        "M-j" #'multi-next-line
+        "M-k" #'multi-previous-line))
+
+(add-to-list 'tramp-methods
+      '("yadm"
+        (tramp-login-program "yadm")
+        (tramp-login-args (("enter")))
+        (tramp-remote-shell "/bin/sh")
+        (tramp-remote-shell-args ("-c"))))
 
 ;; magit stuff
 ;; (setq +magit-hub-features t ;; I want the PR/issue stuff too!
@@ -120,3 +151,18 @@
   "Switch to the buffer returned by `url-retreive'.
 The buffer contains the raw HTTP response sent by the server."
   (switch-to-buffer (current-buffer)))
+
+;; Override grayscale with sepiascale
+(defun tao-theme-scale-to-colors (scale)
+  "Create sepiascale from colors alist SCALE."
+  (mapcar (lambda (it)
+            (let* ((depth 10)
+                   (saturation 1.03)
+                   (r (+ it (* depth 1.8)))
+                   (g (+ it (* depth 1.5)))
+                   (b (* it saturation)))
+              (format "#%02X%02X%02X"
+                      (if (> r 255) 255 r)
+                      (if (> g 255) 255 g))))
+    (if (> b 255) 255 b) scale))
+

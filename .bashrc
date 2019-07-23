@@ -16,7 +16,7 @@ if [ "$system_type" = "Darwin" ]; then
 
 fi
 
-export PATH="$HOME/.local/bin:$PATH:/usr/local/sbin"
+export PATH="$HOME/.local/bin:$HOME/.emacs.d/bin:$PATH:/usr/local/sbin"
 export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
 export CPATH=$HOME/include
@@ -83,9 +83,9 @@ if command_exists module; then
 fi
 
 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
+# export LC_ALL=en_US.UTF-8
+export LANG=en_AU.UTF-8
+export LANGUAGE=en_AU.UTF-8
 
 
 export EDITOR=vim

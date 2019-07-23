@@ -11,6 +11,8 @@
 
 ;; https://gitlab.com/jabranham/mixed-pitch
 (package! mixed-pitch)
+(package! org-variable-pitch)
+(package! tao-theme)
 ;;   :hook
 ;;   ;; If you want it in all text modes:
 ;;   (text-mode . mixed-pitch-mode))
