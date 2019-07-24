@@ -1,4 +1,6 @@
 /*
+See https://nixos.org/nixos/manual/index.html#module-services-emacs-installing
+
 This is a nix expression to build Emacs and some Emacs packages I like
 from source on any distribution where Nix is installed. This will install
 all the dependencies from the nixpkgs repository and build the binary files

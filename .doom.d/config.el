@@ -49,6 +49,7 @@
         (tramp-login-program "yadm")
         (tramp-login-args (("enter")))
         (tramp-remote-shell "/bin/sh")
+        (tramp-remote-shell-login ("-l"))
         (tramp-remote-shell-args ("-c"))))
 
 ;; magit stuff

@@ -196,6 +196,7 @@
  '(deft-directory "~/Dropbox/org/" t)
  '(deft-recursive t t)
  '(deft-use-filter-string-for-filename t t)
+ '(org-journal-date-format "%A, %d/%m/%Y")
  '(org-journal-dir "~/Dropbox/org/journal/")
  '(org-journal-file-format "%Y%m%d.org")
  '(org-journal-file-type (quote weekly))
