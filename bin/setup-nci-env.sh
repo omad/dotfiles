@@ -3,13 +3,53 @@
 set -xe
 
 
-pushd $TMPDIR
-http_code="$(curl -z ~/bin/bat -O https://github.com/sharkdp/bat/releases/download/v0.11.0/bat-v0.11.0-x86_64-unknown-linux-gnu.tar.gz --silent --location --write-out %{http_code})"
 
-if [[ "$http_code" == "200" ]]; then
-  # code here to process index.html because 200 means it gets updated
-  tar xzf bat-v*
-  cp bat*/bat ~/bin/bat
-  cp bat*/bat.1 ~/share/man/man1/
-fi
-popd
+function get_download_url {
+  curl -sL  https://api.github.com/repos/$1/$2/releases/latest | jq -r ".assets[] | select(.browser_download_url | contains(\"$3\")) | .browser_download_url"
+}
+
+function download_if_newer {
+    url=$1
+    filename=$2
+    http_code="$(curl -z ${filename} -O ${url} --silent --location --write-out %{http_code})"
+
+    echo $http_code
+#    return [[ $http_code == 200 ]]
+}
+
+function install_rust_util {
+    pushd $TMPDIR
+
+    url=$(get_download_url $1 $2 x86_64-unknown-linux-musl)
+    http_code=$(download_if_newer ${url} $3)
+
+    if [[ "$http_code" == "200" ]]; then
+      # code here to process index.html because 200 means it gets updated
+      tar xzf $2*
+      cp $2*/$2 ~/bin/$2
+      cp $2*/$2.1 ~/share/man/man1/
+    fi
+
+    popd
+}
+
+install_rust_util sharkdp bat ~/bin/bat
+install_rust_util sharkdp fd ~/bin/fd
+
+
+
+curl -L -z ${filename} -o ~/bin/plantuml.jar 'https://downloads.sourceforge.net/project/plantuml/plantuml.jar?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fplantuml%2Ffiles%2Fplantuml.jar%2Fdownload&ts=1563928325'
+
+
+
+cat <<EOT > $HOME/bin/plantuml
+#!/bin/sh -e
+java -jar $HOME/bin/plantuml.jar "$@"
+EOT
+chmod +x $HOME/bin/plantuml
+
+cd $TMPDIR
+curl -L https://github.com/github/hub/releases/download/v2.12.3/hub-linux-amd64-2.12.3.tgz | tar -xz
+cd hub-*
+prefix=$HOME ./install
+

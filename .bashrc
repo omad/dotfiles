@@ -217,6 +217,9 @@ fi
 if [ -f $HOME/.bash/hub.bash_completion ]; then
   . $HOME/.bash/hub.bash_completion
 fi
+if [ -f $HOME/.bash/fd.bash_completion ]; then
+  . $HOME/.bash/fd.bash_completion
+fi
 
 
 export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] $(__git_ps1 "(%s) ")\$ '
@@ -280,4 +283,20 @@ where name = '${name}';
 EOF
 }
 
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/local/u46/dra547/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/local/u46/dra547/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
