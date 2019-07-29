@@ -13,10 +13,15 @@
        ;;japanese
 
        :completion
-       company           ; the ultimate code completion backend
+       (company           ; the ultimate code completion backend
+        +childframe
+        +tng)
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ivy               ; a search engine for love and life
+       (ivy               ; a search engine for love and life
+        +fuzzy
+        +icons
+        +childframe)
 
        :ui
        deft              ; notational velocity for Emacs
@@ -39,7 +44,8 @@
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       window-select     ; visually switch windows
+       (window-select     ; visually switch windows
+        +numbers)
        workspaces        ; tab emulation, persistence & separate workspaces
 
        :editor
@@ -63,9 +69,9 @@
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;;eshell            ; a consistent, cross-platform shell (WIP)
-       ;;term              ; terminals in Emacs
-       ;;vterm             ; another terminals in Emacs
+       eshell            ; a consistent, cross-platform shell (WIP)
+       term              ; terminals in Emacs
+       vterm             ; another terminals in Emacs
 
        :tools
        ;;ansible

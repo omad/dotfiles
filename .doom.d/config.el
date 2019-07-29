@@ -4,17 +4,31 @@
 ;;
 
 ;;; Code:
-(setq user-full-name "Damien Ayers"
-      user-mail-address "damien@omad.net"
-      org-directory "~/Dropbox/org/"
-      doom-font (font-spec :family "Input Mono" :size 12)
-      doom-big-font (font-spec :family "Fira Code" :size 20)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14))
+(setq
+ user-full-name "Damien Ayers"
+ user-mail-address "damien@omad.net"
+ org-directory "~/Dropbox/org/"
+ doom-font (font-spec :family "Input Mono" :size 12)
+ doom-big-font (font-spec :family "Fira Code" :size 20)
+ doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
+ org-super-agenda-groups '((:name "Today"
+                             :time-grid t
+                             :scheduled today)
+                           (:name "Due today"
+                                   :deadline today)
+                           (:name "Important"
+                                   :priority "A")
+                           (:name "Overdue"
+                                   :deadline past)
+                           (:name "Due soon"
+                                   :deadline future)
+                           (:name "Big Outcomes"
+                                   :tag "bo")))
 
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
-(when IS-MAC)
-(setq ns-use-thin-smoothing t)
+(when IS-MAC
+  (setq ns-use-thin-smoothing t))
 
 ;; Doom Settings
 ;; (load-theme 'doom-city-lights t)
@@ -44,13 +58,14 @@
         "M-j" #'multi-next-line
         "M-k" #'multi-previous-line))
 
-(add-to-list 'tramp-methods
-      '("yadm"
-        (tramp-login-program "yadm")
-        (tramp-login-args (("enter")))
-        (tramp-remote-shell "/bin/sh")
-        (tramp-remote-shell-login ("-l"))
-        (tramp-remote-shell-args ("-c"))))
+;; (add-to-list 'tramp-methods
+;;       '("yadm"
+;;         (tramp-login-program "yadm")
+;;         (tramp-login-args (("enter")))
+;;         (tramp-remote-shell "/bin/sh")
+;;         (tramp-remote-shell-login ("-l"))
+;;         (tramp-remote-shell-args ("-c"))))
+
 
 ;; magit stuff
 ;; (setq +magit-hub-features t ;; I want the PR/issue stuff too!
