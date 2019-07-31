@@ -27,7 +27,7 @@
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        ;;indent-guides     ; highlighted indent columns
@@ -202,6 +202,7 @@
  '(deft-directory "~/Dropbox/org/" t)
  '(deft-recursive t t)
  '(deft-use-filter-string-for-filename t t)
+ '(display-line-numbers nil)
  '(org-journal-date-format "%A, %d/%m/%Y")
  '(org-journal-dir "~/Dropbox/org/journal/")
  '(org-journal-file-format "%Y%m%d.org")

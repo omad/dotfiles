@@ -32,7 +32,8 @@
 
 ;; Doom Settings
 ;; (load-theme 'doom-city-lights t)
-(load-theme 'doom-one-light t)
+;; (load-theme 'doom-one-light t)
+
 ;; (setq doom-theme 'doom-one-light)
 
 ;; Have treemacs follow the currently open file
@@ -79,8 +80,7 @@
       deft-use-filter-string-for-filename t)
 
 
-(add-hook 'org-mode-hook 'auto-fill-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
+
 
 (add-hook 'markdown-mode-hook 'auto-fill-mode)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
@@ -182,3 +182,84 @@ The buffer contains the raw HTTP response sent by the server."
                       (if (> g 255) 255 g))))
     (if (> b 255) 255 b) scale))
 
+(defvar +line-spacing 0.25
+  "Spacing between lines.")
+
+(defvar +default-font-height 120
+  "Default font height.")
+
+(defvar +fixed-pitch-font "Iosevka Slab"
+  "Font used for fixed-pitch faces.")
+
+(defvar +variable-pitch-font "Noto Sans"
+  "Font used for variable-pitch faces.")
+
+(defvar +serif-font "Noto Serif"
+  "Font used for serif faces.")
+
+(defvar +unicode-font "Noto Sans Mono"
+  "Fallback font used for unicode glyphs.")
+
+(defvar +emoji-font "Noto Emoji"
+  "Font used for symbol/emoji faces.")
+
+;; (eval-after-make-graphic-frame
+;;   "setup-emoji-font"
+;;   (set-fontset-font "fontset-default" 'symbol
+;;                     (font-spec :family +emoji-font) nil 'prepend))
+
+(load-theme 'tao-yang t)
+
+
+(load! "readable")
+(load! "local-theme")
+(load-theme 'local t)
+
+;; Task lists
+
+(defun +org-prettify-task-symbols-setup ()
+  "Prettify task list symbols."
+  (dolist (symbol '(("TODO"     . ?⚑)
+                    ("DOING"    . ?⚐)
+                    ("CANCELED" . ?✘)
+                    ("DONE"     . ?✔)))
+    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
+
+(load! "org-pretty-table")
+(defun +org-eldoc-get-breadcrumb-no-properties (string)
+  "Remove properties from STRING."
+  (when string
+    (substring-no-properties string)))
+(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
+;; (use-package! org-pretty-table
+;;  :hook
+;;  (org-mode . org-pretty-table-mode))
+
+(after! org
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (add-hook 'org-mode-hook 'eldoc-mode)
+  (add-hook 'org-mode-hook 'hide-mode-line-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
+  (add-hook 'org-mode-hook 'org-pretty-table-mode)
+  (add-hook 'org-mode-hook 'org-pretty-table-mode)
+  (add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
+  (add-hook 'org-mode-hook 'readable-mode))
+
+(setq org-hide-emphasis-markers t
+      org-pretty-entities t
+      org-variable-pitch-fixed-font +fixed-pitch-font
+      org-bullets-bullet-list '(" ")
+       ;; Use default font face (also size)
+      org-bullets-face-name 'org-variable-pitch-face)
+(font-lock-add-keywords
+ 'org-mode
+ '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
+ 'append)
+
+(font-lock-add-keywords
+  'org-mode
+  '(("^ +\\([-*+]\\) "
+     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
+    ("^ *[-*+] \\[\\(X\\)\\] "
+     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))

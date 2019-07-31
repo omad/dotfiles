@@ -10,9 +10,14 @@
 (package! org-journal)
 
 ;; https://gitlab.com/jabranham/mixed-pitch
-(package! mixed-pitch)
-(package! org-variable-pitch)
+;; (package! mixed-pitch)
 (package! tao-theme)
+
+(package! org-super-agenda)
+(package! org-variable-pitch)
+;; (package! org-pretty-table)
+(package! org-bullets)
+(package! org-cliplink)
 ;;   :hook
 ;;   ;; If you want it in all text modes:
 ;;   (text-mode . mixed-pitch-mode))
