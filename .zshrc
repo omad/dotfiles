@@ -8,7 +8,7 @@
 # not for everyone, but it generally works just fine.
 
 # For pycharm
- export PATH=$HOME/bin:/usr/local/bin:$PATH
+ export PATH=$HOME/bin:/usr/local/bin:$PATH:$HOME/.emacs.d/bin
 
 # Configure zsh-syntax-highlighting (it's an oh-my-zsh plugin)
 # (Uses the defaults plus 'brackets', which tell if parens, etc. are unmatched)
