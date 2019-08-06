@@ -26,8 +26,9 @@ function install_rust_util {
     if [[ "$http_code" == "200" ]]; then
       # code here to process index.html because 200 means it gets updated
       tar xzf $2*
-      cp $2*/$2 ~/bin/$2
-      cp $2*/$2.1 ~/share/man/man1/
+      find $2* -executable -type f -exec cp {} ~/bin/ \;
+      find $2* -name '*.1' -exec cp {} ~/share/man/man1 \;
+      find $2* -name '*.bash' -exec cp {} ~/.bash/ \;
     fi
 
     popd
@@ -35,6 +36,7 @@ function install_rust_util {
 
 install_rust_util sharkdp bat ~/bin/bat
 install_rust_util sharkdp fd ~/bin/fd
+install_rust_util BurntSushi ripgrep ~/bin/rg
 
 
 
@@ -52,4 +54,22 @@ cd $TMPDIR
 curl -L https://github.com/github/hub/releases/download/v2.12.3/hub-linux-amd64-2.12.3.tgz | tar -xz
 cd hub-*
 prefix=$HOME ./install
+
+
+# Emacs
+cd $TMPDIR
+wget https://mirror.freedif.org/GNU/emacs/emacs-26.2.tar.xz
+tar xf emacs-26.2*
+cd emacs-26.2
+./configure --prefix=$HOME
+make -j 8
+make install
+
+
+# Dropbox
+cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+
+Next, run the Dropbox daemon from the newly created .dropbox-dist folder.
+
+~/.dropbox-dist/dropboxd
 

@@ -203,13 +203,15 @@
  '(deft-recursive t t)
  '(deft-use-filter-string-for-filename t t)
  '(display-line-numbers nil)
+ '(menu-bar-mode nil)
  '(org-journal-date-format "%A, %d/%m/%Y")
  '(org-journal-dir "~/Dropbox/org/journal/")
  '(org-journal-file-format "%Y%m%d.org")
  '(org-journal-file-type (quote weekly))
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
- '(tao-theme-use-boxes nil))
+ '(tao-theme-use-boxes nil)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

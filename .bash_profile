@@ -32,3 +32,5 @@ unset __conda_setup
 
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
+
+export PATH="/local/u46/dra547/cargo/bin:$PATH"

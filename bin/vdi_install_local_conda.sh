@@ -19,9 +19,9 @@ conda update -n base -y conda
 conda create --name omad -y python=3.6 psycopg2 click gdal jupyterlab nodejs \
     rasterio xarray pyyaml dask boltons netcdf4 lark-parser pypeg2 cachetools \
     singledispatch sqlalchemy structlog scipy \
-# for eo-datasets2
     cattrs ciso8601 h5py pyproj ruamel.yaml shapely scikit-image \
     deepdiff flake8 pep8-naming python-rapidjson rio-cogeo numexpr
+# for eo-datasets2
 conda activate omad
 
 # from https://github.com/jwkvam/jupyterlab-vim

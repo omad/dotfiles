@@ -283,6 +283,10 @@ where name = '${name}';
 EOF
 }
 
+dc-index-eo3 () {
+    fd odc-metadata.yaml $1 | tar cvf - --files-from=-  | dc-index-from-tar -E dra547 --eo3 --ignore-lineage --protocol file -
+}
+
 
 
 # >>> conda initialize >>>
@@ -300,3 +304,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+export CARGO_HOME=/local/u46/dra547/cargo
+export RUSTUP_HOME=/local/u46/dra547/rustup
+export PATH=$PATH:$CARGO_HOME/bin
