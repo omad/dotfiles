@@ -229,7 +229,7 @@ The buffer contains the raw HTTP response sent by the server."
   "Remove properties from STRING."
   (when string
     (substring-no-properties string)))
-(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
+(advice-add 'org-eldoc-get-breadcrumb :filter-return '+org-eldoc-get-breadcrumb-no-properties)
 ;; (use-package! org-pretty-table
 ;;  :hook
 ;;  (org-mode . org-pretty-table-mode))
@@ -242,7 +242,7 @@ The buffer contains the raw HTTP response sent by the server."
   (add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
   (add-hook 'org-mode-hook 'org-pretty-table-mode)
   (add-hook 'org-mode-hook 'org-pretty-table-mode)
-  (add-hook 'org-mode-hook #'+org-prettify-task-symbols-setup)
+  (add-hook 'org-mode-hook '+org-prettify-task-symbols-setup)
   (add-hook 'org-mode-hook 'readable-mode))
 
 (setq org-hide-emphasis-markers t
@@ -262,3 +262,41 @@ The buffer contains the raw HTTP response sent by the server."
      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "●"))))
     ("^ *[-*+] \\[\\(X\\)\\] "
      (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✕"))))))
+
+(defun subtree-to-new-file ()
+  (interactive)
+  "sloppily assists in moving an org subtree to a new file"
+  (org-copy-subtree nil t)
+  ;;; This long setq statement gets the title of the first heading, to use as a default filename for the new .org file.
+  (setq first-heading
+    (with-temp-buffer
+      (yank)
+      (goto-char (point-min))
+      (search-forward " " nil nil 1)
+      (setq title-start (point))
+      (end-of-visual-line)
+      (setq title-end (point))
+      (setq first-heading (buffer-substring title-start title-end))))
+  (setq def-filename (concat first-heading ".org"))
+  (let ((insert-default-directory t))
+    (find-file-other-window
+      (read-file-name "Move subtree to file:" def-filename)))
+  (org-paste-subtree)
+  ;;; this final command adds the new .org file to the agenda
+  (org-agenda-file-to-front))
+
+(defun dra-move-org-journal-to-file ()
+  (interactive)
+  "Move an org-journal date heading to a new file"
+  (org-copy-subtree nil t)
+  (with-temp-buffer
+    (yank)
+    (goto-char (point-min))
+    (re-search-forward "[[:digit:]/]+$" nil)
+    (setq backwards-date (match-string 0)))
+  (setq def-filename (concat (s-join "" (nreverse (split-string backwards-date "/"))) ".org"))
+  (let ((insert-default-directory t))
+    (find-file-other-window
+     (read-file-name "Move subtree to file:" def-filename)))
+  (org-paste-subtree))
+

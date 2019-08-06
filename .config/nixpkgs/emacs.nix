@@ -14,15 +14,18 @@ To run the newly compiled executable:
 
 $ ./result/bin/emacs
 */
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {} }:  # (1) This line means that the whole file represents a function
 
 let
   myEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
-    magit          # ; Integrate git <C-x g>
-    zerodark-theme # ; Nicolas' theme
+    # magit          # ; Integrate git <C-x g>
+    # zerodark-theme # ; Nicolas' theme
+    emacsql
+    emacsql-sqlite
+    pkgs.gcc
   ]))
   # ++ (with epkgs.melpaPackages; [
   #   undo-tree      # ; <C-x u> to show the undo tree

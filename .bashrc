@@ -82,6 +82,10 @@ if command_exists module; then
     module load psql
 fi
 
+if command_exists direnv; then
+    eval "$(direnv hook bash)"
+fi
+
 
 # export LC_ALL=en_US.UTF-8
 export LANG=en_AU.UTF-8
