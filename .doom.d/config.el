@@ -225,14 +225,14 @@ The buffer contains the raw HTTP response sent by the server."
                     ("DOING"    . ?⚐)
                     ("CANCELED" . ?✘)
                     ("DONE"     . ?✔)))
-    (cl-pushnew symbol prettify-symbols-alist :test #'equal)))
+    (cl-pushnew symbol prettify-symbols-alist :test 'equal)))
 
 (load! "org-pretty-table")
 (defun +org-eldoc-get-breadcrumb-no-properties (string)
   "Remove properties from STRING."
   (when string
     (substring-no-properties string)))
-(advice-add 'org-eldoc-get-breadcrumb :filter-return '+org-eldoc-get-breadcrumb-no-properties)
+(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 ;; (use-package! org-pretty-table
 ;;  :hook
 ;;  (org-mode . org-pretty-table-mode))
@@ -246,7 +246,6 @@ The buffer contains the raw HTTP response sent by the server."
                              'flyspell-mode
                              'org-variable-pitch-minor-mode
                              'org-pretty-table-mode
-                             'org-pretty-table-mode
                              '+org-prettify-task-symbols-setup
                              'readable-mode
                              (setq display-line-numbers nil))))
@@ -254,10 +253,10 @@ The buffer contains the raw HTTP response sent by the server."
 
 (setq org-hide-emphasis-markers t
       org-pretty-entities t
-      org-variable-pitch-fixed-font +fixed-pitch-font
-      org-bullets-bullet-list '(" ")
+      org-variable-pitch-fixed-font +fixed-pitch-font)
+      ;; org-bullets-bullet-list '(" ")
        ;; Use default font face (also size)
-      org-bullets-face-name 'org-variable-pitch-face)
+      ;; org-bullets-face-name 'org-variable-pitch-face)
 (font-lock-add-keywords
  'org-mode
  '(("^[[:space:]-*+]+" 0 'org-variable-pitch-face append))
