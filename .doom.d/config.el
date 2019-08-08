@@ -126,10 +126,13 @@
                           (file "~/Dropbox/org/refile.org")
                           "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n%a\n%i"
                           :prepend t :clock-in t :clock-resume t))))
+;(insert (s-join "\n" load-path))
 
 
 (defun dra-browse-url (url &optional new-window)
-  "Call a url to open a url in the remote browser"
+  "Call with a URL to open a url in the remote browser.
+
+NEW-WINDOW is ignored"
   (let ((url-request-method "POST")
         (url-request-extra-headers
           '(("Content-Type" . "application/x-www-form-urlencoded")))
@@ -235,15 +238,19 @@ The buffer contains the raw HTTP response sent by the server."
 ;;  (org-mode . org-pretty-table-mode))
 
 (after! org
-  (add-hook 'org-mode-hook 'auto-fill-mode)
-  (add-hook 'org-mode-hook 'eldoc-mode)
-  (add-hook 'org-mode-hook 'hide-mode-line-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
-  (add-hook 'org-mode-hook 'org-pretty-table-mode)
-  (add-hook 'org-mode-hook 'org-pretty-table-mode)
-  (add-hook 'org-mode-hook '+org-prettify-task-symbols-setup)
-  (add-hook 'org-mode-hook 'readable-mode))
+  (require 'org-sync)
+  (require 'org-sync-github)
+  (add-hook! 'org-mode-hook ('auto-fill-mode
+                             'eldoc-mode
+                             'hide-mode-line-mode
+                             'flyspell-mode
+                             'org-variable-pitch-minor-mode
+                             'org-pretty-table-mode
+                             'org-pretty-table-mode
+                             '+org-prettify-task-symbols-setup
+                             'readable-mode
+                             (setq display-line-numbers nil))))
+
 
 (setq org-hide-emphasis-markers t
       org-pretty-entities t
@@ -286,17 +293,20 @@ The buffer contains the raw HTTP response sent by the server."
   (org-agenda-file-to-front))
 
 (defun dra-move-org-journal-to-file ()
+  "Move an org-journal date heading to a new file."
   (interactive)
-  "Move an org-journal date heading to a new file"
   (org-copy-subtree nil t)
   (with-temp-buffer
     (yank)
     (goto-char (point-min))
     (re-search-forward "[[:digit:]/]+$" nil)
     (setq backwards-date (match-string 0)))
-  (setq def-filename (concat (s-join "" (nreverse (split-string backwards-date "/"))) ".org"))
-  (let ((insert-default-directory t))
-    (find-file-other-window
-     (read-file-name "Move subtree to file:" def-filename)))
+  (let
+      ((def-filename (concat (s-join "" (nreverse (split-string backwards-date "/"))) ".org"))
+       (insert-default-directory t))
+      (find-file-other-window
+        (read-file-name "Move subtree to file:" def-filename)))
   (org-paste-subtree))
 
+(provide 'config)
+;;; config.el ends here

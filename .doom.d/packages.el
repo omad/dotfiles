@@ -8,6 +8,7 @@
 
 
 (package! org-journal)
+(package! org-sync)
 
 ;; https://gitlab.com/jabranham/mixed-pitch
 ;; (package! mixed-pitch)
