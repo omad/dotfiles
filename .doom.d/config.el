@@ -240,7 +240,7 @@ The buffer contains the raw HTTP response sent by the server."
 (after! org
   (require 'org-sync)
   (require 'org-sync-github)
-  (add-hook! 'org-mode-hook ('auto-fill-mode
+  (add-hook! 'org-mode-hook 'auto-fill-mode
                              'eldoc-mode
                              'hide-mode-line-mode
                              'flyspell-mode
@@ -248,7 +248,7 @@ The buffer contains the raw HTTP response sent by the server."
                              'org-pretty-table-mode
                              '+org-prettify-task-symbols-setup
                              'readable-mode
-                             (setq display-line-numbers nil))))
+                             (setq display-line-numbers nil)))
 
 
 (setq org-hide-emphasis-markers t
