@@ -20,13 +20,22 @@ let
   myEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 in
-  emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
-    # magit          # ; Integrate git <C-x g>
-    # zerodark-theme # ; Nicolas' theme
-    emacsql
-    emacsql-sqlite
-    pkgs.gcc
-  ]))
+  emacsWithPackages (epkgs:
+    (with epkgs.melpaStablePackages; [
+      # magit          # ; Integrate git <C-x g>
+      # zerodark-theme # ; Nicolas' theme
+      emacsql
+      emacsql-sqlite
+    ]) ++
+
+    (with epkgs; [
+      emacs-libvterm
+    ]) ++
+
+    (with pkgs; [
+      gcc
+    ])
+  )
   # ++ (with epkgs.melpaPackages; [
   #   undo-tree      # ; <C-x u> to show the undo tree
   #   zoom-frm       # ; increase/decrease font size for all buffers %lt;C-x C-+>
