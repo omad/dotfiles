@@ -78,7 +78,7 @@ command_exists () {
 
 if command_exists module; then
     module use /g/data/v10/public/modules/modulefiles --append
-    module use /g/data/v10/private/modules/modulefiles
+#    module use /g/data/v10/private/modules/modulefiles
     module load psql
 fi
 
@@ -267,7 +267,8 @@ dc-dump-ds () {
    local host=${3:-"130.56.244.105"}
    local port=${4:-6432}
 
-   cat <<EOF | psql -t -h "${host}" -p "${port}" "${dbname}"
+   cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
+\timing off
 select metadata
 from agdc.dataset
 where id = '${uuid}';
@@ -280,7 +281,8 @@ dc-dump-product () {
    local host=${3:-"130.56.244.105"}
    local port=${4:-6432}
 
-   cat <<EOF | psql -t -h "${host}" -p "${port}" "${dbname}"
+   cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
+\timing off
 select definition
 from agdc.dataset_type
 where name = '${name}';
