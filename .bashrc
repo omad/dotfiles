@@ -295,20 +295,19 @@ dc-index-eo3 () {
 
 
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/local/u46/dra547/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/local/u46/dra547/miniconda3/etc/profile.d/conda.sh"
+if [[ -d $TMPDIR/miniconda ]]; then
+    __conda_setup="$('$TMPDIR/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="/local/u46/dra547/miniconda3/bin:$PATH"
+        if [ -f "$TMPDIR/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "$TMPDIR/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="$TMPDIR/miniconda3/bin:$PATH"
+        fi
     fi
+    unset __conda_setup
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 
 export CARGO_HOME=/local/u46/dra547/cargo
