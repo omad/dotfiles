@@ -1,4 +1,6 @@
 set nocompatible
+set encoding=utf-8
+scriptencoding utf-8
 
 " Use the same config dirs between Windows and *nix
 if has('win32')
@@ -160,7 +162,8 @@ set wildignore+=*.doc,*.pdf,*.retry
 " Other
 " ===================================
 set isk+=_,$,@,%,#,-      " none word dividers
-set list listchars=tab:\ \ ,trail:· " Display tabs and trailing spaces visually
+set list
+set listchars=tab:\ \ ,trail:· " Display tabs and trailing spaces visually
 
 
 " NetRW Setup
