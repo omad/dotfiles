@@ -70,8 +70,6 @@ command_exists () {
 
 if command_exists module; then
     module use /g/data/v10/public/modules/modulefiles --append
-#    module use /g/data/v10/private/modules/modulefiles
-    module load psql
 fi
 
 if command_exists direnv; then
@@ -254,6 +252,10 @@ dc-dump-ds () {
    local dbname=${2:-"datacube"}
    local host=${3:-"130.56.244.105"}
    local port=${4:-6432}
+   if [[ -z $uuid ]]; then
+       echo "Usage: dc-dump-ds UUID [DBNAME:$dbname] [HOST:$host] [PORT:$port]"
+       return
+    fi
 
    cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
         select metadata

@@ -12,8 +12,8 @@ let mapleader = ","
 
 " -- Display
 set title " Update the title of your window or your terminal
-set number " Display line numbers
-set relativenumber " Display relative numbers
+set nonumber
+set norelativenumber
 set ruler " Display cursor position
 set scrolloff=3 " Display at least 3 lines around you cursor
 
