@@ -132,6 +132,7 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH:/usr/local/sbin"
 export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
 export CPATH=$HOME/include
+export PATH="$HOME/.poetry/bin:$PATH"
 
 
 # Set MANPATH so it includes users' private man if it exists
