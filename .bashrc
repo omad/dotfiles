@@ -14,30 +14,25 @@ if [ "$system_type" = "Darwin" ]; then
     export PATH="$PATH:$HOME/android-sdk/platform-tools"
     export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
 
-fi
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+      . $(brew --prefix)/etc/bash_completion
+    fi
+    WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
 
-export PATH="$HOME/.local/bin:$HOME/.emacs.d/bin:$PATH:/usr/local/sbin"
-export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
-export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
-export CPATH=$HOME/include
+    # If I'm at work
+    if [ "$WIFI_SSID" = 'GA Staff' ]; then
+        export http_proxy=proxy.inno.lan:3128
+        export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    fi
 
+    # scutil --proxy
+    # ...
+    #  ProxyAutoConfigURLString : http://win-dhcp-prod03.inno.lan/wpad.dat
+    # curl http://win-dhcp-prod03.inno.lan/wpad.dat
+    #
+    #  return "PROXY proxy.inno.lan:3128";
+    #
 
-# set PATH so it includes user's private bin directories
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-
-# Set MANPATH so it includes users' private man if it exists
-if [ -d "${HOME}/man" ]; then
-  MANPATH="${HOME}/man:${MANPATH}"
-fi
-
-if [ -d "${HOME}/share/man" ]; then
-    MANPATH=$MANPATH:$HOME/share/man
-fi
-
-# Set INFOPATH so it includes users' private info if it exists
-if [ -d "${HOME}/info" ]; then
-  INFOPATH="${HOME}/info:${INFOPATH}"
 fi
 
 # If not running interactively, don't do anything
@@ -49,9 +44,6 @@ esac
 #  Avoid going through here more than once in a shell
 
 [ -n "$nf_bashrc_sourced" ] && return
-
-
-
 nf_bashrc_sourced=YES
 
 system_type=$(uname -s)
@@ -86,20 +78,14 @@ if command_exists direnv; then
     eval "$(direnv hook bash)"
 fi
 
-
-# export LC_ALL=en_US.UTF-8
-export LANG=en_AU.UTF-8
-export LANGUAGE=en_AU.UTF-8
-
-
-export EDITOR=vim
-export VISUAL=vim
-
 if [[ $system_type =~ MINGW ]]; then
     # ssh-pageant
     # Not able to use file sockets in windows...
     #eval $(ssh-pageant.exe -r -a "/c/Temp/.ssh-pageant-$USERNAME")
-    eval $(ssh-pageant)
+    # eval $(ssh-pageant)
+    if command_exists ssh-pageant; then
+        eval $(ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME")
+    fi
 
     export PATH=$PATH:/c/msys64/mingw64/bin
     export GIT_GUI_LIB_DIR=/c/msys64/usr/share/git-gui/lib
@@ -110,12 +96,6 @@ if command_exists ruby; then
     gems_path=$(ruby -rubygems -e "puts Gem.user_dir" 2> /dev/null)
     export PATH=$PATH:${gems_path:+:${gems_path}/bin}
 fi
-
-function gimmesomedatacube {
-    module load dea-prod
-#    module load dea-prod/dea-20170920
-#    unset PYTHONNOUSERSITE
-}
  
 
 if [ -n "$TMUX" ]; then
@@ -132,38 +112,54 @@ function preexec {
     refresh-tmux-env-vars
 }
 
+#########################################
+# Non Bash Specific ENV Vars
+
+export LANG=en_AU.UTF-8
+export LANGUAGE=en_AU.UTF-8
+
+
+export EDITOR=vim
+export VISUAL=vim
 
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 
-
-if [ "$system_type" = "Darwin" ]; then
-    WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
-
-    # If I'm at work
-    if [ "$WIFI_SSID" = 'GA Staff' ]; then
-        export http_proxy=proxy.inno.lan:3128
-        export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-    fi
-
-# scutil --proxy
-# ...
-#  ProxyAutoConfigURLString : http://win-dhcp-prod03.inno.lan/wpad.dat
-# curl http://win-dhcp-prod03.inno.lan/wpad.dat
-#
-#  return "PROXY proxy.inno.lan:3128";
-#
-fi
-
 export PGHOST=agdc-db.nci.org.au
 export PGDATABASE=datacube
+export PYTEST_ADDOPTS='--pdbcls=IPython.core.debugger:Pdb'
+
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH:/usr/local/sbin"
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=$HOME/lib:$LIBRARY_PATH
+export CPATH=$HOME/include
+
+
+# Set MANPATH so it includes users' private man if it exists
+if [ -d "${HOME}/man" ]; then
+  MANPATH="${HOME}/man:${MANPATH}"
+fi
+
+if [ -d "${HOME}/share/man" ]; then
+    MANPATH=$MANPATH:$HOME/share/man
+fi
+
+# Set INFOPATH so it includes users' private info if it exists
+if [ -d "${HOME}/info" ]; then
+  INFOPATH="${HOME}/info:${INFOPATH}"
+fi
+
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-
-export PYTEST_ADDOPTS='--pdbcls=IPython.core.debugger:Pdb'
 
 
 if [[ `hostname` =~ vdi ]]; then
@@ -172,30 +168,22 @@ if [[ `hostname` =~ vdi ]]; then
     export PATH="${PATH}:${HOME}/src/damootils/scripts"
     export PIP_DOWNLOAD_CACHE=$TMPDIR/pipcache
     mkdir -p $PIP_DOWNLOAD_CACHE
+    export CARGO_HOME=/local/u46/dra547/cargo
+    export RUSTUP_HOME=/local/u46/dra547/rustup
+    export PATH=$PATH:$CARGO_HOME/bin
+fi
+if [[ ! -S ~/.ssh/ssh_auth_sock && -S "$SSH_AUTH_SOCK" ]]; then
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
 
-export BASH_COMPLETION_USER_DIR=$HOME/share
-[[ $PS1 && -f $HOME/share/bash-completion/bash_completion ]] && \
-        . $HOME/share/bash-completion/bash_completion
 
-# Use bash-completion, if available
- [[ $PS1 && -f ~/share/bash-completion/bash_completion ]] && \
-         . ~/share/bash-completion/bash_completion
+###########################################
+# Setup Prompt
 
-[[ $PS1 && -f $HOME/share/tmux.completion.bash ]] && \
-    source $HOME/share/tmux.completion.bash
-
-
-complete -C aws_completer aws
-
-. ~/.bash/git-completion.bash
 . ~/.bash/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
+export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] $(__git_ps1 "(%s) ")\$ '
 
-
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
 # Alias definitions.
@@ -203,13 +191,15 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
+alias ls="ls --color"
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+#########################################
+# Add a bunch of programmable completions
+
+export BASH_COMPLETION_USER_DIR=$HOME/share
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -224,27 +214,21 @@ fi
 if [ -f $HOME/.bash/fd.bash_completion ]; then
   . $HOME/.bash/fd.bash_completion
 fi
+[[ $PS1 && -f $HOME/share/bash-completion/bash_completion ]] && \
+        . $HOME/share/bash-completion/bash_completion
+
+ [[ $PS1 && -f ~/share/bash-completion/bash_completion ]] && \
+         . ~/share/bash-completion/bash_completion
+
+[[ $PS1 && -f $HOME/share/tmux.completion.bash ]] && \
+    source $HOME/share/tmux.completion.bash
 
 
-export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] $(__git_ps1 "(%s) ")\$ '
+. ~/.bash/git-completion.bash
+complete -C aws_completer aws
+source <(kubectl completion bash)
 
-export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
 
-
-system_type=$(uname -s)
-if [ "$system_type" = "Darwin" ]; then
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-      . $(brew --prefix)/etc/bash_completion
-    fi
-fi
-
-test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
-
-alias datacube_activity="psql -h 130.56.244.105 datacube -c 'select datname, usename, state, application_name, current_timestamp-query_start as duration from pg_stat_activity';"
-alias datacube_sizes="psql -h 130.56.244.105 datacube -c \"SELECT nspname || '.' || relname AS relation, pg_size_pretty(pg_relation_size(C.oid)) AS size FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN ('pg_catalog', 'information_schema') ORDER BY pg_relation_size(C.oid) DESC;\""
-alias datacube_pgbouncer_activity="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show clients;'"
-alias datacube_pgbouncer_pools="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show pools;'"
 
 function lb() {
     # thanks https://routley.io/tech/2017/11/23/logbook.html
@@ -256,10 +240,14 @@ alias qsub_interactive="qsub -I -q express -l wd,walltime=5:00:00,mem=20GB,ncpus
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 
-if [[ ! -S ~/.ssh/ssh_auth_sock && -S "$SSH_AUTH_SOCK" ]]; then
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-fi
 
+############################
+# ODC Administration Aliases
+
+alias datacube_activity="psql -h 130.56.244.105 datacube -c 'select datname, usename, state, application_name, current_timestamp-query_start as duration from pg_stat_activity';"
+alias datacube_sizes="psql -h 130.56.244.105 datacube -c \"SELECT nspname || '.' || relname AS relation, pg_size_pretty(pg_relation_size(C.oid)) AS size FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN ('pg_catalog', 'information_schema') ORDER BY pg_relation_size(C.oid) DESC;\""
+alias datacube_pgbouncer_activity="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show clients;'"
+alias datacube_pgbouncer_pools="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show pools;'"
 
 dc-dump-ds () {
    local uuid=${1}
@@ -268,10 +256,9 @@ dc-dump-ds () {
    local port=${4:-6432}
 
    cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
-\timing off
-select metadata
-from agdc.dataset
-where id = '${uuid}';
+        select metadata
+        from agdc.dataset
+        where id = '${uuid}';
 EOF
 }
 
@@ -282,10 +269,9 @@ dc-dump-product () {
    local port=${4:-6432}
 
    cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
-\timing off
-select definition
-from agdc.dataset_type
-where name = '${name}';
+        select definition
+        from agdc.dataset_type
+        where name = '${name}';
 EOF
 }
 
@@ -294,22 +280,3 @@ dc-index-eo3 () {
 }
 
 
-
-if [[ -d $TMPDIR/miniconda ]]; then
-    __conda_setup="$('$TMPDIR/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "$TMPDIR/miniconda3/etc/profile.d/conda.sh" ]; then
-            . "$TMPDIR/miniconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="$TMPDIR/miniconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-fi
-
-
-export CARGO_HOME=/local/u46/dra547/cargo
-export RUSTUP_HOME=/local/u46/dra547/rustup
-export PATH=$PATH:$CARGO_HOME/bin
