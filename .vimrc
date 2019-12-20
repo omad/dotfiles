@@ -60,6 +60,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'dracula/vim'
+  Plug 'dag/vim-fish'
 " On-demand loading
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()

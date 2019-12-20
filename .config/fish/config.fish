@@ -6,3 +6,8 @@ if type -q conda
    # <<< conda initialize <<<
 end
 
+
+if test -f /opt/Modules/v4.3.0/init/fish
+    source /opt/Modules/v4.3.0/init/fish
+    source /opt/Modules/v4.3.0/init/fish_completion
+end
