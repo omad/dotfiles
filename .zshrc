@@ -36,7 +36,7 @@ plugins=(
     colored-man-pages
     colorize
     command-time
-    common-aliases
+#    common-aliases
     docker
     docker-compose
     git

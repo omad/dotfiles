@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 if type -q conda
    # >>> conda initialize >>>
    # !! Contents within this block are managed by 'conda init' !!
@@ -47,3 +48,7 @@ end
 
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
+
+source ~/miniconda3/etc/fish/conf.d/conda.fish
+
+direnv hook fish | source

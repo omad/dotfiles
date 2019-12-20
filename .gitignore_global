@@ -8,3 +8,5 @@ vim/backups/
 tags
 *~
 .DS_Store
+
+.envrc

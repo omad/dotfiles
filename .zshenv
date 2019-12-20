@@ -1,6 +1,7 @@
 
 
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
+export PATH=$PATH:/usr/local/lib/ruby/gems/2.6.0/bin
 
 export PATH="$PATH:/usr/local/sbin"
 export PATH="/Users/omad/bin:/Users/omad/.local/bin:$PATH"
