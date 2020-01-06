@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 if type -q conda
    # >>> conda initialize >>>
    # !! Contents within this block are managed by 'conda init' !!
