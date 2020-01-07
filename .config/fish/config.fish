@@ -51,3 +51,8 @@ source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 source ~/miniconda3/etc/fish/conf.d/conda.fish
 
 direnv hook fish | source
+
+# Created by `userpath` on 2020-01-06 04:41:38
+set PATH $PATH /Users/omad/.local/bin
+
+# register-python-argcomplete --shell fish pipx | .
