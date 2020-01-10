@@ -54,9 +54,13 @@ end
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 
-source ~/miniconda3/etc/fish/conf.d/conda.fish
+if test -f ~/miniconda3/etc/fish/conf.d/conda.fish
+    source ~/miniconda3/etc/fish/conf.d/conda.fish
+end
 
-direnv hook fish | source
+if type -q direnv
+    direnv hook fish | source
+end
 
 # Created by `userpath` on 2020-01-06 04:41:38
 set PATH $PATH /Users/omad/.local/bin
