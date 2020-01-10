@@ -13,6 +13,12 @@ if test -f /opt/Modules/v4.3.0/init/fish
 end
 
 set -gx MANPAGER 'less -X'
+set -x EDITOR vim
+set -gx GOPATH ~/go
+
+if type -q nvim
+    alias vim nvim
+end
 
 # Colorize man
 set MANROFFOPT '-c'
@@ -54,5 +60,17 @@ direnv hook fish | source
 
 # Created by `userpath` on 2020-01-06 04:41:38
 set PATH $PATH /Users/omad/.local/bin
+set PATH $PATH ~/go/bin
 
 # register-python-argcomplete --shell fish pipx | .
+
+# Fix slow command autocompletion on OS X Catalina
+# See: https://github.com/fish-shell/fish-shell/issues/6270
+if test (uname) = Darwin
+    set -l darwin_version (uname -r | string split .)
+    # macOS 15 is Darwin 19
+    if test "$darwin_version[1]" = 19 -a "$darwin_version[2]" -le 3
+        function __fish_describe_command; end
+        exit
+    end
+end

@@ -7,6 +7,11 @@ if has('win32')
     set runtimepath=~/.vim,$VIMRUNTIME
 endif
 
+" Use a posix compatible shell if running from within fish
+if &shell =~# 'fish$'
+    set shell=sh
+endif
+
 " Easier to type than \
 let mapleader = ","
 
@@ -40,9 +45,10 @@ set formatoptions=qrn1
 set colorcolumn=85
 
 " download vim-plug if missing
-if empty(glob("~/.vim/autoload/plug.vim"))
-  silent! execute '!curl --create-dirs -fsSLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * silent! PlugInstall
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
