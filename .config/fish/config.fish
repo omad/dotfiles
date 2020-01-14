@@ -32,6 +32,12 @@ set LESS_TERMCAP_ue (tput rmul; tput sgr0)
 set LESS_TERMCAP_mr (tput rev)
 set LESS_TERMCAP_mh (tput dim)
 
+if type -q ssh-pageant
+    ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME" -S fish | source
+    set PATH $PATH /c/msys64/mingw64/bin
+    set GIT_GUI_LIB_DIR /c/msys64/usr/share/git-gui/lib
+end
+
 # pyenv
 if test -d $HOME/.pyenv
 	set -x PYENV_ROOT $HOME/.pyenv
@@ -58,9 +64,9 @@ if test -f ~/miniconda3/etc/fish/conf.d/conda.fish
     source ~/miniconda3/etc/fish/conf.d/conda.fish
 end
 
-if type -q direnv
-    direnv hook fish | source
-end
+#if type -q direnv
+#    direnv hook fish | source
+#end
 
 # Created by `userpath` on 2020-01-06 04:41:38
 set PATH $PATH /Users/omad/.local/bin
