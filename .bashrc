@@ -235,4 +235,8 @@ dc-index-eo3 () {
     fd odc-metadata.yaml $1 | tar cvf - --files-from=-  | dc-index-from-tar -E dra547 --eo3 --ignore-lineage --protocol file -
 }
 
-
+# Fast Node version Manager (FNM)
+if command_exists fnm; then
+    export PATH=/home/547/dra547/.fnm:$PATH
+    eval "`fnm env --multi`"
+end

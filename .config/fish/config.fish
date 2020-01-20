@@ -1,4 +1,7 @@
 
+# Turn off welcome message
+set fish_greeting
+
 if type -q conda
    # >>> conda initialize >>>
    # !! Contents within this block are managed by 'conda init' !!
@@ -97,4 +100,10 @@ if test (uname) = Darwin
         function __fish_describe_command; end
         exit
     end
+end
+
+# fnm
+if type -q fnm
+    set PATH /home/547/dra547/.fnm $PATH
+    fnm env --multi | source
 end
