@@ -76,7 +76,7 @@ if command_exists direnv; then
     eval "$(direnv hook bash)"
 fi
 
-if [[ $system_type =~ MINGW ]]; then
+if [[ $system_type =~ MINGW || $system_type =~ MSYS ]]; then
     # ssh-pageant
     # Not able to use file sockets in windows...
     #eval $(ssh-pageant.exe -r -a "/c/Temp/.ssh-pageant-$USERNAME")

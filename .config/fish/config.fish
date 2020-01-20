@@ -6,6 +6,11 @@ if type -q conda
    # <<< conda initialize <<<
 end
 
+if test -f /c/w10dev/miniconda3/Scripts/conda.exe
+    /c/w10dev/miniconda3/Scripts/conda shell.fish hook | source
+#    conda activate base
+end
+
 
 if test -f /opt/Modules/v4.3.0/init/fish
     source /opt/Modules/v4.3.0/init/fish
@@ -57,6 +62,14 @@ if test -d $HOME/.fzf/shell
 	set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 end
 
+# Ruby Gems
+#if test -d $HOME/.gem/ruby
+#    set PATH $PATH $HOME/.gem/ruby
+if type -q ruby
+    set PATH $PATH (ruby -e "puts Gem.user_dir")/bin
+    #    $(ruby -rubygems -e "puts Gem.user_dir")/bin
+end
+
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 
@@ -69,8 +82,9 @@ end
 #end
 
 # Created by `userpath` on 2020-01-06 04:41:38
-set PATH $PATH /Users/omad/.local/bin
+set PATH $PATH ~/.local/bin
 set PATH $PATH ~/go/bin
+set PATH $PATH ~/bin
 
 # register-python-argcomplete --shell fish pipx | .
 
