@@ -107,3 +107,15 @@ if type -q fnm
     set PATH /home/547/dra547/.fnm $PATH
     fnm env --multi | source
 end
+
+
+# Ubuntu related from /etc/profile.d
+set --local snap_bin_path /snap/bin
+if test -d $snap_bin_path
+    set PATH $PATH $snap_bin_path
+end
+if set -q XDG_DATA_DIRS
+    set --path XDG_DATA_DIRS /usr/local/share /usr/share
+end
+set local snap_xdg_path /var/lib/snapd/desktop
+set XDG_DATA_DIRS $snap_xdg_path
