@@ -103,8 +103,8 @@ if test (uname) = Darwin
 end
 
 # fnm
-if test -d fnm
-    set PATH /home/547/dra547/.fnm $PATH
+if test -d $HOME/.fnm
+    set PATH $HOME/.fnm $PATH
     fnm env --multi | source
 end
 
