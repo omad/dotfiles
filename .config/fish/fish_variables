@@ -33,6 +33,7 @@ SETUVAR _fish_abbr_gt:git\x20tag
 SETUVAR _fish_abbr_gts:git\x20tag\x20\x2ds
 SETUVAR _fish_abbr_lg:lazygit
 SETUVAR _fish_abbr_mkdir:mkdir\x20\x2dpv
+SETUVAR _fish_abbr_mux:tmuxinator
 SETUVAR _fish_abbr_ts:tig\x20status
 SETUVAR _fish_abbr_y:yadm
 SETUVAR _fish_abbr_ya:yadm\x20add
