@@ -1,7 +1,12 @@
 
+window:
+    startup_mode: Maximized
 
 font:
-    normal: 
+    normal:
+        family: JetBrainsMono Nerd Font
     #        family: Ubuntu Mono
     #        family: Inconsolata Nerd Font
-        family: Jetbrains Mono
+    #        family: JetBrains Mono
+    #        family: monospace
+    size: 12.0

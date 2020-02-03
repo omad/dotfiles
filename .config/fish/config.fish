@@ -24,6 +24,10 @@ set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 set -gx GOPATH ~/go
 
+if test -d $HOME/.cargo/bin
+    set PATH $PATH $HOME/.cargo/bin
+end
+
 if type -q nvim
     alias vim nvim
 end
@@ -51,6 +55,7 @@ if test -d $HOME/.pyenv
 	set -x PYENV_ROOT $HOME/.pyenv
 	set -x PATH $PYENV_ROOT/bin $PATH
 	source (pyenv init -|psub) > /dev/null 2>&1
+    # Or should this be 'pyenv init - | source'
 end
 
 # Go
@@ -119,3 +124,17 @@ if set -q XDG_DATA_DIRS
 end
 set local snap_xdg_path /var/lib/snapd/desktop
 set XDG_DATA_DIRS $snap_xdg_path
+
+# Automatically bootstrap fisher
+if not functions -q fisher
+    set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
+    curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
+    fish -c fisher
+end
+
+# Theme and visuals
+set -g theme_nerd_fonts yes
+# set -g theme_display_k8s_context yes
+# set -g theme_display_user ssh
+# set -g theme_display_hostname ssh
+#

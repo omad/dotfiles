@@ -49,3 +49,5 @@ test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
 if [[ $(hostname) =~ ^gadi-login.* ]]; then
     exec ~/bin/fish
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
