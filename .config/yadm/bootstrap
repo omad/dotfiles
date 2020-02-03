@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+
+if command -v vim >/dev/null 2>&1; then
+    echo "Bootstraping Vim"
+    vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
