@@ -45,6 +45,10 @@ export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
 
+if type module &> /dev/null; then
+    module use /g/data/v10/public/modules/modulefiles
+    module use /g/data/v10/private/modules/modulefiles
+fi
 
 if [[ $(hostname) =~ ^gadi-login.* ]]; then
     exec ~/bin/fish
