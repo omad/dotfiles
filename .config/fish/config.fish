@@ -113,6 +113,10 @@ if test -d $HOME/.fnm
     fnm env --multi | source
 end
 
+if test -d /Applications/Postgres.app/Contents/Versions/latest/bin
+    set PATH $PATH /Applications/Postgres.app/Contents/Versions/latest/bin
+end
+
 
 # Ubuntu related from /etc/profile.d
 set --local snap_bin_path /snap/bin
