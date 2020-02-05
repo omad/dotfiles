@@ -10,3 +10,7 @@ font:
     #        family: JetBrains Mono
     #        family: monospace
     size: 12.0
+
+key_bindings:
+    - { key: N,     mods: Control|Shift, action: SpawnNewInstance }
+
