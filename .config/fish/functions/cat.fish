@@ -13,7 +13,7 @@ function cat
         if type -q bat
             command bat --style plain --theme OneHalfDark $argv
         else
-            cat $argv
+            command cat $argv
         end
 	end
 end
