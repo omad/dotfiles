@@ -86,9 +86,6 @@ Capslock::Control   ; make Caps Lock the control button
 ; Thanks https://www.reddit.com/r/AutoHotkey/comments/4lr9n0/chrome_unresponsive_to_controlsend/
 ;#IfWinNotActive, ahk_exe chrome.exe
 
-Browser_Home::Media_Play_Pause
-Browser_Favorites::Volume_Up
-Launch_Mail::Volume_Down
 
 ; Redirect Volume and Play/Pause buttons away from TurboVNC
 #IfWinActive, ahk_class VNCViewer
@@ -102,17 +99,51 @@ Volume_Mute::
    SplashTextOff
 }
 return
-a::b
+#IfWinActive
+
+; For use on work mini keyboard only
+;Browser_Home::Media_Play_Pause
+;Browser_Favorites::Volume_Up
+;Launch_Mail::Volume_Down
 
 Launch_App2::
-{
-   SplashTextOn,,,Calculator Pressed,
-   Sleep,500
-   SplashTextOff
-}
-return
+	toggle:=!toggle ; This toggles the variable between true/false
+	if toggle
+	{
+		Run "C:\w10dev\nircmd-x64\nircmd.exe" setdefaultsounddevice "Speakers"
+		soundToggleBox("Speakers")
+	}
+	else
+	{
+		Run "C:\w10dev\nircmd-x64\nircmd.exe" setdefaultsounddevice "Jabra Evolve"
+		soundToggleBox("Jabra Evolve")
+	}
+Return
 
-#IfWinActive
+; Display sound toggle GUI
+soundToggleBox(Device)
+{
+	IfWinExist, soundToggleWin
+	{
+		Gui, destroy
+	}
+	
+	Gui, +ToolWindow -Caption +0x400000 +alwaysontop
+	Gui, Add, text, x35 y8, Default sound: %Device%
+	SysGet, screenx, 0
+	SysGet, screeny, 1
+	xpos:=screenx-275
+	ypos:=screeny-100
+	Gui, Show, NoActivate x%xpos% y%ypos% h30 w200, soundToggleWin
+	
+	SetTimer,soundToggleClose, 2000
+}
+soundToggleClose:
+    SetTimer,soundToggleClose, off
+    Gui, destroy
+Return
+
+
 ;	; Gets the control ID of google chrome
 ;	ControlGet, controlID, Hwnd,,Chrome_RenderWidgetHostHWND1, Google Chrome
 ;
