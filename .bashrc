@@ -239,4 +239,7 @@ dc-index-eo3 () {
 if command_exists fnm; then
     export PATH=/home/547/dra547/.fnm:$PATH
     eval "`fnm env --multi`"
-end
+fi
+
+# added by travis gem
+[ -f /home/omad/.travis/travis.sh ] && source /home/omad/.travis/travis.sh
