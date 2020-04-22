@@ -38,12 +38,13 @@ set -l airflow_commands backfill list_dag_runs list_tasks clear pause unpause tr
 
 complete -c airflow -f -n "not __fish_seen_subcommand_from $airflow_commands" -a "$airflow_commands"
 
-# List Tasks
-complete -c airflow -f -n "__fish_seen_subcommand_from list_tasks; and not __fish_seen_subcommand_from (__fish_airflow_list_dags)" -a "(__fish_airflow_list_dags)"
-complete -c airflow -f -n "__fish_seen_subcommand_from list_tasks" -s t -l tree -d "Tree view"
+# sub-commands that expect a DAG as argument
+set -l dag_commands list_tasks
+complete -c airflow -f -n "__fish_seen_subcommand_from $dag_commands; and not __fish_seen_subcommand_from (__fish_airflow_list_dags)" -a "(__fish_airflow_list_dags)"
+complete -c airflow -f -n "__fish_seen_subcommand_from $dag_commands" -s t -l tree -d "Tree view"
 
-# Run Task
-set -l task_commands test run task_state
+# Sub-commands that expect a DAG followed by a Task as arguments
+set -l task_commands test run task_state render
 complete -c airflow -f -n "__fish_seen_subcommand_from $task_commands; and __fish_is_token_n 3" -a "(__fish_airflow_list_dags)"
 complete -c airflow -f -n "__fish_seen_subcommand_from $task_commands; and __fish_is_token_n 4" -a "(__fish_airflow_list_tasks)"
 

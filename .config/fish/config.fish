@@ -32,6 +32,11 @@ if type -q nvim
     alias vim nvim
 end
 
+# The fd executable was renamed in Ubuntu
+if type -q fdfind
+    alias fd fdfind
+end
+
 # Colorize man
 set MANROFFOPT '-c'
 set LESS_TERMCAP_mb (tput bold; tput setaf 2)
@@ -147,3 +152,4 @@ end
 # set -g theme_display_user ssh
 # set -g theme_display_hostname ssh
 #
+
