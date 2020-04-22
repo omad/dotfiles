@@ -137,7 +137,9 @@ if not functions -q fisher
 end
 
 # Theme and visuals
-if string match -q -r 'putty.*' $TERM
+set -g theme_color_scheme solarized-dark
+if string match -q -r 'putty.*' $TERM; or set -q BAD_WINDOWS_FONTS
+    set -x BAD_WINDOWS_FONTS yes
     set -g theme_powerline_fonts no
     set -g theme_nerd_fonts no
 end
