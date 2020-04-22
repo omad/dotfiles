@@ -137,7 +137,10 @@ if not functions -q fisher
 end
 
 # Theme and visuals
-set -g theme_nerd_fonts yes
+if string match -q -r 'putty.*' $TERM
+    set -g theme_powerline_fonts no
+    set -g theme_nerd_fonts no
+end
 # set -g theme_display_k8s_context yes
 # set -g theme_display_user ssh
 # set -g theme_display_hostname ssh
