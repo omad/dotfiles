@@ -1,0 +1,72 @@
+
+! Xft defaults from https://www.computerhope.com/unix/uxrdb.htm
+Xft.dpi:        96
+Xft.antialias:  true
+!Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+
+! Configuring URxvt to Make It Usable and Less Ugly - Addys Blog
+! https://addy-dclxvi.github.io/post/configuring-urxvt/
+!! URxvt Appearance
+!URxvt.font: -*-rissole-*
+!URxvt.boldFont: -*-rissole-*
+!URxvt.italicFont: -*-rissole-*
+!URxvt.boldItalicfont: -*-rissole-*
+Rxvt*font: xft:JetBrainsMono Nerd Font:pixelsize=13
+Rxvt*boldFont: xft:JetBrainsMono Nerd Font:bold:pixelsize=13
+Rxvt.letterSpace: 0
+Rxvt.lineSpace: 0
+Rxvt.geometry: 92x24
+Rxvt.internalBorder: 0
+Rxvt.cursorBlink: true
+Rxvt.cursorUnderline: false
+Rxvt.saveline: 2048
+Rxvt.scrollBar: false
+Rxvt.scrollBar_right: false
+Rxvt.urgentOnBell: true
+Rxvt.depth: 24
+! iso14755 is about unicode text entry
+Rxvt.iso14755: false
+
+Rxvt.loginShell: true
+
+URxvt.perl-ext-common: font-size
+
+! special
+*.foreground:   #c5c8c6
+*.background:   #1d1f21
+*.cursorColor:  #c5c8c6
+
+! black
+*.color0:       #282a2e
+*.color8:       #373b41
+
+! red
+*.color1:       #a54242
+*.color9:       #cc6666
+
+! green
+*.color2:       #8c9440
+*.color10:      #b5bd68
+
+! yellow
+*.color3:       #de935f
+*.color11:      #f0c674
+
+! blue
+*.color4:       #5f819d
+*.color12:      #81a2be
+
+! magenta
+*.color5:       #85678f
+*.color13:      #b294bb
+
+! cyan
+*.color6:       #5e8d87
+*.color14:      #8abeb7
+
+! white
+*.color7:       #707880
+*.color15:      #c5c8c6
+
