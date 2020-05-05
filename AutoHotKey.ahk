@@ -10,6 +10,8 @@
 ; Ensures that there is only a single instance of this script running
 #SingleInstance, Force
 
+#Warn All
+
 ;Determines whether invisible windows are "seen" by the script
 DetectHiddenWindows, On
 
@@ -52,8 +54,18 @@ SetCapslockState, AlwaysOff
 ; Or, with PowerShell
 ; PS HKCU:\Software\Classes\ahk_auto_file\shell\edit> New-ItemProperty -Name "(default)" -Value '"C:\w10dev\Microsoft VS Code\Code.exe" "%1"' -PropertyType String -Path command
 
-;======================== Start Auto-Execution Section ==============================
-
+ 
+; Session lock/unlock notifications 
+; https://autohotkey.com/board/topic/84704-how-to-use-compiled-script-with-wtsregistersessionnotifica/
+global WTS_SESSION_LOCK      :=   0x7
+global WTS_SESSION_UNLOCK      :=   0x8
+NOTIFY_FOR_ALL_SESSIONS   :=   1
+NOTIFY_FOR_THIS_SESSION   :=   0
+WM_WTSSESSION_CHANGE   :=   0x02B1
+global ActivityLogFilename := A_MyDocuments . "\activity_log.csv"
+; See https://docs.microsoft.com/en-us/windows/win32/termserv/wm-wtssession-change for messages
+onMessage(WM_WTSSESSION_CHANGE, "Handle_WTSSESSION_CHANGE")
+dllCall("Wtsapi32.dll\WTSRegisterSessionNotification","uint",a_scriptHwnd,"uint",NOTIFY_FOR_ALL_SESSIONS)
 
 
 ; Menu, Folders, Add, &AutoHotkey,!1
@@ -102,9 +114,9 @@ return
 #IfWinActive
 
 ; For use on work mini keyboard only
-;Browser_Home::Media_Play_Pause
-;Browser_Favorites::Volume_Up
-;Launch_Mail::Volume_Down
+Browser_Home::Media_Play_Pause
+Browser_Favorites::Volume_Up
+Launch_Mail::Volume_Down
 
 Launch_App2::
 	toggle:=!toggle ; This toggles the variable between true/false
@@ -239,19 +251,37 @@ Send {up 5}
 ;ClipSaved := ""
 return
 
+; * means that no end character is required. <space> <enter> or . typically
 :*:;gaw::git@github.com:GeoscienceAustralia/wofs.git
 :*:;gafc::git@github.com:GeoscienceAustralia/fc.git
 :*:;gaeod::git@github.com:GeoscienceAustralia/eodatasets.git
 
+::gdc::https://github.com/opendatacube/datacube-core/
+::gwofs::https://github.com/GeoscienceAustralia/wofs/
+::gfc::https://github.com/GeoscienceAustralia/fc/
+::gdcfs::https://github.com/conda-forge/datacube-feedstock/
+::gdea::https://github.com/GeoscienceAustralia/digitalearthau/
+
+
+; Press Alt+0 to insert a degrees symbol
+!0::SendInput {°}
+
+; I need to use the ™, ®, and © symbols a lot in my work, so I use these hotstrings:
+
+:*?:(tm)::{U+2122}
+:*?:(c)::{U+00A9}
+:*?:(r)::{U+00AE}
+
+; The *? options make it so that I can attach them directly to the end of a word and so that I can easily insert them into an existing document without having to type and erase a space at the end.
 
 PrevBusinessDay() {
-   prevday := A_Now
+   previous_day := A_Now
    if (A_DDD = "Mon") {
-      prevday += -3, Days
+      previous_day += -3, Days
    } else {
-      prevday += -1, Days
+      previous_day += -1, Days
    }
-   return prevday
+   return previous_day
 }
 
 
@@ -261,13 +291,13 @@ SendInput %CurrentDateTime%
 return
 
 
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Inconsolata-Regular.ttf" )
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Inconsolata-Bold.ttf" )
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Bold.ttf" )
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-BoldItalic.ttf" )
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Regular.ttf" )
-DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Italic.ttf" )
-SendMessage,  0x1D,,,, ahk_id 0xFFFF
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Inconsolata-Regular.ttf" )
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Inconsolata-Bold.ttf" )
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Bold.ttf" )
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-BoldItalic.ttf" )
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Regular.ttf" )
+; DllCall( "AddFontResource", Str,"c:\Users\u68320\Downloads\Meslo\MesloLGMDZ-Italic.ttf" )
+; SendMessage,  0x1D,,,, ahk_id 0xFFFF
 
 
 ;# FAKE More buttons on my mouse
@@ -276,6 +306,38 @@ SendMessage,  0x1D,,,, ahk_id 0xFFFF
 ;RButton & WheelDown::Send {Browser_Back}
 ;RButton & WheelUp::Send {Browser_Forward}
 
+
+ 
+Handle_WTSSESSION_CHANGE(wParam,lParam,msg,hwnd){
+   global ActivityLogFilename
+   action := "undefined"
+   if(wParam=WTS_SESSION_LOCK) ; session was locked
+   {
+      action := "locked"
+   }
+   else if(wParam=WTS_SESSION_UNLOCK) ; session was unlocked
+   {
+      action := "unlocked"
+   }
+   else if(wParam=0x05)
+   {
+      action := "logon"
+   }
+   else if(wParam=0x06)
+   { 
+      action := "logoff"
+   }
+   file := FileOpen(ActivityLogFilename, "a" )
+   if !IsObject(file)
+   {
+      MsgBox Can't open "%ActivityLogFilename%" for writing.
+      return
+   }
+   FormatTime,timevar,,yyyy-MM-dd HH:mm:ss
+   TestString := timevar . "," . action . "`r`n"  ; When writing a file this way, use `r`n rather than `n to start a new line.
+   file.Write(TestString)
+   file.Close()
+}
 
 
 ;-------------------------------------------------------------------------------
