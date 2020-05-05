@@ -8,7 +8,7 @@
  user-full-name "Damien Ayers"
  user-mail-address "damien@omad.net"
  org-directory "~/Dropbox/org/"
- doom-font (font-spec :family "Input Mono" :size 12)
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12)
  doom-big-font (font-spec :family "Fira Code" :size 20)
  doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
  org-super-agenda-groups '((:name "Today"

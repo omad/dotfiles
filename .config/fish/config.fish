@@ -28,6 +28,10 @@ if test -d $HOME/.cargo/bin
     set PATH $PATH $HOME/.cargo/bin
 end
 
+if test -d $HOME/.emacs.d/bin
+    set PATH $PATH $HOME/.emacs.d/bin
+end
+
 if type -q nvim
     alias vim nvim
 end
@@ -139,6 +143,11 @@ if not functions -q fisher
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
     curl https://git.io/fisher --create-dirs -sLo $XDG_CONFIG_HOME/fish/functions/fisher.fish
     fish -c fisher
+end
+
+if test -d /opt/TurboVNC/
+    set --path -x -a MANPATH :/opt/TurboVNC/man/
+    set -a PATH /opt/TurboVNC/bin
 end
 
 # Theme and visuals
