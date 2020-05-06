@@ -151,6 +151,7 @@ if test -d /opt/TurboVNC/
 end
 
 # Theme and visuals
+set -g theme_title_display_user yes
 set -g theme_color_scheme solarized-dark
 if string match -q -r 'putty.*' $TERM; or set -q BAD_WINDOWS_FONTS
     set -x BAD_WINDOWS_FONTS yes
