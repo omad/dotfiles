@@ -33,13 +33,11 @@
        ;;indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
-       ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
        ;;pretty-code       ; replace bits of code with pretty symbols
-       ;;tabbar            ; FIXME an (incomplete) tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
@@ -63,8 +61,8 @@
        :emacs
        (dired            ; making dired pretty [functional]
         ;;+ranger         ; bringing the goodness of ranger to dired
-        +icons          ; colorful icons for dired-mode
-        )
+        +icons)          ; colorful icons for dired-mode
+
        electric          ; smarter, keyword-based electric-indent
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -81,8 +79,6 @@
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        eval              ; run code, run (also, repls)
-       flycheck          ; tasing you for every semicolon you forget
-       flyspell          ; tasing you for misspelling mispelling
        gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
@@ -98,6 +94,10 @@
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
        ;;wakatime
+
+       :checkers
+       syntax          ; tasing you for every semicolon you forget
+       spell          ; tasing you for misspelling mispelling
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -135,11 +135,12 @@
         +babel           ; running code in org
         +capture         ; org-capture in and outside of Emacs
         +export          ; Exporting org to whatever you want
-        +habit           ; Keep track of your habits
+                                        ;        +habit           ; Keep track of your habits
         +present         ; Emacs for presentations
         +dragndrop
         +pandoc
-        +protocol)       ; Support for org-protocol:// links
+        +protocol       ; Support for org-protocol:// links
+        +roam)
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
