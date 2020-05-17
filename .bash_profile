@@ -55,3 +55,4 @@ if [[ $(hostname) =~ ^gadi-login.* ]]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+if [ -e /home/omad/.nix-profile/etc/profile.d/nix.sh ]; then . /home/omad/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
