@@ -158,8 +158,20 @@ if string match -q -r 'putty.*' $TERM; or set -q BAD_WINDOWS_FONTS
     set -g theme_powerline_fonts no
     set -g theme_nerd_fonts no
 end
+
+# Back in a proper terminal
+if string match -q -r 'rxvt.*' $TERM
+    set -e BAD_WINDOWS_FONTS
+    set -g theme_powerline_fonts yes
+    set -g theme_nerd_fonts yes
+end
+
 # set -g theme_display_k8s_context yes
 # set -g theme_display_user ssh
 # set -g theme_display_hostname ssh
 #
+#
+if test -e '$HOME/.nix-profile/etc/profile.d/nix.sh'
+  fenv source '$HOME/.nix-profile/etc/profile.d/nix.sh'
+end
 
