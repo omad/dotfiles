@@ -8,7 +8,7 @@
  user-full-name "Damien Ayers"
  user-mail-address "damien@omad.net"
 
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12)
+ doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
  doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
  doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
 
@@ -25,7 +25,10 @@
                            (:name "Due soon"
                                    :deadline future)
                            (:name "Big Outcomes"
-                            :tag "bo")))
+                            :tag "bo"))
+ projectile-project-search-path '("~/dev/"))
+
+(setq auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
 
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
@@ -261,7 +264,7 @@ The buffer contains the raw HTTP response sent by the server."
       :bind
       ("C-c n j" . org-journal-new-entry)
       :custom
-      (org-journal-dir "~/org/")
+      (org-journal-dir "~/org/journal/")
       (org-journal-date-prefix "#+TITLE: ")
       (org-journal-file-format "%Y-%m-%d.org")
       (org-journal-date-format "%A, %d %B %Y"))
