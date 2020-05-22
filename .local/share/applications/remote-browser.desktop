@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Remote Browser
+Comment=Open a Remote Browser via an SSH Tunnel
+Terminal=false
+Exec=open-remote-browser
+Categories=Network;WebBrowser
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;x-scheme-handler/https;x-scheme-handler/http;text/html;

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Call to a remote dratools system tray utility to open a web browser on the host
+#
+# Typically used from an SSH session with a remote forwarded port 9999
+
+
+exec curl -X POST -F "url=$1" http://localhost:9999/openurl
+
+
