@@ -166,6 +166,10 @@ if string match -q -r 'rxvt.*' $TERM
     set -g theme_nerd_fonts yes
 end
 
+if set -q SSH_CLIENT
+    set -x BROWSER open-remote-browser
+end
+
 # set -g theme_display_k8s_context yes
 # set -g theme_display_user ssh
 # set -g theme_display_hostname ssh
