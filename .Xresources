@@ -31,6 +31,8 @@ Rxvt.iso14755: false
 
 Rxvt.loginShell: true
 
+Rxvt*iconFile:  /usr/share/icons/hicolor/48x48/apps/xterm-color.png
+
 URxvt.perl-ext-common: font-size
 
 ! special

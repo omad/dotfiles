@@ -93,6 +93,6 @@
 	allowed = AKIAIOSFODNN7EXAMPLE
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [init]
-	templateDir = /Users/omad/.git-templates/git-secrets
+	templateDir = /home/omad/.git-templates/git-secrets
 [github]
 	user = omad

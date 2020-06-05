@@ -94,9 +94,10 @@ if test -f ~/miniconda3/etc/fish/conf.d/conda.fish
     source ~/miniconda3/etc/fish/conf.d/conda.fish
 end
 
-#if type -q direnv
-#    direnv hook fish | source
-#end
+if type -q direnv
+    # direnv hook fish | source
+    eval (direnv hook fish)
+end
 
 # Created by `userpath` on 2020-01-06 04:41:38
 set PATH $PATH ~/.local/bin
@@ -168,6 +169,7 @@ end
 
 if set -q SSH_CLIENT
     set -x BROWSER open-remote-browser
+    set -x LIBGL_ALWAYS_INDIRECT 1
 end
 
 # set -g theme_display_k8s_context yes

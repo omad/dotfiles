@@ -28,6 +28,9 @@
                             :tag "bo"))
  projectile-project-search-path '("~/dev/"))
 
+(after! python
+  (setq conda-anaconda-home (expand-file-name "~/miniconda3")))
+
 (setq auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
 
 (when IS-LINUX
@@ -44,6 +47,8 @@
 ;; Have treemacs follow the currently open file
 (add-hook 'treemacs-mode #'treemacs-follow-mode)
 
+;; With some creative use of X401 and xrandr, this finally works in Windows
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 (map! ;; Easier window movement
       :n "C-h" #'evil-window-left
@@ -64,17 +69,18 @@
         "M-j" #'multi-next-line
         "M-k" #'multi-previous-line))
 
-;; (add-to-list 'tramp-methods
-;;       '("yadm"
-;;         (tramp-login-program "yadm")
-;;         (tramp-login-args (("enter")))
-;;         (tramp-remote-shell "/bin/sh")
-;;         (tramp-remote-shell-login ("-l"))
-;;         (tramp-remote-shell-args ("-c"))))
+;; With this config, use (magit-status "/yadm::"). If you find issue with Emacs 27 ;
+;; and zsh, trying running (setenv "SHELL" "/bin/bash").
+(after! tramp
+  (add-to-list 'tramp-methods
+    '("yadm"
+      (tramp-login-program "yadm")
+      (tramp-login-args (("enter")))
+      (tramp-login-env (("SHELL") ("/bin/sh")))
+      (tramp-remote-shell "/bin/sh")
+      (tramp-remote-shell-args ("-c")))))
 
-;; magit stuff
-;; (setq +magit-hub-features t ;; I want the PR/issue stuff too!
-;; +magit-hub-enable-by-default t) ;; And I want it on by default!
+(set-popup-rule! "^\\*eww\\*" :ignore t)
 
 
 
@@ -96,7 +102,8 @@
       (kill-buffer buf))))
 
 
-(setq
+(setq!
+ org-roam-directory "~/org"
  magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))
 
  deft-directory "~/org/"
@@ -246,8 +253,6 @@ The buffer contains the raw HTTP response sent by the server."
         (read-file-name "Move subtree to file:" def-filename)))
   (org-paste-subtree))
 
-(setq
-  org-roam-directory "~/org")
 
 (after! org-roam
   (map! :leader
@@ -261,8 +266,6 @@ The buffer contains the raw HTTP response sent by the server."
         :desc "org-roam-capture" "c" #'org-roam-capture))
 
 (use-package org-journal
-      :bind
-      ("C-c n j" . org-journal-new-entry)
       :custom
       (org-journal-dir "~/org/journal/")
       (org-journal-date-prefix "#+TITLE: ")

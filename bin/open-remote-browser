@@ -3,7 +3,12 @@
 #
 # Typically used from an SSH session with a remote forwarded port 9999
 
+case "$1" in 
+    file://*) 
+            links $1;;
+        *)
+        exec curl -X POST -F "url=$1" http://localhost:9999/openurl
+esac
 
-exec curl -X POST -F "url=$1" http://localhost:9999/openurl
 
 
