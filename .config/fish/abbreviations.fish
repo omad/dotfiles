@@ -40,3 +40,5 @@ abbr --add yd 'yadm diff'
 abbr --add yst 'yadm status'
 
 abbr --add mkdir 'mkdir -pv'
+
+abbr --add qsubi qsub -I -q express -l wd,walltime=2:00:00,mem=7GB,ncpus=2 -l storage=gdata/u46+gdata/v10+gdata/fk4+gdata/rs0+gdata/if87 -P u46
