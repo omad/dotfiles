@@ -16,11 +16,11 @@
        (company           ; the ultimate code completion backend
         ;; +childframe
         +tng)
-       ;;helm              ; the *other* search engine for love and life
-       ;;ido               ; the other *other* search engine...
        (ivy               ; a search engine for love and life
         +fuzzy
         +icons)
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
        ;; +childframe)
 
        :ui
@@ -57,7 +57,7 @@
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        parinfer          ; turn lisp into python, sort of
-       ;;rotate-text       ; cycle region at point between text candidates
+       rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
 
@@ -142,7 +142,7 @@
         +babel           ; running code in org
         +capture         ; org-capture in and outside of Emacs
         +export          ; Exporting org to whatever you want
-        ;habit           ; Keep track of your habits
+                                        ;habit           ; Keep track of your habits
         +present         ; Emacs for presentations
         +dragndrop
         +pandoc
@@ -161,13 +161,13 @@
        rst
        ;;rest              ; Emacs as a REST client
        ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp)             ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        sh                ; she sells {ba,z,fi}sh shells on the C xor
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       ;;web               ; the tubes
+       web               ; the tubes
        ;;vala              ; GObjective-C
        yaml
 
@@ -201,34 +201,3 @@
        ;; provides a Spacemacs-inspired keybinding scheme and a smartparens
        ;; config. Use it as a reference for your own modules.
        (default +bindings +smartparens))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auto-save-visited-mode t)
- '(calendar-date-style (quote european))
- '(custom-safe-themes
-   (quote
-    ("10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "256bd513a9875cd855077162cdfee8d75b0ad7e18fe8b8cbc10412561fbef892" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "341b2570a9bbfc1817074e3fad96a7eff06a75d8e2362c76a2c348d0e0877f31" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" default)))
- '(deft-auto-save-interval 0.0)
- '(deft-directory "~/Dropbox/org/" t)
- '(deft-recursive t t)
- '(deft-use-filter-string-for-filename t t)
- '(display-line-numbers nil)
- '(menu-bar-mode nil)
- '(org-journal-date-format "%A, %d/%m/%Y")
- '(org-journal-dir "~/Dropbox/org/journal/")
- '(org-journal-enable-agenda-integration t)
- '(org-journal-file-format "%Y%m%d.org")
- '(org-journal-file-type (quote daily))
- '(org-log-done (quote time))
- '(org-log-into-drawer t)
- '(tao-theme-use-boxes nil)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

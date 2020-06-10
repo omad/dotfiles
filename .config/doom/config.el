@@ -1,7 +1,5 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here
-;;
 
 ;;; Code:
 (setq
@@ -11,7 +9,7 @@
  doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
  doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
  doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
-
+ doom-scratch-initial-major-mode 'lisp-interaction-mode
  org-directory "~/org/"
  org-super-agenda-groups '((:name "Today"
                              :time-grid t
@@ -28,10 +26,22 @@
                             :tag "bo"))
  projectile-project-search-path '("~/dev/"))
 
+;; moved from custom set variables
+(setq
+ auto-save-visited-mode t
+ calendar-date-style (quote european)
+ org-journal-date-format "%A, %d/%m/%Y"
+ org-journal-dir "~/Dropbox/org/journal/"
+ org-journal-enable-agenda-integration t
+ org-journal-file-format "%Y%m%d.org"
+ org-journal-file-type (quote daily)
+ org-log-done (quote time)
+ org-log-into-drawer t)
+
 (after! python
   (setq conda-anaconda-home (expand-file-name "~/miniconda3")))
 
-(setq auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
+(setq! auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
 
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
@@ -106,11 +116,6 @@
  org-roam-directory "~/org"
  magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))
 
- deft-directory "~/org/"
- deft-extensions '("txt" "org" "md")
- deft-recursive t
- deft-use-filename-as-title nil
- deft-use-filter-string-for-filename t
 
  org-hide-emphasis-markers t
  org-pretty-entities t
@@ -140,46 +145,6 @@
                           :prepend t :clock-in t :clock-resume t))))
 
 
-(defun dra/browse-url (url &optional new-window)
-  "Call with a URL to open a url in the remote browser.
-
-NEW-WINDOW is ignored"
-  (let ((url-request-method "POST")
-        (url-request-extra-headers
-         '(("Content-Type" . "application/x-www-form-urlencoded")))
-        (url-request-data (concat "url=" (url-hexify-string url))))
-
-    (url-retrieve "http://localhost:9999/openurl" 'my-kill-url-buffer)))
-
-(defun my-kill-url-buffer (status)
-  "Kill the buffer returned by `url-retrieve'."
-  (kill-buffer (current-buffer)))
-
-(when (string-match-p "compute.internal$" (system-name))
-  (setq browse-url-browser-function 'dra/browse-url))
-
-;;; Not used
-
-(defun my-url-http-post (url args)
-  "Send ARGS to URL as a POST request."
-  (let ((url-request-method "POST")
-        (url-request-extra-headers
-          '(("Content-Type" . "application/x-www-form-urlencoded")))
-        (url-request-data
-          (mapconcat (lambda (arg)
-                      (concat (url-hexify-string (car arg))
-                              "="
-                              (url-hexify-string (cdr arg))))
-                    args
-                    "&")))
-    ;; if you want, replace `my-switch-to-url-buffer' with `my-kill-url-buffer'
-    (url-retrieve url 'my-switch-to-url-buffer)))
-
-
-(defun my-switch-to-url-buffer (status)
-  "Switch to the buffer returned by `url-retreive'.
-The buffer contains the raw HTTP response sent by the server."
-  (switch-to-buffer (current-buffer)))
 
 ;; Task lists
 
@@ -209,7 +174,6 @@ The buffer contains the raw HTTP response sent by the server."
                              'org-variable-pitch-minor-mode
                              'org-pretty-table-mode
                              '+org-prettify-task-symbols-setup
-                             'readable-mode
                              (setq display-line-numbers nil)))
 
 
@@ -254,16 +218,26 @@ The buffer contains the raw HTTP response sent by the server."
   (org-paste-subtree))
 
 
-(after! org-roam
-  (map! :leader
-        :prefix "n"
-        :desc "org-roam" "l" #'org-roam
-        :desc "org-roam-insert" "i" #'org-roam-insert
-        :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
-        :desc "org-roam-find-file" "f" #'org-roam-find-file
-        :desc "org-roam-show-graph" "g" #'org-roam-show-graph
-        :desc "org-roam-insert" "i" #'org-roam-insert
-        :desc "org-roam-capture" "c" #'org-roam-capture))
+;; (after! org-roam
+;;   (map! :leader
+;;         :prefix "n"
+;;         :desc "org-roam" "l" #'org-roam
+;;         :desc "org-roam-insert" "i" #'org-roam-insert
+;;         :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+;;         :desc "org-roam-find-file" "f" #'org-roam-find-file
+;;         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
+;;         :desc "org-roam-insert" "i" #'org-roam-insert
+;;         :desc "org-roam-capture" "c" #'org-roam-capture))
+
+(use-package deft
+  :after org
+  :custom
+  (deft-directory "~/org/")
+  (deft-extensions '("txt" "org" "md"))
+  (deft-recursive t)
+  (deft-use-filename-as-title nil)
+  (deft-use-filter-string-for-filename t))
+
 
 (use-package org-journal
       :custom
