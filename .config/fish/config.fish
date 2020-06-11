@@ -177,7 +177,7 @@ end
 # set -g theme_display_hostname ssh
 #
 #
-if test -e '$HOME/.nix-profile/etc/profile.d/nix.sh'
-  fenv source '$HOME/.nix-profile/etc/profile.d/nix.sh'
+if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
+  fenv source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 end
 
