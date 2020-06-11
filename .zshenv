@@ -14,3 +14,4 @@ export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
     export PATH="$PATH:/usr/local/opt/fzf/bin"
 fi
+if [ -e /home/omad/.nix-profile/etc/profile.d/nix.sh ]; then . /home/omad/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
