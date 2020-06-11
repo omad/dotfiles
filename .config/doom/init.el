@@ -141,6 +141,7 @@
         +attach          ; custom attachment system
         +babel           ; running code in org
         +capture         ; org-capture in and outside of Emacs
+        +journal
         +export          ; Exporting org to whatever you want
                                         ;habit           ; Keep track of your habits
         +present         ; Emacs for presentations

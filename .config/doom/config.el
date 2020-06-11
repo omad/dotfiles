@@ -30,13 +30,18 @@
 (setq
  auto-save-visited-mode t
  calendar-date-style (quote european)
- org-journal-date-format "%A, %d/%m/%Y"
- org-journal-dir "~/Dropbox/org/journal/"
- org-journal-enable-agenda-integration t
- org-journal-file-format "%Y%m%d.org"
- org-journal-file-type (quote daily)
+ ;; org-journal-date-format "%A, %d/%m/%Y"
+ ;; org-journal-enable-agenda-integration t
+ ;; org-journal-file-format "%Y%m%d.org"
+ ;; org-journal-file-type (quote daily)
  org-log-done (quote time)
  org-log-into-drawer t)
+;; (use-package org-journal
+;;       :custom
+;;       (org-journal-dir "~/org/journal/")
+;;       (org-journal-date-prefix "#+TITLE: ")
+;;       (org-journal-file-format "%Y-%m-%d.org")
+;;       (org-journal-date-format "%A, %d %B %Y"))
 
 (after! python
   (setq conda-anaconda-home (expand-file-name "~/miniconda3")))
@@ -49,10 +54,22 @@
   (setq ns-use-thin-smoothing t))
 
 ;; Doom Settings
-(load-theme 'doom-city-lights t)
+;; (load-theme 'doom-city-lights t)
 ;; (load-theme 'doom-one-light t)
 
-;; (setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-one-light)
+
+;; Use MS Python Language Server by default
+(after! lsp-python-ms
+  (set-lsp-priority! 'mspyls 1))
+
+(use-package lsp-python-ms
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)))
+  :init
+  (setq lsp-python-ms-executable (executable-find "python-language-server")))
 
 ;; Have treemacs follow the currently open file
 (add-hook 'treemacs-mode #'treemacs-follow-mode)
@@ -173,10 +190,7 @@
                              'flyspell-mode
                              'org-variable-pitch-minor-mode
                              'org-pretty-table-mode
-                             '+org-prettify-task-symbols-setup
-                             (setq display-line-numbers nil)))
-
-
+                             '+org-prettify-task-symbols-setup))
 
 
 (defun subtree-to-new-file ()
@@ -239,12 +253,6 @@
   (deft-use-filter-string-for-filename t))
 
 
-(use-package org-journal
-      :custom
-      (org-journal-dir "~/org/journal/")
-      (org-journal-date-prefix "#+TITLE: ")
-      (org-journal-file-format "%Y-%m-%d.org")
-      (org-journal-date-format "%A, %d %B %Y"))
 
 
 (provide 'config)

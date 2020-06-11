@@ -7,7 +7,6 @@
 ;; (package! builtin-package :disable t)
 
 
-(package! org-journal)
 (package! org-sync)
 
 ;; https://gitlab.com/jabranham/mixed-pitch
