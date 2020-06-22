@@ -2,6 +2,7 @@
 # Turn off welcome message
 set fish_greeting
 
+
 if type -q conda
    # >>> conda initialize >>>
    # !! Contents within this block are managed by 'conda init' !!
@@ -152,6 +153,7 @@ if test -d /opt/TurboVNC/
 end
 
 # Theme and visuals
+set -g theme_date_timezone "Australia/Canberra"
 set -g theme_title_display_user yes
 set -g theme_color_scheme solarized-dark
 if string match -q -r 'putty.*' $TERM; or set -q BAD_WINDOWS_FONTS
@@ -167,10 +169,10 @@ if string match -q -r 'rxvt.*' $TERM
     set -g theme_nerd_fonts yes
 end
 
-if set -q SSH_CLIENT
-    set -x BROWSER open-remote-browser
-    set -x LIBGL_ALWAYS_INDIRECT 1
-end
+# if set -q SSH_CLIENT
+#     set -x BROWSER open-remote-browser
+#     set -x LIBGL_ALWAYS_INDIRECT 1
+# end
 
 # set -g theme_display_k8s_context yes
 # set -g theme_display_user ssh
@@ -179,5 +181,11 @@ end
 #
 if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
   fenv source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+end
+if test -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+end
+if test -d "~/.emacs.d/bin"
+    set PATH $PATH "~/.emacs.d/bin"
 end
 
