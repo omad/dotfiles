@@ -9,7 +9,7 @@ font:
     #        family: Inconsolata Nerd Font
     #        family: JetBrains Mono
     #        family: monospace
-    size: 12.0
+    size: 11.0
 
 key_bindings:
     - { key: N,     mods: Control|Shift, action: SpawnNewInstance }
