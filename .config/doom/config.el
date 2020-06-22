@@ -11,6 +11,7 @@
  doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
  doom-scratch-initial-major-mode 'lisp-interaction-mode
  org-directory "~/org/"
+ org-agenda-files nil
  org-super-agenda-groups '((:name "Today"
                              :time-grid t
                              :scheduled today)
@@ -24,24 +25,23 @@
                                    :deadline future)
                            (:name "Big Outcomes"
                             :tag "bo"))
- projectile-project-search-path '("~/dev/"))
+ projectile-project-search-path '("~/dev/")
+ auto-save-visited-mode t
+ calendar-date-style 'european
+ org-log-done 'time
+ org-log-into-drawer t
+ doom-theme 'doom-one-light
+ ivy-read-action-function #'ivy-hydra-read-action)
 
 ;; moved from custom set variables
-(setq
- auto-save-visited-mode t
- calendar-date-style (quote european)
- ;; org-journal-date-format "%A, %d/%m/%Y"
- ;; org-journal-enable-agenda-integration t
- ;; org-journal-file-format "%Y%m%d.org"
- ;; org-journal-file-type (quote daily)
- org-log-done (quote time)
- org-log-into-drawer t)
-;; (use-package org-journal
-;;       :custom
-;;       (org-journal-dir "~/org/journal/")
-;;       (org-journal-date-prefix "#+TITLE: ")
-;;       (org-journal-file-format "%Y-%m-%d.org")
-;;       (org-journal-date-format "%A, %d %B %Y"))
+(use-package org-journal
+      :custom
+      (org-journal-enable-agenda-integration t)
+      (org-journal-file-type 'daily)
+      (org-journal-dir "~/org/journal/")
+      (org-journal-date-prefix "#+TITLE: ")
+      (org-journal-file-format "%Y-%m-%d.org")
+      (org-journal-date-format "%A, %d %B %Y"))
 
 (after! python
   (setq conda-anaconda-home (expand-file-name "~/miniconda3")))
@@ -57,7 +57,7 @@
 ;; (load-theme 'doom-city-lights t)
 ;; (load-theme 'doom-one-light t)
 
-(setq doom-theme 'doom-one-light)
+
 
 ;; Use MS Python Language Server by default
 (after! lsp-python-ms
@@ -77,24 +77,24 @@
 ;; With some creative use of X401 and xrandr, this finally works in Windows
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
-(map! ;; Easier window movement
-      :n "C-h" #'evil-window-left
-      :n "C-j" #'evil-window-down
-      :n "C-k" #'evil-window-up
-      :n "C-l" #'evil-window-right
+;; (map! ;; Easier window movement
+;;       :n "C-h" #'evil-window-left
+;;       :n "C-j" #'evil-window-down
+;;       :n "C-k" #'evil-window-up
+;;       :n "C-l" #'evil-window-right
 
-      (:map vterm-mode-map
-        ;; Easier window movement
-        :i "C-h" #'evil-window-left
-        :i "C-j" #'evil-window-down
-        :i "C-k" #'evil-window-up
-        :i "C-l" #'evil-window-right)
+;;       (:map vterm-mode-map
+;;         ;; Easier window movement
+;;         :i "C-h" #'evil-window-left
+;;         :i "C-j" #'evil-window-down
+;;         :i "C-k" #'evil-window-up
+;;         :i "C-l" #'evil-window-right)
 
-      (:map evil-treemacs-state-map
-        "C-h" #'evil-window-left
-        "C-l" #'evil-window-right
-        "M-j" #'multi-next-line
-        "M-k" #'multi-previous-line))
+;;       (:map evil-treemacs-state-map
+;;         "C-h" #'evil-window-left
+;;         "C-l" #'evil-window-right
+;;         "M-j" #'multi-next-line
+;;         "M-k" #'multi-previous-line))
 
 ;; With this config, use (magit-status "/yadm::"). If you find issue with Emacs 27 ;
 ;; and zsh, trying running (setenv "SHELL" "/bin/bash").
@@ -111,8 +111,9 @@
 
 
 
-(add-hook 'markdown-mode-hook 'auto-fill-mode)
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook! 'markdown-mode-hook
+           'auto-fill-mode
+           'flyspell-mode)
 
 
 (defun formatted-copy ()
@@ -136,14 +137,12 @@
 
  org-hide-emphasis-markers t
  org-pretty-entities t
- org-agenda-files '("~/org")
  org-refile-targets '((nil . (:maxlevel . 5))
                       (org-agenda-files . (:maxlevel . 5)))
  org-refile-allow-creating-parent-nodes 'confirm
  org-src-preserve-indentation t
- org-blank-before-new-entry (quote ((heading) (plain-list-item)))
- org-capture-templates (quote
-                        (("t" "Todo" entry
+ org-blank-before-new-entry '((heading) (plain-list-item))
+ org-capture-templates '(("t" "Todo" entry
                           (file "~/org/refile.org")
                           "* TODO %?"
                           ":LOGBOOK:"
@@ -159,7 +158,7 @@
                          ("w" "Work Todo" entry
                           (file "~/org/refile.org")
                           "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n%a\n%i"
-                          :prepend t :clock-in t :clock-resume t))))
+                          :prepend t :clock-in t :clock-resume t)))
 
 
 
@@ -182,8 +181,8 @@
 (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 
 (after! org
-  (require 'org-sync)
-  (require 'org-sync-github)
+  ;; (require 'org-sync)
+  ;; (require 'org-sync-github)
   (add-hook! 'org-mode-hook 'auto-fill-mode
                              'eldoc-mode
                              'hide-mode-line-mode
