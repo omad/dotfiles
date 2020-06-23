@@ -14,9 +14,11 @@
   # changes in each release.
   home.stateVersion = "20.03";
 
+  services.lorri.enable = true;
 
   home.packages = with pkgs; [
     htop
+    direnv
     alacritty
     aws-vault
     bat
@@ -27,5 +29,7 @@
     python-language-server
     ytop
     scc
+    terminator
+    kube3d
   ];
 }
