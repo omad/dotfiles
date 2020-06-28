@@ -19,7 +19,6 @@
   home.packages = with pkgs; [
     htop
     direnv
-    alacritty
     aws-vault
     bat
     fluxctl
@@ -29,7 +28,6 @@
     python-language-server
     ytop
     scc
-    terminator
     kube3d
   ];
 }

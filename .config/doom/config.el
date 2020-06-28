@@ -41,6 +41,7 @@
       (org-journal-dir "~/org/journal/")
       (org-journal-date-prefix "#+TITLE: ")
       (org-journal-file-format "%Y-%m-%d.org")
+      (org-journal-time-prefix "* ")
       (org-journal-date-format "%A, %d %B %Y"))
 
 (after! python

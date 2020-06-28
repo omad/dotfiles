@@ -9,8 +9,11 @@ font:
     #        family: Inconsolata Nerd Font
     #        family: JetBrains Mono
     #        family: monospace
-    size: 11.0
+    size: 10.0
 
+selection:
+    save_to_clipboard: true
 key_bindings:
     - { key: N,     mods: Control|Shift, action: SpawnNewInstance }
 
+    - { key: Insert,   mods: Shift,         action: PasteSelection   }
