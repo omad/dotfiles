@@ -33,6 +33,12 @@
  doom-theme 'doom-one-light
  ivy-read-action-function #'ivy-hydra-read-action)
 
+;; (setq display-line-numbers-type nil)
+;; or
+;; (remove-hook! '(prog-mode-hook text-mode-hook conf-mode-hook))
+(remove-hook! '(text-mode-hook)
+              #'display-line-numbers-mode)
+
 ;; moved from custom set variables
 (use-package org-journal
       :custom
@@ -107,6 +113,7 @@
       (tramp-login-env (("SHELL") ("/bin/sh")))
       (tramp-remote-shell "/bin/sh")
       (tramp-remote-shell-args ("-c")))))
+(map! :leader "g." (cmd! (magit-status "/yadm::")))
 
 (set-popup-rule! "^\\*eww\\*" :ignore t)
 
@@ -238,6 +245,8 @@
   (deft-directory "~/org/")
   (deft-extensions '("txt" "org" "md"))
   (deft-recursive t)
+
+  (deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\)$\\|\\..*")
   (deft-use-filename-as-title nil)
   (deft-use-filter-string-for-filename t))
 
