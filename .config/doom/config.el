@@ -248,7 +248,6 @@
   (deft-directory "~/org/")
   (deft-extensions '("txt" "org" "md"))
   (deft-recursive t)
-
   (deft-recursive-ignore-dir-regexp "\\(?:\\.\\|\\.\\.\\)$\\|\\..*")
   (deft-use-filename-as-title nil)
   (deft-use-filter-string-for-filename t))
