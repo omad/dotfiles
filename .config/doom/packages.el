@@ -9,14 +9,15 @@
 
 (package! org-sync)
 
+;; (package! tao-theme)
+;;
 ;; https://gitlab.com/jabranham/mixed-pitch
 ;; (package! mixed-pitch)
-(package! tao-theme)
 
-(package! org-super-agenda)
-(package! org-variable-pitch)
+;; (package! org-super-agenda)
+;; (package! org-variable-pitch)
 ;; (package! org-pretty-table)
-(package! org-bullets)
+;; (package! org-bullets)
 (package! org-cliplink)
 ;;   :hook
 ;;   ;; If you want it in all text modes:

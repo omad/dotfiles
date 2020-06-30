@@ -12,20 +12,20 @@
  doom-scratch-initial-major-mode 'lisp-interaction-mode
  org-directory "~/org/"
  org-agenda-files nil
- org-super-agenda-groups '((:name "Today"
-                             :time-grid t
-                             :scheduled today)
-                           (:name "Due today"
-                                   :deadline today)
-                           (:name "Important"
-                                   :priority "A")
-                           (:name "Overdue"
-                                   :deadline past)
-                           (:name "Due soon"
-                                   :deadline future)
-                           (:name "Big Outcomes"
-                            :tag "bo"))
- projectile-project-search-path '("~/dev/")
+ ;; org-super-agenda-groups '((:name "Today"
+ ;;                             :time-grid t
+ ;;                             :scheduled today)
+ ;;                           (:name "Due today"
+ ;;                                   :deadline today)
+ ;;                           (:name "Important"
+ ;;                                   :priority "A")
+ ;;                           (:name "Overdue"
+ ;;                                   :deadline past)
+ ;;                           (:name "Due soon"
+ ;;                                   :deadline future)
+ ;;                           (:name "Big Outcomes"
+ ;;                            :tag "bo"))
+ ;; projectile-project-search-path '("~/dev/")
  auto-save-visited-mode t
  calendar-date-style 'european
  org-log-done 'time
@@ -115,6 +115,9 @@
       (tramp-remote-shell-args ("-c")))))
 (map! :leader "g." (cmd! (magit-status "/yadm::")))
 
+(map! :leader "nj." (cmd! (org-journal-open-current-journal-file)))
+
+
 (set-popup-rule! "^\\*eww\\*" :ignore t)
 
 
@@ -172,15 +175,15 @@
 
 ;; Task lists
 
-(defun +org-prettify-task-symbols-setup ()
-  "Prettify task list symbols."
-  (dolist (symbol '(("TODO"     . ?⚑)
-                    ("DOING"    . ?⚐)
-                    ("CANCELED" . ?✘)
-                    ("DONE"     . ?✔)))
-    (cl-pushnew symbol prettify-symbols-alist :test 'equal)))
+;; (defun +org-prettify-task-symbols-setup ()
+;;   "Prettify task list symbols."
+;;   (dolist (symbol '(("TODO"     . ?⚑)
+;;                     ("DOING"    . ?⚐)
+;;                     ("CANCELED" . ?✘)
+;;                     ("DONE"     . ?✔)))
+;;     (cl-pushnew symbol prettify-symbols-alist :test 'equal)))
 
-(load! "org-pretty-table")
+;; (load! "org-pretty-table")
 
 (defun +org-eldoc-get-breadcrumb-no-properties (string)
   "Remove properties from STRING."
@@ -194,10 +197,10 @@
   (add-hook! 'org-mode-hook 'auto-fill-mode
                              'eldoc-mode
                              'hide-mode-line-mode
-                             'flyspell-mode
-                             'org-variable-pitch-minor-mode
-                             'org-pretty-table-mode
-                             '+org-prettify-task-symbols-setup))
+                             'flyspell-mode))
+                             ;; 'org-variable-pitch-minor-mode
+                             ;; 'org-pretty-table-mode
+                             ;; '+org-prettify-task-symbols-setup))
 
 
 (defun subtree-to-new-file ()
