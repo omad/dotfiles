@@ -38,7 +38,7 @@ hs.hotkey.bind({"cmd", "shift"}, "Space", function ()
     hs.eventtap.keyStroke({}, "escape")
     local url = hs.pasteboard.readString()
     hs.notify.new({title="Page URL", informativeText=url}):send()
-    hs.pasteboard.setContents("[" .. title .. "](" .. url .. ")")
+    hs.pasteboard.setContents("[[" .. url .. "][" .. title .. "]]")
 end)
 
 -- Toggle a window between its normal size, and being maximized
