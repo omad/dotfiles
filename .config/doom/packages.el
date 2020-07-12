@@ -8,6 +8,7 @@
 
 
 (package! org-sync)
+(package! ob-http)
 
 ;; (package! tao-theme)
 ;;
@@ -22,3 +23,7 @@
 ;;   :hook
 ;;   ;; If you want it in all text modes:
 ;;   (text-mode . mixed-pitch-mode))
+;;
+;;
+; This makes manual pages nicer to look at :) Variable pitch fontification + colouring
+(package! info-colors :pin "47ee73cc19...")

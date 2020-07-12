@@ -27,11 +27,34 @@
  ;;                            :tag "bo"))
  ;; projectile-project-search-path '("~/dev/")
  auto-save-visited-mode t
- calendar-date-style 'european
+ auto-save-default t ; Turn on Automatic Saves
+ calendar-date-style 'european ; American date format is the worst
  org-log-done 'time
  org-log-into-drawer t
- doom-theme 'doom-one-light
+ ;; doom-theme 'doom-one-light             ;
  ivy-read-action-function #'ivy-hydra-read-action)
+
+(setq doom-theme 'doom-vibrant)
+
+(setq doom-theme 'zaiste)
+
+;; Under xpra, M-SPC doesn't get sent :(
+;; But seemingly neither does Win-SPC
+;;(keyboard-translate ?\M-SPC C-g)
+
+(after! org
+  (setq
+   org-bullets-bullet-list '("⁖")
+   org-ellipsis " ... "
+   org-todo-keyword-faces
+   '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
+     ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
+     ("INPROGRESS" :foreground "#0098dd" :weight normal :underline t)
+     ("DONE" :foreground "#50a14f" :weight normal :underline t)
+     ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))
+   org-priority-faces '((65 :foreground "#e45649")
+                        (66 :foreground "#da8548")
+                        (67 :foreground "#0098dd"))))
 
 ;; (setq display-line-numbers-type nil)
 ;; or
@@ -40,7 +63,7 @@
               #'display-line-numbers-mode)
 
 ;; moved from custom set variables
-(use-package org-journal
+(use-package! org-journal
       :custom
       (org-journal-enable-agenda-integration t)
       (org-journal-file-type 'daily)
@@ -140,6 +163,8 @@
          "textutil -stdin -format html -convert rtf -stdout | pbcopy"))
       (kill-buffer buf))))
 
+(use-package! magit
+  :config)
 
 (setq!
  org-roam-directory "~/org"
@@ -148,9 +173,6 @@
 
  org-hide-emphasis-markers t
  org-pretty-entities t
- org-refile-targets '((nil . (:maxlevel . 5))
-                      (org-agenda-files . (:maxlevel . 5)))
- org-refile-allow-creating-parent-nodes 'confirm
  org-src-preserve-indentation t
  org-blank-before-new-entry '((heading) (plain-list-item))
  org-capture-templates '(("t" "Todo" entry
@@ -170,8 +192,29 @@
                           (file "~/org/refile.org")
                           "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n%a\n%i"
                           :prepend t :clock-in t :clock-resume t)))
+(setq
+ org-refile-use-outline-path 'file
+ org-refile-targets '()
+ org-outline-path-complete-in-steps nil
+ org-refile-allow-creating-parent-nodes 'confirm
+ org-refile-targets '(
+                      (nil . (:maxlevel . 5))
+                      (org-agenda-files . (:maxlevel . 5))
+                      ("next.org" :level . 0)
+                      ("someday.org" :level . 0)
+                      ("reading.org" :level . 1)
+                      ("projects.org" :maxlevel . 1)))
 
-
+(after! org
+  ;; (require 'org-sync)
+  ;; (require 'org-sync-github)
+  (add-hook! 'org-mode-hook 'auto-fill-mode
+                             'eldoc-mode
+                             'hide-mode-line-mode
+                             'flyspell-mode))
+                             ;; 'org-variable-pitch-minor-mode
+                             ;; 'org-pretty-table-mode
+                             ;; '+org-prettify-task-symbols-setup))
 
 ;; Task lists
 
@@ -191,16 +234,6 @@
     (substring-no-properties string)))
 (advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 
-(after! org
-  ;; (require 'org-sync)
-  ;; (require 'org-sync-github)
-  (add-hook! 'org-mode-hook 'auto-fill-mode
-                             'eldoc-mode
-                             'hide-mode-line-mode
-                             'flyspell-mode))
-                             ;; 'org-variable-pitch-minor-mode
-                             ;; 'org-pretty-table-mode
-                             ;; '+org-prettify-task-symbols-setup))
 
 
 (defun subtree-to-new-file ()
@@ -257,3 +290,15 @@
 
 (provide 'config)
 ;;; config.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (lsp-python-ms))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
