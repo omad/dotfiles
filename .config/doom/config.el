@@ -25,7 +25,7 @@
  ;;                                   :deadline future)
  ;;                           (:name "Big Outcomes"
  ;;                            :tag "bo"))
- ;; projectile-project-search-path '("~/dev/")
+ projectile-project-search-path '("~/dev/")
  auto-save-visited-mode t
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
