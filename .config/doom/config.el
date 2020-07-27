@@ -168,6 +168,7 @@
 
 (setq!
  org-roam-directory "~/org"
+ org-roam-buffer-width 0.2
  magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))
 
 
