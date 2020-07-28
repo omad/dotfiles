@@ -74,7 +74,8 @@
       (org-journal-date-format "%A, %d %B %Y"))
 
 (after! python
-  (setq conda-anaconda-home (expand-file-name "~/miniconda3")))
+  (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/miniconda3")))
 
 (setq! auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
 

@@ -18,7 +18,8 @@
         +tng)
        (ivy               ; a search engine for love and life
         +fuzzy
-        +icons)
+        +icons
+        +prescient)
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;; +childframe)
