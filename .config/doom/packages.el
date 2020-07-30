@@ -10,6 +10,7 @@
 (package! org-sync)
 (package! ob-http)
 
+(package! olivetti)
 ;; (package! tao-theme)
 ;;
 ;; https://gitlab.com/jabranham/mixed-pitch
