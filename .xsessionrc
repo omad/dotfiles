@@ -1,0 +1,10 @@
+
+# Maybe this is run with sh not bash, and sh doesn't have `source`?
+. $HOME/.profile
+
+# Holy wtf, this is run with fish (or your login shell)
+# But presumably fish doesn't *know* that it's a login shell, or this would already be sourced...
+# And also, when env variables were set in my fish shell, they weren't propagating
+#
+# Also, whatever this *does* run, is expected to *be* your xsession, it isn't
+# just called as one of the steps.

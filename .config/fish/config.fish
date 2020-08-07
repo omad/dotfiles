@@ -2,6 +2,9 @@
 # Turn off welcome message
 set fish_greeting
 
+if status --is-login
+    fenv source $HOME/.profile
+end
 
 if type -q conda
    # >>> conda initialize >>>
@@ -23,15 +26,7 @@ end
 
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
-set -gx GOPATH ~/go
 
-if test -d $HOME/.cargo/bin
-    set PATH $PATH $HOME/.cargo/bin
-end
-
-if test -d $HOME/.emacs.d/bin
-    set PATH $PATH $HOME/.emacs.d/bin
-end
 
 if type -q nvim
     alias vim nvim
@@ -61,17 +56,8 @@ if type -q ssh-pageant
 end
 
 # pyenv
-if test -d $HOME/.pyenv
-	set -x PYENV_ROOT $HOME/.pyenv
-	set -x PATH $PYENV_ROOT/bin $PATH
+if type -q pyenv
 	source (pyenv init -|psub) > /dev/null 2>&1
-    # Or should this be 'pyenv init - | source'
-end
-
-# Go
-if test -d $HOME/go
-	set GOPATH $HOME/go
-	set PATH $PATH $GOPATH/bin
 end
 
 # fzf
@@ -99,11 +85,6 @@ if type -q direnv
     # direnv hook fish | source
     eval (direnv hook fish)
 end
-
-# Created by `userpath` on 2020-01-06 04:41:38
-set PATH $PATH ~/.local/bin
-set PATH $PATH ~/go/bin
-set PATH $PATH ~/bin
 
 # register-python-argcomplete --shell fish pipx | .
 
@@ -169,16 +150,6 @@ if string match -q -r 'rxvt.*' $TERM
     set -g theme_nerd_fonts yes
 end
 
-# if set -q SSH_CLIENT
-#     set -x BROWSER open-remote-browser
-#     set -x LIBGL_ALWAYS_INDIRECT 1
-# end
-
-# set -g theme_display_k8s_context yes
-# set -g theme_display_user ssh
-# set -g theme_display_hostname ssh
-#
-#
 if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
   fenv source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 end
