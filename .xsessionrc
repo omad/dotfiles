@@ -8,3 +8,5 @@
 #
 # Also, whatever this *does* run, is expected to *be* your xsession, it isn't
 # just called as one of the steps.
+
+setxkbmap -option caps:ctrl_modifier
