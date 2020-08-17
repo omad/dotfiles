@@ -23,8 +23,8 @@
   (interactive (list 'interactive))
   (cl-case command
     (interactive (company-begin-backend 'company-sphinx-backend))
-    (prefix (when (looking-back "\.\. .*"))
-            (match-string 0))
+    (prefix (when (looking-back "$\.\. .*"))
+            (company-grab-symbol))
     (candidates
      (cl-remove-if-not
       (lambda (c) (string-prefix-p arg c))
