@@ -18,6 +18,9 @@
     ; special tables
     "table" "csv-table" "list-table"))
 
+(type-of sphinx-rst-directives)
+(mapc (lambda (s) (concat s "::")) sphinx-rst-directives)
+
 (defun company-sphinx-backend (command &optional arg &rest ignored)
   "Try and write a company completion for sphinx"
   (interactive (list 'interactive))
@@ -28,9 +31,16 @@
     (candidates
      (cl-remove-if-not
       (lambda (c) (string-prefix-p arg c))
-      sphinx-rst-directives))
+      (mapcar (lambda (s) (concat s "::")) sphinx-rst-directives)))
+      
 ;    (candidates (when (equal arg ".. ")
 ;                  (list "foobar" "foobaz" "foobarbaz")))
     (meta (format "This value is named %s" arg))))
 
-..
+(company-sphinx-backend t)
+
+(add-to-list 'company-backends 'company-sphinx-backend)
+
+.. image-animate-loop
+
+.. image::

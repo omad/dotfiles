@@ -45,4 +45,4 @@ windows:
       # synchronize: after
       panes:
         - make livehtml
-        - browser-sync _build/html/
+        - browser-sync _build/html/ -w
