@@ -41,6 +41,7 @@
 
 (add-to-list 'company-backends 'company-sphinx-backend)
 
+
 .. image-animate-loop
 
 .. image::

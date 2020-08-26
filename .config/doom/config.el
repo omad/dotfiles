@@ -30,13 +30,13 @@
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
  org-log-done 'time
- org-log-into-drawer t
+ org-log-into-drawer t)
  ;; doom-theme 'doom-one-light             ;
- ivy-read-action-function #'ivy-hydra-read-action)
+ ;; ivy-read-action-function #'ivy-hydra-read-action)
 
 (setq doom-theme 'doom-vibrant)
 
-(setq doom-theme 'zaiste)
+;; (setq doom-theme 'zaiste)
 
 ;; Under xpra, M-SPC doesn't get sent :(
 ;; But seemingly neither does Win-SPC
@@ -81,12 +81,9 @@
 
 (when IS-LINUX
   (font-put doom-font :weight 'semi-light))
+
 (when IS-MAC
   (setq ns-use-thin-smoothing t))
-
-;; Doom Settings
-;; (load-theme 'doom-city-lights t)
-;; (load-theme 'doom-one-light t)
 
 
 
@@ -144,8 +141,6 @@
 
 (set-popup-rule! "^\\*eww\\*" :ignore t)
 
-
-
 (add-hook! 'markdown-mode-hook
            'auto-fill-mode
            'flyspell-mode)
@@ -163,9 +158,6 @@
          (point-max)
          "textutil -stdin -format html -convert rtf -stdout | pbcopy"))
       (kill-buffer buf))))
-
-(use-package! magit
-  :config)
 
 (setq!
  org-roam-directory "~/org"
@@ -193,8 +185,8 @@
                          ("w" "Work Todo" entry
                           (file "~/org/refile.org")
                           "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n%a\n%i"
-                          :prepend t :clock-in t :clock-resume t)))
-(setq
+                          :prepend t :clock-in t :clock-resume t))
+
  org-refile-use-outline-path 'file
  org-refile-targets '()
  org-outline-path-complete-in-steps nil
@@ -208,27 +200,12 @@
                       ("projects.org" :maxlevel . 1)))
 
 (after! org
-  ;; (require 'org-sync)
-  ;; (require 'org-sync-github)
-  (add-hook! 'org-mode-hook 'auto-fill-mode
-                             'eldoc-mode
-                             'hide-mode-line-mode
-                             'flyspell-mode))
-                             ;; 'org-variable-pitch-minor-mode
-                             ;; 'org-pretty-table-mode
-                             ;; '+org-prettify-task-symbols-setup))
+  (add-hook! 'org-mode-hook
+             'auto-fill-mode
+             'eldoc-mode
+             'hide-mode-line-mode
+             'flyspell-mode))
 
-;; Task lists
-
-;; (defun +org-prettify-task-symbols-setup ()
-;;   "Prettify task list symbols."
-;;   (dolist (symbol '(("TODO"     . ?⚑)
-;;                     ("DOING"    . ?⚐)
-;;                     ("CANCELED" . ?✘)
-;;                     ("DONE"     . ?✔)))
-;;     (cl-pushnew symbol prettify-symbols-alist :test 'equal)))
-
-;; (load! "org-pretty-table")
 
 (defun +org-eldoc-get-breadcrumb-no-properties (string)
   "Remove properties from STRING."
@@ -238,24 +215,24 @@
 
 
 
-(defun subtree-to-new-file ()
+(defun dra/subtree-to-new-file ()
   (interactive)
   "sloppily assists in moving an org subtree to a new file"
   (org-copy-subtree nil t)
   ;;; This long setq statement gets the title of the first heading, to use as a default filename for the new .org file.
   (setq first-heading
-    (with-temp-buffer
-      (yank)
-      (goto-char (point-min))
-      (search-forward " " nil nil 1)
-      (setq title-start (point))
-      (end-of-visual-line)
-      (setq title-end (point))
-      (setq first-heading (buffer-substring title-start title-end))))
+        (with-temp-buffer
+          (yank)
+          (goto-char (point-min))
+          (search-forward " " nil nil 1)
+          (setq title-start (point))
+          (end-of-visual-line)
+          (setq title-end (point))
+          (setq first-heading (buffer-substring title-start title-end))))
   (setq def-filename (concat first-heading ".org"))
   (let ((insert-default-directory t))
     (find-file-other-window
-      (read-file-name "Move subtree to file:" def-filename)))
+     (read-file-name "Move subtree to file:" def-filename)))
   (org-paste-subtree)
   ;;; this final command adds the new .org file to the agenda
   (org-agenda-file-to-front))
