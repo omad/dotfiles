@@ -81,6 +81,9 @@
        spell          ; tasing you for misspelling mispelling
        grammar
 
+       :os
+       macos             ; MacOS-specific commands
+
        :tools
        ;;ansible
        ;;debugger          ; FIXME stepping through code, to help you add bugs
@@ -93,7 +96,6 @@
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
        lsp
-       macos             ; MacOS-specific commands
        (magit             ; a git porcelain for Emacs
         +forge)
 
