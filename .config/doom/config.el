@@ -160,11 +160,9 @@
       (kill-buffer buf))))
 
 (setq!
+ magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))
  org-roam-directory "~/org"
  org-roam-buffer-width 0.2
- magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))
-
-
  org-hide-emphasis-markers t
  org-pretty-entities t
  org-src-preserve-indentation t
@@ -211,8 +209,8 @@
   "Remove properties from STRING."
   (when string
     (substring-no-properties string)))
-(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 
+(advice-add 'org-eldoc-get-breadcrumb :filter-return #'+org-eldoc-get-breadcrumb-no-properties)
 
 
 (defun dra/subtree-to-new-file ()
