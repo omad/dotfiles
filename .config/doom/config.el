@@ -240,6 +240,84 @@
 
 
 
+;; While we’re modifying the modeline, LF UTF-8 is the default file encoding,
+;; and thus not worth noting in the modeline. So, let’s conditionally hide it.
+
+(defun doom-modeline-conditional-buffer-encoding ()
+  "We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case"
+  (setq-local doom-modeline-buffer-encoding
+              (unless (or (eq buffer-file-coding-system 'utf-8-unix)
+                          (eq buffer-file-coding-system 'utf-8)))))
+
+(add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
+
+;; Info Colours
+;;
+(use-package! info-colors
+  :commands (info-colors-fontify-node))
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+(add-hook 'Info-mode-hook #'mixed-pitch-mode)
+
+(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+;; Turn off hard line wraps in markdown and GFM
+(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
+
+;; Org Chef(use-package! org-chef
+;;
+
+(use-package! org-chef
+  :commands (org-chef-insert-recipe org-chef-get-recipe-from-url))
+
+;; While in an ivy mini-buffer C-o shows a list of all possible actions one may
+;; take. By default this is #'ivy-read-action-by-key however a better interface
+;; to this is using Hydra.
+
+(setq ivy-read-action-function #'ivy-hydra-read-action)
+
+;; Which key
+(setq which-key-idle-delay 0.5) ;; I need the help, I really do
+
+;; I also think that having evil- appear in so many popups is a bit too verbose, let’s change that, and do a few other similar tweaks while we’re at it.
+
+(setq which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))))
+
+
+(custom-set-faces!
+  '(outline-1 :weight extra-bold :height 1.25)
+  '(outline-2 :weight bold :height 1.15)
+  '(outline-3 :weight bold :height 1.12)
+  '(outline-4 :weight semi-bold :height 1.09)
+  '(outline-5 :weight semi-bold :height 1.06)
+  '(outline-6 :weight semi-bold :height 1.03)
+  '(outline-8 :weight semi-bold)
+  '(outline-9 :weight semi-bold))
+
+(after! org
+  (custom-set-faces!
+    '(org-document-title :height 1.4)))
+(after! org
+  (setq org-ellipsis " ▾ "
+        org-priority-highest ?A
+        org-priority-lowest ?E
+        org-priority-faces
+        '((?A . 'all-the-icons-red)
+          (?B . 'all-the-icons-orange)
+          (?C . 'all-the-icons-yellow)
+          (?D . 'all-the-icons-green)
+          (?E . 'all-the-icons-blue))))
+
+
+
+
+
+
 
 (provide 'config)
 ;;; config.el ends here

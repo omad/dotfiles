@@ -46,7 +46,7 @@
        (window-select     ; visually switch windows
         +numbers)
        workspaces        ; tab emulation, persistence & separate workspaces
-       zen
+       ;;zen
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
