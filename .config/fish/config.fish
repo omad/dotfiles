@@ -2,7 +2,7 @@
 # Turn off welcome message
 set fish_greeting
 
-if status --is-login
+if status --is-login; and type -q fenv
     fenv source $HOME/.profile
 end
 
@@ -150,10 +150,10 @@ if string match -q -r 'rxvt.*' $TERM
     set -g theme_nerd_fonts yes
 end
 
-if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"
+if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"; and type -q fenv
   fenv source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 end
-if test -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+if test -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"; and type -q fenv
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 end
 if test -d "~/.emacs.d/bin"

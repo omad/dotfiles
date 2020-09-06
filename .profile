@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+date >> "$HOME/.profile_log"
+echo SHELL=$SHELL >> "$HOME/.profile_log"
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -92,13 +95,13 @@ export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 test -f ~/.pythonrc.py && export PYTHONSTARTUP=~/.pythonrc.py
 
-if type module &> /dev/null; then
+if type module 2&> /dev/null; then
     module use /g/data/v10/public/modules/modulefiles
     module use /g/data/v10/private/modules/modulefiles
 fi
 
 # TODO Fix, don't want to execute recursively by accident
-if [[ $(hostname) =~ ^gadi-login.* ]]; then
+if [ $(hostname) =~ ^gadi-login.* ]; then
     exec ~/bin/fish
 fi
 
