@@ -238,7 +238,13 @@
   (deft-use-filename-as-title nil)
   (deft-use-filter-string-for-filename t))
 
+;; I don't know why, but backtick (`) isn't included for usage with evil-surround or evil-embrace
+;; I would use it a lot, so add it in and hope it doesn't break anything.
+;; Blergh, it doesn't match properly, wtf
+;;(add-to-list 'evil-embrace-evil-surround-keys ?\`)
 
+(fset 'dra/convert-markdown-to-org-link
+      (kmacro-lambda-form [?f ?\[ ?d ?f ?\] ?% ?p ?% ?h ?c ?\C-g ?\C-g ?l ?c ?s ?\) ?\] ?v ?2 ?f ?\] ?S ?\]] 0 "%d"))
 
 ;; While we’re modifying the modeline, LF UTF-8 is the default file encoding,
 ;; and thus not worth noting in the modeline. So, let’s conditionally hide it.
@@ -256,9 +262,9 @@
 (use-package! info-colors
   :commands (info-colors-fontify-node))
 
-(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+(add-hook! 'Info-selection-hook 'info-colors-fontify-node)
 
-(add-hook 'Info-mode-hook #'mixed-pitch-mode)
+(add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
 (add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
 ;; Turn off hard line wraps in markdown and GFM

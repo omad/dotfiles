@@ -14,7 +14,7 @@
 ;; (package! tao-theme)
 ;;
 ;; https://gitlab.com/jabranham/mixed-pitch
-;; (package! mixed-pitch)
+(package! mixed-pitch)
 
 ;; (package! org-super-agenda)
 ;; (package! org-variable-pitch)
