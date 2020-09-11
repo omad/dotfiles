@@ -150,15 +150,15 @@
        (org              ; organize your plain life in plain text
         +attach          ; custom attachment system
         +babel           ; running code in org
-        +capture         ; org-capture in and outside of Emacs
+;        +capture         ; org-capture in and outside of Emacs
         +journal
         +export          ; Exporting org to whatever you want
                                         ;habit           ; Keep track of your habits
-        +present         ; Emacs for presentations
+;        +present         ; Emacs for presentations
         +dragndrop
-        +pandoc
-        +protocol       ; Support for org-protocol:// links
-        +roam)
+        +pandoc)
+;        +protocol)       ; Support for org-protocol:// links
+;        +roam)          ;
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more

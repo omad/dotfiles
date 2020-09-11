@@ -228,7 +228,7 @@
   (org-paste-subtree))
 
 
-(use-package deft
+(use-package! deft
   :after org
   :custom
   (deft-directory "~/org/")
