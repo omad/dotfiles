@@ -101,7 +101,7 @@ if type module 2&> /dev/null; then
 fi
 
 # TODO Fix, don't want to execute recursively by accident
-if [ $(hostname) =~ ^gadi-login.* ]; then
+if [[ $HOSTNAME =~ ^gadi-login.* ]]; then
     exec ~/bin/fish
 fi
 
