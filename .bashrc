@@ -178,7 +178,10 @@ fi
 
 . ~/.bash/git-completion.bash
 complete -C aws_completer aws
-source <(kubectl completion bash)
+
+if command_exists kubectl; then
+    source <(kubectl completion bash)
+fi
 
 
 
