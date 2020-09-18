@@ -13,6 +13,10 @@ if type -q conda
    # <<< conda initialize <<<
 end
 
+if type -q gh
+    gh completion --shell fish | source
+end
+
 if test -f /c/w10dev/miniconda3/Scripts/conda.exe
     /c/w10dev/miniconda3/Scripts/conda shell.fish hook | source
 #    conda activate base

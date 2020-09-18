@@ -14,20 +14,26 @@
   # changes in each release.
   home.stateVersion = "20.03";
 
-  services.lorri.enable = true;
+#  services.lorri.enable = true;
 
   home.packages = with pkgs; [
+    spotify-tui # rust spotify client
+    tealdeer # rust tldr client
+    fd # fast find alternative
+    starship # minimal blazing fast prompt
+    gitAndTools.delta
     htop
     direnv
     aws-vault
     bat
     fluxctl
-    gitAndTools.hub
+#    gitAndTools.hub
     kubectl
     nixfmt
-    python-language-server
+#    python-language-server
     ytop
     scc
     kube3d
+    exa
   ];
 }
