@@ -54,7 +54,6 @@ endif
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/plugged')
 
-  Plug 'tomasr/molokai'
 "  Plug 'xolox/vim-misc'
 "  Plug 'xolox/vim-easytags'
 "  Plug 'ludovicchabant/vim-gutentags'
@@ -65,8 +64,13 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'dracula/vim'
   Plug 'dag/vim-fish'
+
+" Colorschemes
+  Plug 'mhartington/oceanic-next'
+  Plug 'morhetz/gruvbox'
+  Plug 'tomasr/molokai'
+  Plug 'dracula/vim'
 " On-demand loading
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 call plug#end()
@@ -133,7 +137,7 @@ endif
 set background=dark
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
-colorscheme darkblue
+colorscheme gruvbox
 
 
 " Automatically reload VIM config files when they change
