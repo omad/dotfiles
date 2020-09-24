@@ -2,6 +2,8 @@
 # Turn off welcome message
 set fish_greeting
 
+# Prefer setting up cross shell environment from ~/.profile
+# There's still plenty to move across
 if status --is-login; and type -q fenv
     fenv source $HOME/.profile
 end
@@ -19,10 +21,12 @@ end
 
 if test -f /c/w10dev/miniconda3/Scripts/conda.exe
     /c/w10dev/miniconda3/Scripts/conda shell.fish hook | source
-#    conda activate base
+end
+if test -f ~/miniconda3/etc/fish/conf.d/conda.fish
+    source ~/miniconda3/etc/fish/conf.d/conda.fish
 end
 
-
+# Setup `module` command on the NCI
 if test -f /opt/Modules/v4.3.0/init/fish
     source /opt/Modules/v4.3.0/init/fish
     source /opt/Modules/v4.3.0/init/fish_completion
@@ -31,6 +35,7 @@ end
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 
+set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
 
 if type -q nvim
     alias vim nvim
@@ -81,9 +86,6 @@ end
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 
-if test -f ~/miniconda3/etc/fish/conf.d/conda.fish
-    source ~/miniconda3/etc/fish/conf.d/conda.fish
-end
 
 if type -q direnv
     # direnv hook fish | source

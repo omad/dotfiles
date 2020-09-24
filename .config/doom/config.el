@@ -91,7 +91,7 @@
                  (tramp-remote-shell "/bin/sh")
                  (tramp-remote-shell-args ("-c")))))
 
-(map! :leader "g." (cmd! (magit-status "/yadm::")))
+(map! :leader :desc "yadm status" "g." (cmd! (magit-status "/yadm::")))
 
 (map! :leader "nj." (cmd! (org-journal-open-current-journal-file)))
 
