@@ -17,6 +17,7 @@
 #  services.lorri.enable = true;
 
   home.packages = with pkgs; [
+    awscli2
     spotify-tui # rust spotify client
     tealdeer # rust tldr client
     fd # fast find alternative
@@ -27,7 +28,7 @@
     aws-vault
     bat
     fluxctl
-#    gitAndTools.hub
+    gitAndTools.hub
     kubectl
     nixfmt
 #    python-language-server
@@ -35,5 +36,6 @@
     scc
     kube3d
     exa
+    k9s
   ];
 }
