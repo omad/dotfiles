@@ -319,3 +319,5 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 
 # added by travis gem
 [ -f /home/omad/.travis/travis.sh ] && source /home/omad/.travis/travis.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
