@@ -122,6 +122,14 @@
 (after! org-roam
   (setq!
    org-roam-directory "~/org"))
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  (org-narrow-to-subtree)
+  (goto-char (point-max)))
+
+(setq org-capture-templates '())
 (after! org
   (setq!
    org-log-done 'time
@@ -144,15 +152,22 @@
    org-pretty-entities t
    org-src-preserve-indentation t
    org-blank-before-new-entry '((heading) (plain-list-item))
-   org-capture-templates '(("t" "Todo" entry
-                            (file "~/org/refile.org")
-                            "* TODO %?"
-                            ":LOGBOOK:"
-                            "- Added: %U"
-                            ":END:")
-                           ("j" "Journal" entry
-                            (file+olp+datetree "~/org/journal.org")
-                            "* %?\n:LOGBOOK:\n- Entered on %U\n:END:\n%i")
+   org-capture-templates '(
+                           ;; ("t" "Todo" entry
+                           ;;  (file "~/org/refile.org")
+                           ;;  "* TODO %?"
+                           ;;  ":LOGBOOK:"
+                           ;;  "- Added: %U"
+                           ;;  ":END:")
+                           ("t" "Todo" entry (function org-journal-find-location)
+                            "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:"
+                            :empty-lines-before 1)
+                           ("j" "Journal entry" plain (function org-journal-find-location)
+                            "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+                            :jump-to-captured t :immediate-finish t)
+                           ;; ("j" "Journal" entry
+                           ;;  (file+olp+datetree "~/org/journal.org")
+                           ;;  "* %?\n:LOGBOOK:\n- Entered on %U\n:END:\n%i")
                            ("m" "Meeting" entry
                             (file "~/org/refile.org")
                             "* MEETING: %? \n:MEETING:\n%U\n%a"
