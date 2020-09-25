@@ -1,5 +1,5 @@
 function cat --description 'Magic cat + mdcat + bat'
-    set -l extrs md markdown txt
+    set -l exts md markdown txt
 
     if not isatty stdout
         command cat $argv
