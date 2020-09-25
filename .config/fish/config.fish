@@ -37,15 +37,6 @@ set -x EDITOR vim
 
 set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
 
-if type -q nvim
-    alias vim nvim
-end
-
-# The fd executable was renamed in Ubuntu
-if type -q fdfind
-    alias fd fdfind
-end
-
 # Colorize man
 set MANROFFOPT '-c'
 set LESS_TERMCAP_mb (tput bold; tput setaf 2)
@@ -85,6 +76,7 @@ end
 
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
+source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 
 
 if type -q direnv

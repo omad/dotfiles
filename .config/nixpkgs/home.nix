@@ -18,6 +18,8 @@
 
   home.packages = with pkgs; [
     awscli2
+    mdcat
+    prettyping
     spotify-tui # rust spotify client
     tealdeer # rust tldr client
     fd # fast find alternative

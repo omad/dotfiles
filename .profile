@@ -47,6 +47,10 @@ if [ -d "$HOME/.cargo/bin" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
+if [ -d "$HOME/.krew/bin" ]; then
+    export PATH="$HOME/.krew/bin:$PATH"
+fi
+
 
 
 #########################################

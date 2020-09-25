@@ -65,6 +65,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'pearofducks/ansible-vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'dag/vim-fish'
+  Plug 'LnL7/vim-nix'
 
 " Colorschemes
   Plug 'mhartington/oceanic-next'

@@ -1,6 +1,9 @@
 
 abbr --add g 'git'
 abbr --add y 'yadm'
+abbr --add hm home-manager
+
+abbr --add kc kubectl
 
 # Git shortcuts
 abbr --add ga 'git add'
