@@ -1,4 +1,5 @@
 
+abbr --add c cat
 abbr --add g 'git'
 abbr --add y 'yadm'
 abbr --add hm home-manager

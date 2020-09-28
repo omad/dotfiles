@@ -154,6 +154,9 @@ end
 if test -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"; and type -q fenv
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 end
+for f in $HOME/.nix-profile/share/fish/vendor_completions.d/*
+    source $f
+end
 if test -d "~/.emacs.d/bin"
     set PATH $PATH "~/.emacs.d/bin"
 end

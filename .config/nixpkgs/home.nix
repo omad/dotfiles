@@ -19,6 +19,7 @@
   home.packages = with pkgs; [
     awscli2
     mdcat
+    kubectx
     prettyping
     spotify-tui # rust spotify client
     tealdeer # rust tldr client
