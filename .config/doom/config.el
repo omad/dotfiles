@@ -187,7 +187,9 @@
                         ("next.org" :level . 0)
                         ("someday.org" :level . 0)
                         ("reading.org" :level . 1)
-                        ("projects.org" :maxlevel . 1))))
+                        ("projects.org" :maxlevel . 1))
+   company-backends '(company-capf)))
+
 
 (add-hook! org-mode
            'auto-fill-mode
