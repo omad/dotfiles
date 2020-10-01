@@ -1,10 +1,11 @@
 
 abbr --add c cat
-abbr --add g 'git'
-abbr --add y 'yadm'
+abbr --add g git
+abbr --add y yadm
 abbr --add hm home-manager
 
 abbr --add kc kubectl
+abbr --add dc docker-compose
 
 # Git shortcuts
 abbr --add ga 'git add'
