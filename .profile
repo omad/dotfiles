@@ -109,4 +109,4 @@ if [[ $HOSTNAME =~ ^gadi-login.* ]]; then
     exec ~/bin/fish
 fi
 
-if [ -e /home/omad/.nix-profile/etc/profile.d/nix.sh ]; then . /home/omad/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
