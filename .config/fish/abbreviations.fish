@@ -5,6 +5,17 @@ abbr --add y yadm
 abbr --add hm home-manager
 
 abbr --add kc kubectl
+abbr --add kx kubectx
+
+abbr --add kex kubectl exec -i -t
+abbr --add kgp kubectl get pod
+abbr --add kgs kubectl get secret
+abbr --add kgd kubectl get deployment
+abbr --add kl kubectl logs
+abbr --add klf kubectl logs -f
+abbr --add kaf kubectl apply -f
+
+
 abbr --add dc docker-compose
 
 # Git shortcuts

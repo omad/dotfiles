@@ -35,7 +35,7 @@ end
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 
-set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
+#set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
 
 # Colorize man
 set MANROFFOPT '-c'
@@ -132,6 +132,10 @@ if test -d /opt/TurboVNC/
 end
 
 # Theme and visuals
+# See https://github.com/oh-my-fish/theme-bobthefish#configuration
+set -g theme_display_k8s_context yes
+set -g theme_display_k8s_namespace yes
+
 set -g theme_date_timezone "Australia/Canberra"
 set -g theme_title_display_user yes
 set -g theme_color_scheme solarized-dark
