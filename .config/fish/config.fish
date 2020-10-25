@@ -35,6 +35,12 @@ end
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 
+if test -f ~/.asdf/asdf.fish
+    source ~/.asdf/asdf.fish
+end
+
+set -gx AWS_SESSION_TOKEN_TTL 4h
+
 #set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
 
 # Colorize man
@@ -84,7 +90,9 @@ if type -q direnv
     eval (direnv hook fish)
 end
 
-# register-python-argcomplete --shell fish pipx | .
+if type -q register-python-argcomplete; and type -q pipx
+    register-python-argcomplete --shell fish pipx | source
+end
 
 # Fix slow command autocompletion on OS X Catalina
 # See: https://github.com/fish-shell/fish-shell/issues/6270
@@ -164,4 +172,7 @@ end
 if test -d "~/.emacs.d/bin"
     set PATH $PATH "~/.emacs.d/bin"
 end
+
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
