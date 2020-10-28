@@ -35,7 +35,7 @@
     kubectl
     nixfmt
 #    python-language-server
-    ytop
+    bottom
     scc
     kube3d
     exa

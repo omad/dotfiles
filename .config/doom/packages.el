@@ -35,3 +35,6 @@
 
 (package! cython-mode)
 (package! flycheck-cython)
+
+
+(package! visual-fill-column)
