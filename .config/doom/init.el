@@ -20,8 +20,8 @@
 
        :completion
        (company           ; the ultimate code completion backend
-        ;; +childframe
-        +tng)
+        +childframe)
+        ;; +tng)
        (ivy               ; a search engine for love and life
         +fuzzy
         +icons
@@ -47,6 +47,7 @@
         +defaults)       ; default popup rules
        ;;pretty-code       ; ligatures or substitute text with pretty symbols
        treemacs          ; a project drawer, like neotree but cooler
+       tabs
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
@@ -71,8 +72,9 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-        ;;+ranger         ; bringing the goodness of ranger to dired
+        +ranger         ; bringing the goodness of ranger to dired
         +icons)          ; colorful icons for dired-mode
+       (ibuffer +icons)
 
        undo              ; persistent, smarter undo for your inevitable mistakes
        electric          ; smarter, keyword-based electric-indent
@@ -84,7 +86,7 @@
        vterm             ; another terminals in Emacs
 
        :checkers
-       syntax          ; tasing you for every semicolon you forget
+       (syntax +childframe)          ; tasing you for every semicolon you forget
        spell          ; tasing you for misspelling mispelling
        grammar
 
@@ -181,7 +183,7 @@
        ;; toward a specific purpose. They may have additional dependencies and
        ;; should be loaded late.
        :app
-       ;;calendar
+       calendar
        ;;irc              ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
