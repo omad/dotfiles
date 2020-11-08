@@ -38,3 +38,5 @@
 
 
 (package! visual-fill-column)
+
+(package! literate-calc-mode)

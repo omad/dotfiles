@@ -120,9 +120,9 @@
 (after! magit
   (setq!
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
-(after! org-roam
-  (setq!
-   org-roam-directory "~/org"))
+
+(setq org-roam-directory "~/org")
+
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
   ;; inhibit inserting the heading; org-capture will insert the heading.

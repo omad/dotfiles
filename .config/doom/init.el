@@ -118,10 +118,10 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :lang
-       cc                ; C/C++/Obj-C madness
+       ;; cc                ; C/C++/Obj-C madness
        data              ; config/data formats
        emacs-lisp        ; drown in parentheses
-       (go +lsp)                ; the hipster dialect
+       ;(go +lsp)                ; the hipster dialect
        ;;(haskell +intero) ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
@@ -132,7 +132,7 @@
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;ledger            ; an accounting system in Emacs
-       lua               ; one-based indices? one-based indices
+       ;;lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
@@ -141,6 +141,7 @@
         +attach          ; custom attachment system
         +babel           ; running code in org
 ;        +capture         ; org-capture in and outside of Emacs
+        +roam
         +journal
         +export          ; Exporting org to whatever you want
                                         ;habit           ; Keep track of your habits
@@ -153,7 +154,7 @@
 ;        +protocol)       ; Support for org-protocol:// links
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
-       plantuml          ; diagrams for confusing people more
+       ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        (python
         +lsp
