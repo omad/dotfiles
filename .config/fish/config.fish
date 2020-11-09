@@ -41,8 +41,6 @@ end
 
 set -gx AWS_SESSION_TOKEN_TTL 4h
 
-#set -gx --path KUBECONFIG /home/omad/.kube/config /home/omad/.kube/config.*.yaml
-
 # Colorize man
 set MANROFFOPT '-c'
 set LESS_TERMCAP_mb (tput bold; tput setaf 2)
@@ -116,17 +114,6 @@ if test -d /Applications/Postgres.app/Contents/Versions/latest/bin
 end
 
 
-# Ubuntu related from /etc/profile.d
-set --local snap_bin_path /snap/bin
-if test -d $snap_bin_path
-    set PATH $PATH $snap_bin_path
-end
-if set -q XDG_DATA_DIRS
-    set --path XDG_DATA_DIRS /usr/local/share /usr/share
-end
-set local snap_xdg_path /var/lib/snapd/desktop
-set XDG_DATA_DIRS $snap_xdg_path
-
 # Automatically bootstrap fisher
 if not functions -q fisher
     set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
@@ -169,10 +156,8 @@ end
 for f in $HOME/.nix-profile/share/fish/vendor_completions.d/*
     source $f
 end
-if test -d "~/.emacs.d/bin"
-    set PATH $PATH "~/.emacs.d/bin"
-end
 
+test -d "~/.emacs.d/bin"; and set PATH $PATH "~/.emacs.d/bin"
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
