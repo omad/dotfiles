@@ -47,7 +47,7 @@
         +defaults)       ; default popup rules
        ;;pretty-code       ; ligatures or substitute text with pretty symbols
        treemacs          ; a project drawer, like neotree but cooler
-       tabs
+       ;; tabs              ;
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
