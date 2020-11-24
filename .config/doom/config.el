@@ -15,6 +15,7 @@
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
  ispell-dictionary "en_AU"
+ ws-butler-keep-whitespace-before-point t
  )
 
 
@@ -301,7 +302,7 @@
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 
 ;; Which key
-(setq which-key-idle-delay 0.5) ;; I need the help, I really do
+(setq which-key-idle-delay 0.3) ;; I need the help, I really do
 
 ;; I also think that having evil- appear in so many popups is a bit too verbose, let’s change that, and do a few other similar tweaks while we’re at it.
 
@@ -325,8 +326,7 @@
 
 (after! org
   (custom-set-faces!
-    '(org-document-title :height 1.4)))
-(after! org
+    '(org-document-title :height 1.4))
   (setq org-ellipsis " ▾ "
         org-priority-highest ?A
         org-priority-lowest ?E
