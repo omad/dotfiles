@@ -121,7 +121,7 @@
        ;; cc                ; C/C++/Obj-C madness
        data              ; config/data formats
        emacs-lisp        ; drown in parentheses
-       ;(go +lsp)                ; the hipster dialect
+       (go +lsp)                ; the hipster dialect
        ;;(haskell +intero) ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
@@ -165,7 +165,7 @@
        rst
        ;;rest              ; Emacs as a REST client
        ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;; (rust +lsp)             ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp)             ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        sh                ; she sells {ba,z,fi}sh shells on the C xor
        ;;solidity          ; do you need a blockchain? No.
