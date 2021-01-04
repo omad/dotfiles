@@ -18,6 +18,9 @@
  ws-butler-keep-whitespace-before-point t
  )
 
+(use-package projectile-git-autofetch
+  :after projectile magit
+  )
 
 (setq doom-theme 'doom-vibrant)
 

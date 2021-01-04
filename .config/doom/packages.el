@@ -41,4 +41,4 @@
 
 (package! literate-calc-mode)
 
-(package! projectile-git-autofetch :pin "423ed5fa6508c423ed5")
+(package! projectile-git-autofetch :pin "423ed5fa6")
