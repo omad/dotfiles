@@ -15,11 +15,13 @@
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
  ispell-dictionary "en_AU"
- ws-butler-keep-whitespace-before-point t
- )
+ ws-butler-keep-whitespace-before-point t)
+
 
 (use-package projectile-git-autofetch
   :after projectile magit
+  :config
+  (projectile-git-autofetch-mode 1)
   )
 
 (setq doom-theme 'doom-vibrant)
@@ -40,7 +42,10 @@
    org-journal-date-prefix "#+TITLE: "
    org-journal-file-format "%Y-%m-%d.org"
    org-journal-time-prefix "* "
-   org-journal-date-format "%A, %d %B %Y"))
+   org-journal-date-format "%A, %d %B %Y")
+
+  (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file))))
+
 
 (after! python
   (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
@@ -98,8 +103,6 @@
 
 (map! :leader :desc "yadm status" "g." (cmd! (magit-status "/yadm::")))
 
-(map! :leader "nj." (cmd! (org-journal-open-current-journal-file)))
-
 
 (set-popup-rule! "^\\*eww\\*" :ignore t)
 
@@ -134,13 +137,12 @@
   (org-narrow-to-subtree)
   (goto-char (point-max)))
 
-(setq org-capture-templates '())
 (after! org
   (setq!
    org-log-done 'time
    org-log-into-drawer t
    org-directory "~/org/"
-   org-agenda-files nil
+   org-agenda-files '("~/org/tasks.org" "~/org/todo.org" "~/org/inbox.org" "~/org/refile.org" "~/org/projects.org")
    org-bullets-bullet-list '("⁖")
    org-ellipsis " ... "
    org-todo-keyword-faces
@@ -154,25 +156,20 @@
                         (67 :foreground "#0098dd"))
    org-roam-buffer-width 0.2
    org-hide-emphasis-markers t
+   org-todo-keywords '((type "TODO(t@/!)" "NEXT(w)" "WIP(w@/!)" "CHASE(c@/!)" "GAVE(g@/!)" "|" "DONE(d@/!)" "KILL(k@/!)"))
    org-pretty-entities t
    org-src-preserve-indentation t
    org-blank-before-new-entry '((heading) (plain-list-item))
    org-capture-templates '(
-                           ;; ("t" "Todo" entry
-                           ;;  (file "~/org/refile.org")
-                           ;;  "* TODO %?"
-                           ;;  ":LOGBOOK:"
-                           ;;  "- Added: %U"
-                           ;;  ":END:")
-                           ("t" "Todo" entry (function org-journal-find-location)
-                            "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:"
-                            :empty-lines-before 1)
+                           ("t" "Todo [inbox]" entry
+                            (file+headline "~/org/inbox.org" "Tasks")
+                            "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n  %i\n  %a\n")
+                                        ;                           ("t" "Todo" entry (function org-journal-find-location)
+                                        ;                            "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:"
+                                        ;                            :empty-lines-before 1
                            ("j" "Journal entry" plain (function org-journal-find-location)
                             "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
                             :jump-to-captured t :immediate-finish t)
-                           ;; ("j" "Journal" entry
-                           ;;  (file+olp+datetree "~/org/journal.org")
-                           ;;  "* %?\n:LOGBOOK:\n- Entered on %U\n:END:\n%i")
                            ("m" "Meeting" entry
                             (file "~/org/refile.org")
                             "* MEETING: %? \n:MEETING:\n%U\n%a"
@@ -195,11 +192,19 @@
                         ("projects.org" :maxlevel . 1))
    company-backends '(company-capf)))
 
+; [[https://doomemacs.discourse.group/t/permanently-display-workspaces-in-minibuffer/84][Permanently display workspaces in minibuffer - Learn / Configuration - Doom Emacs Discourse]]
+(defun display-workspaces-in-minibuffer ()
+  (with-current-buffer " *Minibuf-0*"
+    (erase-buffer)
+    (insert (+workspace--tabline))))
+(run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
+(+workspace/display)
 
 (add-hook! org-mode
            'auto-fill-mode
            'eldoc-mode
            'hide-mode-line-mode
+           'doom-disable-delete-trailing-whitespace-h
            'flyspell-mode)
 
 
