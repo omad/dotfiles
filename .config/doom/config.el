@@ -30,9 +30,21 @@
 ;; But seemingly neither does Win-SPC
 ;;(keyboard-translate ?\M-SPC C-g)
 
+(use-package! xref-rst
+  :when (featurep! :tools lookup)
+  ;;   :after rst-mode
+  :hook (rst-mode . xref-rst-mode)
+  :init
+  (set-lookup-handlers! '(rst-mode sphinx-mode)
+    :references #'+lookup-xref-definitions-backend-fn
+    :definition #'+lookup-xref-definitions-backend-fn
+    :xref-backend #'xref-rst-xref-backend))
+
 
 (remove-hook! text-mode
   #'display-line-numbers-mode)
+
+(global-subword-mode 1)  ; iterate through CamelCase words
 
 ;; moved from custom set variables
 (after! org-journal
@@ -58,6 +70,7 @@
 
 (when IS-MAC
   (setq ns-use-thin-smoothing t))
+
 
 
 
