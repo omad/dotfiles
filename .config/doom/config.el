@@ -14,8 +14,10 @@
  auto-save-visited-mode t
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
- ispell-dictionary "en_AU"
- ws-butler-keep-whitespace-before-point t)
+                                        ;ispell-dictionary "en_AU"
+ ws-butler-keep-whitespace-before-point t
+ lsp-pyright-venv-path "/home/omad/miniconda3/envs/"
+ )
 
 
 (use-package projectile-git-autofetch
@@ -71,12 +73,6 @@
 (when IS-MAC
   (setq ns-use-thin-smoothing t))
 
-
-
-
-;; Use MS Python Language Server by default
-(after! lsp-python-ms
-  (set-lsp-priority! 'mspyls 1))
 
 ;; Have treemacs follow the currently open file
 (add-hook! 'treemacs-mode #'treemacs-follow-mode)
