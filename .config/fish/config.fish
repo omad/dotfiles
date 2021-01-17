@@ -17,7 +17,7 @@ source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 type -q gh; and gh completion --shell fish | source
 
 if test -d ~/miniconda3/
-    eval /home/omad/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+    eval ~/miniconda3/bin/conda "shell.fish" "hook" $argv | source
 end
 
 type -q direnv; and eval (direnv hook fish)
@@ -76,12 +76,12 @@ end
 
 # fnm
 if test -d $HOME/.fnm
-    set PATH $HOME/.fnm $PATH
+    set -a PATH $HOME/.fnm
     fnm env --multi | source
 end
 
 if test -d /Applications/Postgres.app/Contents/Versions/latest/bin
-    set PATH $PATH /Applications/Postgres.app/Contents/Versions/latest/bin
+    set -a PATH /Applications/Postgres.app/Contents/Versions/latest/bin
 end
 
 
@@ -128,7 +128,7 @@ for f in $HOME/.nix-profile/share/fish/vendor_completions.d/*
     source $f
 end
 
-test -d "~/.emacs.d/bin"; and set PATH $PATH "~/.emacs.d/bin"
+test -d ~/.emacs.d/bin; and set -a PATH ~/.emacs.d/bin
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 set -gx MANPAGER 'less -X'
