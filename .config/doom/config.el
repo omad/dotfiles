@@ -16,9 +16,16 @@
  calendar-date-style 'european ; American date format is the worst
                                         ;ispell-dictionary "en_AU"
  ws-butler-keep-whitespace-before-point t
- lsp-pyright-venv-path "/home/omad/miniconda3/envs/"
- )
+ lsp-pyright-venv-path "/home/omad/miniconda3/envs/")
 
+
+
+;; (add-to-list 'org-pandoc-menu-entry '(58 "to rst." org-pandoc-export-to-rst))
+;; (add-to-list 'org-pandoc-menu-entry '(42 "to rst and open." org-pandoc-export-to-rst-and-open))
+;(setq org-pandoc-menu-entry '((58 "to rst." org-pandoc-export-to-rst)
+;                              (42 "to rst and open." org-pandoc-export-to-rst-and-open))
+
+;;(?: "to rst and open." org-pandoc-export-to-rst-and-open)
 
 (use-package projectile-git-autofetch
   :after projectile magit

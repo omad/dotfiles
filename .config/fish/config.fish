@@ -129,6 +129,8 @@ for f in $HOME/.nix-profile/share/fish/vendor_completions.d/*
 end
 
 test -d ~/.emacs.d/bin; and set -a PATH ~/.emacs.d/bin
+test -d ~/.local/bin; and set -a PATH ~/.local/bin
+set -a PATH /usr/local/sbin
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 set -gx MANPAGER 'less -X'

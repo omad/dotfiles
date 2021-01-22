@@ -44,3 +44,5 @@
 (package! projectile-git-autofetch :pin "423ed5fa6")
 
 (package! xref-rst)
+
+(package! pandoc-mode)
