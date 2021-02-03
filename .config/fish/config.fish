@@ -17,7 +17,7 @@ source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 type -q gh; and gh completion --shell fish | source
 
 if test -d ~/miniconda3/
-    eval ~/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+    status is-interactive && eval ~/miniconda3/bin/conda "shell.fish" "hook" $argv | source
 end
 
 type -q direnv; and eval (direnv hook fish)
