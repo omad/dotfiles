@@ -309,7 +309,7 @@
 
 (add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
-(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+;(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
 ;; Turn off hard line wraps in markdown and GFM
 (add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
 
