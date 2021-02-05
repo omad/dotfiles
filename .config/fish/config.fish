@@ -50,8 +50,10 @@ if type -q ssh-pageant
 end
 
 # pyenv
-if type -q pyenv
-	source (pyenv init -|psub) > /dev/null 2>&1
+if test -d $HOME/.pyenv
+    set -x PATH "/home/omad/.pyenv/bin" $PATH
+    status --is-interactive; and . (pyenv init -|psub)
+    status --is-interactive; and . (pyenv virtualenv-init -|psub)
 end
 
 # fzf
