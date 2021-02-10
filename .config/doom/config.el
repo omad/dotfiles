@@ -209,12 +209,12 @@
    company-backends '(company-capf)))
 
 ; [[https://doomemacs.discourse.group/t/permanently-display-workspaces-in-minibuffer/84][Permanently display workspaces in minibuffer - Learn / Configuration - Doom Emacs Discourse]]
-(defun display-workspaces-in-minibuffer ()
-  (with-current-buffer " *Minibuf-0*"
-    (erase-buffer)
-    (insert (+workspace--tabline))))
-(run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
-(+workspace/display)
+;(defun display-workspaces-in-minibuffer ()
+;  (with-current-buffer " *Minibuf-0*"
+;    (erase-buffer)
+;    (insert (+workspace--tabline))))
+;(run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
+;(+workspace/display)
 
 (add-hook! org-mode
            'auto-fill-mode

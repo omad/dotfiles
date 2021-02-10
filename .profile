@@ -67,8 +67,6 @@ export VISUAL=vim
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 
-export PGHOST=agdc-db.nci.org.au
-export PGDATABASE=datacube
 export PYTEST_ADDOPTS='--pdbcls=IPython.core.debugger:Pdb'
 
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH:/usr/local/sbin"

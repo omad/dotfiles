@@ -46,3 +46,5 @@
 (package! xref-rst)
 
 (package! pandoc-mode)
+
+(package! fish-mode)
