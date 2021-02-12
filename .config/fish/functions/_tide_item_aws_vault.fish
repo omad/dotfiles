@@ -1,3 +1,3 @@
 function _tide_item_aws_vault
-echo $AWS_VAULT
+    set -q AWS_VAULT; and echo  $AWS_VAULT
 end
