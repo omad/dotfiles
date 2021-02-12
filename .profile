@@ -50,7 +50,8 @@ fi
 if [ -d "$HOME/.krew/bin" ]; then
     export PATH="$HOME/.krew/bin:$PATH"
 fi
-
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 
 #########################################
