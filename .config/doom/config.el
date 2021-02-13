@@ -16,7 +16,7 @@
  calendar-date-style 'european ; American date format is the worst
                                         ;ispell-dictionary "en_AU"
  ws-butler-keep-whitespace-before-point t
- lsp-pyright-venv-path "/home/omad/miniconda3/envs/")
+ lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
 
 
 
