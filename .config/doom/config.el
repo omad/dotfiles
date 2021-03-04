@@ -85,7 +85,7 @@
 (add-hook! 'treemacs-mode #'treemacs-follow-mode)
 
 ;; With some creative use of X401 and xrandr, this finally works in Windows
-(add-hook! 'window-setup-hook #'toggle-frame-maximized)
+;(add-hook! 'window-setup-hook #'toggle-frame-maximized)
 
 ;; (map! ;; Easier window movement
 ;;       :n "C-h" #'evil-window-left

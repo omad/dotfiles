@@ -2,3 +2,5 @@ ilancosman/tide
 jorgebucaran/nvm.fish
 decors/fish-colored-man
 PatrickF1/fzf.fish
+evanlucas/fish-kubectl-completions
+oh-my-fish/plugin-foreign-env

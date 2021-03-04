@@ -13,10 +13,12 @@ source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 
 # Linuxbrew. Needs to be early so that we can detect available commands.
-if test -d /home/linuxbrew/.linuxbrew
-    /home/linuxbrew/.linuxbrew/bin/brew shellenv | source
-    set -a fish_complete_path /home/linuxbrew/.linuxbrew/share/fish/vendor_completions.d
-end
+#if test -d /home/linuxbrew/.linuxbrew
+#    /home/linuxbrew/.linuxbrew/bin/brew shellenv | source
+#    set -a fish_complete_path /home/linuxbrew/.linuxbrew/share/fish/vendor_completions.d
+#end
+
+test -d $HOME/go/bin; and set -a PATH $HOME/go/bin
 
 
 type -q gh; and gh completion --shell fish | source
@@ -143,3 +145,7 @@ test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shel
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/__tabtab.fish ]; and . ~/.config/tabtab/__tabtab.fish; or true
