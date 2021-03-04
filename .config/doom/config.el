@@ -14,7 +14,7 @@
  auto-save-visited-mode t
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
-                                        ;ispell-dictionary "en_AU"
+ ispell-dictionary "en_AU"
  ws-butler-keep-whitespace-before-point t
  lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
 
