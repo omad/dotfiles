@@ -35,10 +35,6 @@
 
 (setq doom-theme 'doom-vibrant)
 
-;; Under xpra, M-SPC doesn't get sent :(
-;; But seemingly neither does Win-SPC
-;;(keyboard-translate ?\M-SPC C-g)
-
 (use-package! xref-rst
   :when (featurep! :tools lookup)
   ;;   :after rst-mode
@@ -55,7 +51,6 @@
 
 (global-subword-mode 1)  ; iterate through CamelCase words
 
-;; moved from custom set variables
 (after! org-journal
   (setq!
    org-journal-enable-agenda-integration t
@@ -131,8 +126,8 @@
   "Export region to HTML, and copy it to the clipboard. Thanks http://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/"
   (interactive)
   (save-window-excursion
-    (let* ((buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t))
-           (html (with-current-buffer buf (buffer-string))))
+    (let* ((buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
+;           (html (with-current-buffer buf (buffer-string))))
       (with-current-buffer buf
         (shell-command-on-region
          (point-min)
@@ -144,7 +139,6 @@
   (setq!
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
 
-(setq org-roam-directory "~/org")
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -153,12 +147,16 @@
   (org-narrow-to-subtree)
   (goto-char (point-max)))
 
+
 (after! org
+  (custom-set-faces!
+    '(org-document-title :height 1.4))
   (setq!
    org-log-done 'time
    org-log-into-drawer t
    org-directory "~/org/"
-   org-agenda-files '("~/org/tasks.org" "~/org/todo.org" "~/org/inbox.org" "~/org/refile.org" "~/org/projects.org")
+   org-agenda-files '("~/org/tasks.org" "~/org/todo.org" "~/org/inbox.org"
+                      "~/org/refile.org" "~/org/projects.org" "~/org/work-calendar.org")
    org-bullets-bullet-list '("⁖")
    org-ellipsis " ... "
    org-todo-keyword-faces
@@ -171,6 +169,7 @@
                         (66 :foreground "#da8548")
                         (67 :foreground "#0098dd"))
    org-roam-buffer-width 0.2
+   org-roam-directory "~/org"
    org-hide-emphasis-markers t
    org-todo-keywords '((type "TODO(t@/!)" "NEXT(w)" "WIP(w@/!)" "CHASE(c@/!)" "GAVE(g@/!)" "|" "DONE(d@/!)" "KILL(k@/!)"))
    org-pretty-entities t
@@ -206,15 +205,15 @@
                         ("someday.org" :level . 0)
                         ("reading.org" :level . 1)
                         ("projects.org" :maxlevel . 1))
-   company-backends '(company-capf)))
-
-; [[https://doomemacs.discourse.group/t/permanently-display-workspaces-in-minibuffer/84][Permanently display workspaces in minibuffer - Learn / Configuration - Doom Emacs Discourse]]
-;(defun display-workspaces-in-minibuffer ()
-;  (with-current-buffer " *Minibuf-0*"
-;    (erase-buffer)
-;    (insert (+workspace--tabline))))
-;(run-with-idle-timer 1 t #'display-workspaces-in-minibuffer)
-;(+workspace/display)
+   org-ellipsis " ▾ "
+   org-priority-highest ?A
+   org-priority-lowest ?E
+   org-priority-faces '((?A . 'all-the-icons-red)
+                        (?B . 'all-the-icons-orange)
+                        (?C . 'all-the-icons-yellow)
+                        (?D . 'all-the-icons-green)
+                        (?E . 'all-the-icons-blue))))
+                                        ;   company-backends '(company-capf)))
 
 (add-hook! org-mode
            'auto-fill-mode
@@ -347,19 +346,6 @@
   '(outline-6 :weight semi-bold :height 1.03)
   '(outline-8 :weight semi-bold)
   '(outline-9 :weight semi-bold))
-
-(after! org
-  (custom-set-faces!
-    '(org-document-title :height 1.4))
-  (setq org-ellipsis " ▾ "
-        org-priority-highest ?A
-        org-priority-lowest ?E
-        org-priority-faces
-        '((?A . 'all-the-icons-red)
-          (?B . 'all-the-icons-orange)
-          (?C . 'all-the-icons-yellow)
-          (?D . 'all-the-icons-green)
-          (?E . 'all-the-icons-blue))))
 
 
 
