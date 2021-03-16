@@ -1,0 +1,5 @@
+[Unit]
+Description=Sync work calendar to org agenda
+
+[Service]
+ExecStart=/home/omad/bin/sync-work-calendar
