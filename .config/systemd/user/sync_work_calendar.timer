@@ -1,10 +1,11 @@
 [Unit]
 Description=Sync work calendar timer
-Unit=sync_work_calendar.service
 
 [Timer]
-OnBootSec=0min
-OnCalendar=*:*:0/30
+#OnBootSec=0min
+#OnCalendar=*:*:0/30
+OnCalendar=Mon..Fri *-*-* *:0/10:00
+#OnUnitActiveSec=600
 Unit=sync_work_calendar.service
 
 [Install]
