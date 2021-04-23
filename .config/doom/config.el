@@ -16,6 +16,7 @@
  calendar-date-style 'european ; American date format is the worst
  ispell-dictionary "en_AU"
  ws-butler-keep-whitespace-before-point t
+ grip-update-after-change nil  ; Markdown previews after save, not after change
  lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
 
 
@@ -54,11 +55,11 @@
 (after! org-journal
   (setq!
    org-journal-enable-agenda-integration t
-   org-journal-file-type 'daily
-   org-journal-date-prefix "#+TITLE: "
-   org-journal-file-format "%Y-%m-%d.org"
-   org-journal-time-prefix "* "
-   org-journal-date-format "%A, %d %B %Y")
+   org-journal-file-type 'weekly
+   org-journal-file-format "%Y-%m-%d.org")
+   ;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
+  ;; org-journal-date-format "%A, %d %B %Y")
+
 
   (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file))))
 
@@ -140,12 +141,12 @@
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
 
 
-(defun org-journal-find-location ()
-  ;; Open today's journal, but specify a non-nil prefix argument in order to
-  ;; inhibit inserting the heading; org-capture will insert the heading.
-  (org-journal-new-entry t)
-  (org-narrow-to-subtree)
-  (goto-char (point-max)))
+;; (defun org-journal-find-location ()
+;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
+;;   ;; inhibit inserting the heading; org-capture will insert the heading.
+;;   (org-journal-new-entry t)
+;;   (org-narrow-to-subtree)
+;;   (goto-char (point-max)))
 
 
 (after! org

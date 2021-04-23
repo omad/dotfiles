@@ -50,5 +50,7 @@
     shellcheck
     terraform-docs
     gh
+    pspg
+    nodePackages.prettier
   ];
 }
