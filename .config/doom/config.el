@@ -156,9 +156,13 @@
    org-log-done 'time
    org-log-into-drawer t
    org-directory "~/org/"
-   org-agenda-files '("~/org/tasks.org" "~/org/todo.org" "~/org/inbox.org"
-                      "~/org/refile.org" "~/org/projects.org" "~/org/work-calendar.org")
-   org-bullets-bullet-list '("⁖")
+   org-agenda-files '("~/org/tasks.org"
+                      "~/org/todo.org"
+                      "~/org/inbox.org"
+                      "~/org/refile.org"
+                      "~/org/projects.org"
+                      "~/org/work-calendar.org")
+   org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿")
    org-ellipsis " ... "
    org-todo-keyword-faces
    '(("TODO" :foreground "#7c7c75" :weight normal :underline t)

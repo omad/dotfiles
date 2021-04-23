@@ -150,6 +150,7 @@
 ;        +present         ; Emacs for presentations
         +dragndrop
         +roam          ;
+        +pretty
         +pandoc
         +pomodoro
         +hugo)
