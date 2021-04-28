@@ -141,13 +141,11 @@
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
 
 
-;; (defun org-journal-find-location ()
-;;   ;; Open today's journal, but specify a non-nil prefix argument in order to
-;;   ;; inhibit inserting the heading; org-capture will insert the heading.
-;;   (org-journal-new-entry t)
-;;   (org-narrow-to-subtree)
-;;   (goto-char (point-max)))
-
+; Bind custom keys
+;; (map! :leader
+;;       (:prefix ("a" . "applications")
+;;        :desc "Export Org to HTML"
+;;        "e" #'org-html-export-to-html))
 
 (after! org
   (custom-set-faces!
@@ -161,6 +159,7 @@
                       "~/org/inbox.org"
                       "~/org/refile.org"
                       "~/org/projects.org"
+                      "~/org/work_todo.org"
                       "~/org/work-calendar.org")
    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿")
    org-ellipsis " ... "
@@ -182,22 +181,27 @@
    org-blank-before-new-entry '((heading) (plain-list-item))
    org-capture-templates '(
                            ("t" "Todo [inbox]" entry
-                            (file+headline "~/org/inbox.org" "Tasks")
+                            (file+headline "inbox.org" "Tasks")
                             "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n  %i\n  %a\n")
                                         ;                           ("t" "Todo" entry (function org-journal-find-location)
                                         ;                            "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:"
                                         ;                            :empty-lines-before 1
-                           ("j" "Journal entry" plain (function org-journal-find-location)
+                           ("j" "Journal entry" plain
+                            (function org-journal-find-location)
                             "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
-                            :jump-to-captured t :immediate-finish t)
-                           ("m" "Meeting" entry
-                            (file "~/org/refile.org")
+                            :jump-to-captured t
+                            :immediate-finish t)
+                           ("m" "Meeting [refile]" entry
+                            (file "refile.org")
                             "* MEETING: %? \n:MEETING:\n%U\n%a"
-                            :clock-in t :clock-resume t)
+                            :clock-in t
+                            :clock-resume t)
                            ("w" "Work Todo" entry
-                            (file "~/org/refile.org")
+                            (file "work_todo.org")
                             "* TODO %?\n:LOGBOOK:\n- Added: %U\n:END:\n%a\n%i"
-                            :prepend t :clock-in t :clock-resume t))
+                            :prepend t
+                            :clock-in t
+                            :clock-resume t))
 
    org-refile-use-outline-path 'file
    org-refile-targets '()
