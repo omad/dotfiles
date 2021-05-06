@@ -52,16 +52,16 @@
 
 (global-subword-mode 1)  ; iterate through CamelCase words
 
-(after! org-journal
-  (setq!
-   org-journal-enable-agenda-integration t
-   org-journal-file-type 'weekly
-   org-journal-file-format "%Y-%m-%d.org")
-   ;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
-  ;; org-journal-date-format "%A, %d %B %Y")
+(setq!
+ org-journal-enable-agenda-integration t
+ org-journal-file-type 'weekly
+ org-journal-file-format "%Y-%m-%d.org")
+;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
+;; org-journal-date-format "%A, %d %B %Y")
 
 
-  (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file))))
+;; (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file)))
+(map! :leader :desc "Today's Entry" "nj." #'org-journal-open-current-journal-file)
 
 
 (after! python
@@ -178,6 +178,7 @@
    org-hide-emphasis-markers t
    org-todo-keywords '((type "TODO(t@/!)" "NEXT(w)" "WIP(w@/!)" "CHASE(c@/!)" "GAVE(g@/!)" "|" "DONE(d@/!)" "KILL(k@/!)"))
    org-pretty-entities t
+   org-export-with-toc nil
    org-src-preserve-indentation t
    org-blank-before-new-entry '((heading) (plain-list-item))
    org-capture-templates '(
