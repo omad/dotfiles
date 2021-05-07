@@ -27,7 +27,8 @@
 ;;
 ;;
 ; This makes manual pages nicer to look at :) Variable pitch fontification + colouring
-(package! info-colors :pin "47ee73cc19...")
+;;(package! info-colors :pin "46ee73cc19...")
+(package! info-colors)
 
 ;; I need this in my life. It take a URL to a recipe from a common site, and inserts an org-ified version at point. Isn’t that just great.)
 
