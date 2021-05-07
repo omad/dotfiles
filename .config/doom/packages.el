@@ -32,7 +32,7 @@
 
 ;; I need this in my life. It take a URL to a recipe from a common site, and inserts an org-ified version at point. Isn’t that just great.)
 
-(package! org-chef :pin "77f97ad07b...")
+(package! org-chef)
 
 (package! cython-mode)
 (package! flycheck-cython)
@@ -42,7 +42,7 @@
 
 (package! literate-calc-mode)
 
-(package! projectile-git-autofetch :pin "423ed5fa6")
+(package! projectile-git-autofetch);; :pin "423ed5fa6")
 
 (package! xref-rst)
 
