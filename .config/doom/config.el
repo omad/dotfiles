@@ -15,6 +15,7 @@
  auto-save-default t ; Turn on Automatic Saves
  calendar-date-style 'european ; American date format is the worst
  ispell-dictionary "en_AU"
+ ispell-personal-dictionary (concat doom-private-dir "my-dictionary.pws")
  ws-butler-keep-whitespace-before-point t
  grip-update-after-change nil  ; Markdown previews after save, not after change
  lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
@@ -124,18 +125,18 @@
            'flyspell-mode)
 
 
-(defun dra/formatted-copy ()
-  "Export region to HTML, and copy it to the clipboard. Thanks http://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/"
-  (interactive)
-  (save-window-excursion
-    (let* ((buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
-;           (html (with-current-buffer buf (buffer-string))))
-      (with-current-buffer buf
-        (shell-command-on-region
-         (point-min)
-         (point-max)
-         "textutil -stdin -format html -convert rtf -stdout | pbcopy"))
-      (kill-buffer buf))))
+;; (defun dra/formatted-copy ()
+;;   "Export region to HTML, and copy it to the clipboard. Thanks http://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/"
+;;   (interactive)
+;;   (save-window-excursion
+;;     (let* ((buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
+;; ;           (html (with-current-buffer buf (buffer-string))))
+;;       (with-current-buffer buf
+;;         (shell-command-on-region
+;;          (point-min)
+;;          (point-max)
+;;          "textutil -stdin -format html -convert rtf -stdout | pbcopy"))
+;;       (kill-buffer buf))))
 
 (after! magit
   (setq!
@@ -176,7 +177,7 @@
    org-roam-buffer-width 0.2
    org-roam-directory "~/org"
    org-hide-emphasis-markers t
-   org-todo-keywords '((type "TODO(t@/!)" "NEXT(w)" "WIP(w@/!)" "CHASE(c@/!)" "GAVE(g@/!)" "|" "DONE(d@/!)" "KILL(k@/!)"))
+   org-todo-keywords '((type "TODO(t!)" "NEXT(w)" "WIP(w!)" "CHASE(c!)" "GAVE(g!)" "|" "DONE(d!)" "KILL(k@/!)"))
    org-pretty-entities t
    org-export-with-toc nil
    org-src-preserve-indentation t
@@ -205,6 +206,9 @@
                             :clock-in t
                             :clock-resume t))
 
+   ;; *****************************************
+   ;; Refiling
+   ;; *****************************************
    org-refile-use-outline-path 'file
    org-refile-targets '()
    org-outline-path-complete-in-steps nil
@@ -296,6 +300,7 @@
 ;; Blergh, it doesn't match properly, wtf
 ;;(add-to-list 'evil-embrace-evil-surround-keys ?\`)
 
+;; This has bugs!
 (fset 'dra/convert-markdown-to-org-link
       (kmacro-lambda-form [?f ?\[ ?d ?f ?\] ?% ?p ?% ?h ?c ?\C-g ?\C-g ?l ?c ?s ?\) ?\] ?v ?2 ?f ?\] ?S ?\]] 0 "%d"))
 
