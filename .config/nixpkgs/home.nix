@@ -51,6 +51,7 @@
     terraform-docs
     gh
     pspg
+    pgmetrics
     nodePackages.prettier
   ];
 }
