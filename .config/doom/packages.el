@@ -16,7 +16,7 @@
 ;; https://gitlab.com/jabranham/mixed-pitch
 (package! mixed-pitch)
 
-;; (package! org-super-agenda)
+(package! org-super-agenda)
 ;; (package! org-variable-pitch)
 ;; (package! org-pretty-table)
 ;; (package! org-bullets)

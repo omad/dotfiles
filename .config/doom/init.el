@@ -106,7 +106,7 @@
        lookup           ; helps you navigate your code and documentation
         ;; +dictionary
         ;; +docsets)        ; ...or in Dash docsets locally
-       lsp
+       (lsp +peek)
        (magit             ; a git porcelain for Emacs
         +forge)
 

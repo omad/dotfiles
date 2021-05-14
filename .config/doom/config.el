@@ -6,9 +6,9 @@
  user-full-name "Damien Ayers"
  user-mail-address "damien@omad.net"
 
- doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
- doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
- doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
+ ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
+ ;; doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+ ;; doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
  doom-scratch-initial-major-mode 'lisp-interaction-mode
  projectile-project-search-path '("~/dev/")
  auto-save-visited-mode t
@@ -29,11 +29,47 @@
 
 ;;(?: "to rst and open." org-pandoc-export-to-rst-and-open)
 
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '(
+                                  (:name "Today"
+                                   :time-grid t
+                                   :scheduled today)))
+
+  (org-super-agenda-mode))
+
+(setq org-agenda-span 'week
+      org-agenda-todo-list-sublevels nil) ; only list top level TODOs
+
 (use-package projectile-git-autofetch
   :after projectile magit
   :config
   (projectile-git-autofetch-mode 1)
   )
+(setq sql-postgres-login-params
+      '((user :default "dra547")
+        (database :default "datacube")
+        (server :default "localhost")
+        ))
+(setq sql-connection-alist
+      '((dea-db (sql-product 'postgres)
+                (sql-port 15432)
+                (sql-user "dra547")
+                (sql-server "localhost")
+                (sql-database "datacube"))
+        (deadev (sql-product 'postgres)
+                (sql-port 15433)
+                (sql-user "dra547")
+                (sql-server "localhost")
+                (sql-database "datacube"))
+        (deaprod (sql-product 'postgres)
+                 (sql-port 15434)
+                 (sql-user "dra547")
+                 (sql-server "localhost")
+                 (sql-database "datacube"))))
+(setq sql-postgres-options '("-P" "pager=off" "--no-psqlrc"))
+
 
 (setq doom-theme 'doom-vibrant)
 
@@ -71,11 +107,11 @@
 
 (setq! auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
 
-(when IS-LINUX
-  (font-put doom-font :weight 'semi-light))
+;;(when IS-LINUX
+;;  (font-put doom-font :weight 'semi-light))
 
-(when IS-MAC
-  (setq ns-use-thin-smoothing t))
+;;(when IS-MAC
+;;  (setq ns-use-thin-smoothing t))
 
 
 ;; Have treemacs follow the currently open file
@@ -124,30 +160,10 @@
            'auto-fill-mode
            'flyspell-mode)
 
-
-;; (defun dra/formatted-copy ()
-;;   "Export region to HTML, and copy it to the clipboard. Thanks http://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/"
-;;   (interactive)
-;;   (save-window-excursion
-;;     (let* ((buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
-;; ;           (html (with-current-buffer buf (buffer-string))))
-;;       (with-current-buffer buf
-;;         (shell-command-on-region
-;;          (point-min)
-;;          (point-max)
-;;          "textutil -stdin -format html -convert rtf -stdout | pbcopy"))
-;;       (kill-buffer buf))))
-
 (after! magit
   (setq!
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
 
-
-; Bind custom keys
-;; (map! :leader
-;;       (:prefix ("a" . "applications")
-;;        :desc "Export Org to HTML"
-;;        "e" #'org-html-export-to-html))
 
 (after! org
   (custom-set-faces!
@@ -228,7 +244,6 @@
                         (?C . 'all-the-icons-yellow)
                         (?D . 'all-the-icons-green)
                         (?E . 'all-the-icons-blue))))
-                                        ;   company-backends '(company-capf)))
 
 (add-hook! org-mode
            'auto-fill-mode
@@ -324,12 +339,9 @@
 
 (add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
-;(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
 ;; Turn off hard line wraps in markdown and GFM
 (add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
 
-;; Org Chef(use-package! org-chef
-;;
 
 (use-package! org-chef
   :commands (org-chef-insert-recipe org-chef-get-recipe-from-url))
@@ -341,9 +353,10 @@
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 
 ;; Which key
-(setq which-key-idle-delay 0.3) ;; I need the help, I really do
+(setq which-key-idle-delay 0.2) ;; I need the help, I really do
 
-;; I also think that having evil- appear in so many popups is a bit too verbose, let’s change that, and do a few other similar tweaks while we’re at it.
+;; I also think that having evil- appear in so many popups is a bit too verbose,
+;; let’s change that, and do a few other similar tweaks while we’re at it.
 
 (setq which-key-allow-multiple-replacements t)
 (after! which-key
@@ -352,6 +365,12 @@
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))))
 
+
+;; Workaround for Doom+org-capture bug https://github.com/hlissner/doom-emacs/issues/4832
+(advice-add #'org-capture :around
+            (lambda (fun &rest args)
+              (letf! ((#'+org--restart-mode-h #'ignore))
+                (apply fun args))))
 
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)
