@@ -31,8 +31,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Setup monitors at work
-exec xrandr --output DVI-I-2-1 --auto --right-of eDP-1
-exec xrandr --output DVI-I-3-2 --auto --right-of DVI-I-2-1
+exec --no-startup-id xrandr --output DVI-I-2-1 --auto --right-of eDP-1
+exec --no-startup-id xrandr --output DVI-I-3-2 --auto --right-of DVI-I-2-1
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -53,6 +53,9 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+q kill
+
+# Lock the screen
+bindsym $mod+Escape exec i3lock -c 000000
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec ~/bin/dmenu
