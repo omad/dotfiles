@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Daily standup
+# uuid:
+# key: <ds
+# condition: t
+# --
+
+*Yesterday (${1:Office)*
+- $0
+*Today (${2:Office)*
+-

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: daily-standup
+# uuid:
+# key: <ds
+# condition: t
+# --
+*Yesterday ($1)*
+- $0
+*Today ($2)*
+-
