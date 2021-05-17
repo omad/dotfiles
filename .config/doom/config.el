@@ -35,7 +35,8 @@
   (setq org-super-agenda-groups '(
                                   (:name "Today"
                                    :time-grid t
-                                   :scheduled today)))
+                                   :scheduled today))
+        org-super-agenda-header-map nil)
 
   (org-super-agenda-mode))
 
