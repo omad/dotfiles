@@ -30,6 +30,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# Clipboard manager
+exec --no-startup-id copyq
+
 # Setup monitors at work
 exec --no-startup-id xrandr --output DVI-I-2-1 --auto --right-of eDP-1
 exec --no-startup-id xrandr --output DVI-I-3-2 --auto --right-of DVI-I-2-1
@@ -50,6 +53,7 @@ bindsym XF86Favorites exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 
 bindsym XF86Mail exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86HomePage exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 
+bindsym Print exec flameshot gui
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -73,10 +77,10 @@ bindsym $mod+d exec fixed_dmenu
 
 # Oh weird, these are offset from vim defaults
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -85,10 +89,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -166,6 +170,11 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+#bindsym Y resize shrink width 10 px or 10 ppt
+#bindsym U resize grow height 10 px or 10 ppt
+#bindsym I resize shrink height 10 px or 10 ppt
+#bindsym O resize grow width 10 px or 10 ppt
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -174,10 +183,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -198,3 +207,5 @@ bindsym $mod+r mode "resize"
 #bar {
 #        status_command i3status
 #}
+
+for_window [instance="^copyq$" class="^copyq$"] border pixel 1, floating enable

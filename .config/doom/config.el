@@ -207,7 +207,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                       "~/org/refile.org"
                       "~/org/projects.org"
                       "~/org/work_todo.org"
-                      "~/org/work-calendar.org")
+                      "~/org/work-calendar.org"
+                      "~/org/goog-cal.org")
    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿")
    org-ellipsis " ... "
    org-todo-keyword-faces
