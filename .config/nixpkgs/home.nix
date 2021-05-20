@@ -45,6 +45,7 @@
     scc
     kube3d
     exa
+    git-secrets
     k9s
     rclone
     shellcheck
@@ -53,5 +54,6 @@
     pspg
     pgmetrics
     nodePackages.prettier
+    dunst
   ];
 }
