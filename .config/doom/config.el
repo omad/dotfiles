@@ -402,6 +402,18 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
               (letf! ((#'+org--restart-mode-h #'ignore))
                 (apply fun args))))
 
+
+(defun dra/pomodoro-str ()
+
+  (let ((s (cl-case org-pomodoro-state
+             (:pomodoro org-pomodoro-format)
+             (:overtime org-pomodoro-overtime-format)
+             (:short-break org-pomodoro-short-break-format)
+             (:long-break org-pomodoro-long-break-format))))
+    (when (org-pomodoro-active-p)
+      (format s (org-pomodoro-format-seconds))
+      )))
+
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)
   '(outline-2 :weight bold :height 1.15)
