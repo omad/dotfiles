@@ -12,7 +12,7 @@ set -x
 # Launch polybar
 for m in $(polybar --list-monitors | cut -d":" -f1); do
     if [[ $m == "DVI-I-3-2" ]]; then
-        TRAY_POS=right MONITOR=$m polybar --reload example &
+        POMO=polypomo TRAY_POS=right MONITOR=$m polybar --reload example &
     else
         MONITOR=$m polybar --reload example &
     fi

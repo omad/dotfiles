@@ -42,8 +42,6 @@ alert = #bd2c40
 monitor = ${env:MONITOR:eDP-1}
 width = 100%
 height = 27
-;offset-x = 1%
-;offset-y = 1%
 radius = 6.0
 fixed-center = false
 
@@ -65,32 +63,24 @@ module-margin-right = 2
 font-0 = fixed:pixelsize=11;1
 font-1 = unifont:fontformat=truetype:size=10:antialias=false;0
 font-2 = siji:pixelsize=11;1
-;font-2 = JetBrainsMono Nerd Font:style=Regular
-;font-3 = Unifont CSUR:style=Regular
-;font-4 = OpenSymbol:style=Regular
-;font-5 = Unifont Upper:style=Regular
+font-3 = Noto Emoji:scale=15:antialias=false;0
+
 
 modules-left = i3
 ;#modules-center = mpd xbacklight xkeyboard
-modules-right = filesystem alsa pulseaudio memory cpu wlan eth battery temperature date powermenu
+modules-center = ${env:POMO:}
+modules-right = filesystem alsa pulseaudio memory cpu wlan eth battery-combined-udev battery temperature date powermenu
 
 tray-position = ${env:TRAY_POS:none}
 tray-padding = 2
-;tray-background = #0063ff
 
-;wm-restack = bspwm
 wm-restack = i3
 
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[bar/main]
 
 [module/xwindow]
 type = internal/xwindow
@@ -272,21 +262,38 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
+[module/polypomo]
+type = custom/script
+
+exec = polypomo
+tail = true
+
+label = %output%
+click-left = polypomo toggle
+click-right = polypomo end
+click-middle = polypomo lock
+scroll-up = polypomo time +60
+scroll-down = polypomo time -60
+
 [module/date]
-type = internal/date
+type = custom/script
 interval = 5
 
-date =
-date-alt = " %Y-%m-%d"
+;date = " %Y-%m-%d"
+;date-alt = " %Y-%m-%d"
 
-time = %H:%M
-time-alt = %H:%M:%S
+exec = date +" %Y-%m-%d %H:%M"
+;time = %H:%M
+click-left = emacsclient -e "(let ((calendar-setup 'calendar-only)) (calendar))"
+click-right = emacsclient -c -e '(progn (org-set-frame-title "Agenda") (org-agenda nil "d"))'
+;click-right = rofi -show drun -show-icons -columns 3 -lines 9
+;time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
-label = %date% %time%
+;label =  %output%
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -395,6 +402,11 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
+
+[module/battery-combined-udev]
+type = custom/script
+exec = ~/.config/polybar/scripts/battery-combined-udev.sh
+tail = true
 
 [module/powermenu]
 type = custom/menu

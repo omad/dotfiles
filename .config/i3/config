@@ -211,3 +211,6 @@ bindsym $mod+r mode "resize"
 #}
 
 for_window [instance="^copyq$" class="^copyq$"] border pixel 1, floating enable
+
+for_window [class="Emacs" title="Calendar"] floating enable
+for_window [class="Emacs" title="Agenda"] floating enable
