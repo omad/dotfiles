@@ -10,8 +10,13 @@ set -x
 #while pgrep -x polybar >/dev/null; do sleep 1; done
 
 # Launch polybar
+if [[ $(polybar --list-monitors | wc -l) == 1 ]]; then
+    MAINMONITOR=eDP-1
+else
+    MAINMONITOR=DVI-I-3-2
+fi
 for m in $(polybar --list-monitors | cut -d":" -f1); do
-    if [[ $m == "DVI-I-3-2" ]]; then
+    if [[ $m == "${MAINMONITOR}" ]]; then
         POMO=polypomo TRAY_POS=right MONITOR=$m polybar --reload example &
     else
         MONITOR=$m polybar --reload example &
