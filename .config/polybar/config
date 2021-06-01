@@ -68,7 +68,7 @@ font-3 = Noto Emoji:scale=15:antialias=false;0
 
 modules-left = i3
 ;#modules-center = mpd xbacklight xkeyboard
-modules-center = ${env:POMO:}
+modules-center = orgpomo ${env:POMO:}
 modules-right = filesystem alsa pulseaudio memory cpu wlan eth battery-combined-udev battery temperature date powermenu
 
 tray-position = ${env:TRAY_POS:none}
@@ -261,6 +261,12 @@ format-disconnected =
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
+;
+[module/orgpomo]
+type = custom/script
+interval = 5
+;exec = emacsclient -e '(dra/pomodoro-str)'
+exec = org-pomo
 
 [module/polypomo]
 type = custom/script

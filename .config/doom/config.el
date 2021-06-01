@@ -186,8 +186,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (set-popup-rule! "^\\*eww\\*" :ignore t)
 
 (add-hook! markdown-mode
-           'auto-fill-mode
-           'flyspell-mode)
+           'auto-fill-mode)
 
 (after! magit
   (setq!
@@ -278,9 +277,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (add-hook! org-mode
            'auto-fill-mode
            'eldoc-mode
-           'hide-mode-line-mode
-           'doom-disable-delete-trailing-whitespace-h
-           'flyspell-mode)
+           ;; 'hide-mode-line-mode
+           'doom-disable-delete-trailing-whitespace-h)
 
 
 (defun +org-eldoc-get-breadcrumb-no-properties (string)
@@ -405,14 +403,16 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (defun dra/pomodoro-str ()
 
-  (let ((s (cl-case org-pomodoro-state
-             (:pomodoro org-pomodoro-format)
-             (:overtime org-pomodoro-overtime-format)
-             (:short-break org-pomodoro-short-break-format)
-             (:long-break org-pomodoro-long-break-format))))
-    (when (org-pomodoro-active-p)
-      (format s (org-pomodoro-format-seconds))
-      )))
+  (if (boundp 'org-pomodoro-state)
+      (let ((s (cl-case org-pomodoro-state
+                 (:none "No Pomodoro")
+                 (:pomodoro "Active: %s")
+                 (:overtime org-pomodoro-overtime-format)
+                 (:short-break org-pomodoro-short-break-format)
+                 (:long-break org-pomodoro-long-break-format))))
+
+        (format s (org-pomodoro-format-seconds)))
+    "Org Pomodoro not loaded"))
 
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)

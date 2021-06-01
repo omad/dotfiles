@@ -1,18 +1,30 @@
-personal_ws-1.1 en 23 
+personal_ws-1.1 en 34
 APIs
 Aurion
+Cate
 Cloudfront
 Dataset
 Datasets
 Exetel
+FC
+FFS
 Fuckup
+GQA
 Gadi
 Geomedian
+Geoscience
 Jira
+Kieran
+Kirill
+NCI
 NEMO
 NetCDF
+Sai
+Statistican
 TODO
+Toktam
 WFH
+WO
 WOfS
 YAML
 aws
@@ -20,5 +32,4 @@ datacube
 digitalearthau
 hdstats
 many
-NCI
 pytest
