@@ -55,5 +55,6 @@
     pgmetrics
     nodePackages.prettier
     dunst
+    dive
   ];
 }

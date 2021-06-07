@@ -121,7 +121,9 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (setq!
  org-journal-enable-agenda-integration t
  org-journal-file-type 'weekly
- org-journal-file-format "%Y-%m-%d.org")
+ org-journal-file-format "%Y-%m-%d.org"
+ org-journal-carryover-items "")
+
 ;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
 ;; org-journal-date-format "%A, %d %B %Y")
 
@@ -402,17 +404,17 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 
 (defun dra/pomodoro-str ()
+                                        ;
+  (cond ((boundp 'org-pomodoro-state) (let ((s (cl-case org-pomodoro-state
+                                                 (:none "No Pomodoro")
+                                                 (:pomodoro "Active: %s - %s")
+                                                 (:overtime org-pomodoro-overtime-format)
+                                                 (:short-break org-pomodoro-short-break-format)
+                                                 (:long-break org-pomodoro-long-break-format))))
 
-  (if (boundp 'org-pomodoro-state)
-      (let ((s (cl-case org-pomodoro-state
-                 (:none "No Pomodoro")
-                 (:pomodoro "Active: %s")
-                 (:overtime org-pomodoro-overtime-format)
-                 (:short-break org-pomodoro-short-break-format)
-                 (:long-break org-pomodoro-long-break-format))))
-
-        (format s (org-pomodoro-format-seconds)))
-    "Org Pomodoro not loaded"))
+                                        (format s (org-pomodoro-format-seconds) org-clock-heading)))
+        ((and (boundp 'org-clocking-p) (org-clocking-p)) (substring-no-properties (org-clock-get-clock-string)))
+        (t "No clocks or pomodoros")))
 
 (custom-set-faces!
   '(outline-1 :weight extra-bold :height 1.25)

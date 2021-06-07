@@ -1,6 +1,7 @@
-personal_ws-1.1 en 34
+personal_ws-1.1 en 39
 APIs
 Aurion
+Bunnings
 Cate
 Cloudfront
 Dataset
@@ -13,15 +14,18 @@ GQA
 Gadi
 Geomedian
 Geoscience
+Grafana
 Jira
 Kieran
 Kirill
 NCI
 NEMO
 NetCDF
+Reflectance
 Sai
 Statistican
 TODO
+Tish
 Toktam
 WFH
 WO
@@ -33,3 +37,4 @@ digitalearthau
 hdstats
 many
 pytest
+tricksy
