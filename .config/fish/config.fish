@@ -56,11 +56,21 @@ if type -q ssh-pageant
     set GIT_GUI_LIB_DIR /c/msys64/usr/share/git-gui/lib
 end
 
+
 # pyenv
 if test -d $HOME/.pyenv
-    set -x PATH "/home/omad/.pyenv/bin" $PATH
-    status --is-interactive; and . (pyenv init -|psub)
-    status --is-interactive; and . (pyenv virtualenv-init -|psub)
+    
+# Add pyenv executable to PATH by running
+# the following interactively:
+
+    set -Ux PYENV_ROOT $HOME/.pyenv
+    set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
+
+# Load pyenv automatically by appending
+# the following to ~/.config/fish/config.fish:
+
+    status is-login; and pyenv init --path | source
+    pyenv init - | source
 end
 
 # fzf
