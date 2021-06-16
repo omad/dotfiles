@@ -13,11 +13,14 @@ set -x
 if [[ $(polybar --list-monitors | wc -l) == 1 ]]; then
     MAINMONITOR=eDP-1
 else
-    MAINMONITOR=DVI-I-3-2
+    # DVI-I-3-2 is the monitor at work
+    # HDMI-2 is the monitor I want at home
+    MAINMONITOR=(DVI-I-3-2 HDMI-2)
 fi
 for m in $(polybar --list-monitors | cut -d":" -f1); do
-    if [[ $m == "${MAINMONITOR}" ]]; then
-        POMO=polypomo TRAY_POS=right MONITOR=$m polybar --reload example &
+    # Fancy way of matching against arrays in bash
+    if [[ " ${MAINMONITOR[@]} " =~ " ${m} " ]]; then
+        TRAY_POS=right MONITOR=$m polybar --reload example &
     else
         MONITOR=$m polybar --reload example &
     fi

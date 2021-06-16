@@ -1,11 +1,13 @@
-personal_ws-1.1 en 39
+personal_ws-1.1 en 53
 APIs
 Aurion
 Bunnings
+CaRSA
 Cate
 Cloudfront
 Dataset
 Datasets
+Dev
 Exetel
 FC
 FFS
@@ -16,6 +18,7 @@ Geomedian
 Geoscience
 Grafana
 Jira
+JupyterHub
 Kieran
 Kirill
 NCI
@@ -25,16 +28,27 @@ Reflectance
 Sai
 Statistican
 TODO
+Thinkpad
 Tish
+Tisham
 Toktam
+Vectoriser
 WFH
 WO
 WOfS
 YAML
+artifact
+artifacts
 aws
+codecov
+conda
 datacube
 digitalearthau
+env
 hdstats
 many
+observability
+opendatacube
 pytest
 tricksy
+vectorisation

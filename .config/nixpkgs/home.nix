@@ -56,5 +56,9 @@
     nodePackages.prettier
     dunst
     dive
+    jiq
+    docker-credential-helpers
+    pup
+
   ];
 }

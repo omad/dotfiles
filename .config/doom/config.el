@@ -18,7 +18,9 @@
  ispell-personal-dictionary (concat doom-private-dir "my-dictionary.pws")
  ws-butler-keep-whitespace-before-point t
  grip-update-after-change nil  ; Markdown previews after save, not after change
- lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
+
+ +python-ipython-command '("ipython3" "-i" "--simple-prompt" "--no-color-info"))
+ ;; lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
 
 
 
@@ -118,11 +120,14 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (global-subword-mode 1)  ; iterate through CamelCase words
 
-(setq!
- org-journal-enable-agenda-integration t
- org-journal-file-type 'weekly
- org-journal-file-format "%Y-%m-%d.org"
- org-journal-carryover-items "")
+(use-package! org-journal
+  :config
+
+  (setq!
+   org-journal-enable-agenda-integration t
+   org-journal-file-type 'weekly
+   org-journal-file-format "%Y-%m-%d.org"
+   org-journal-carryover-items ""))
 
 ;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
 ;; org-journal-date-format "%A, %d %B %Y")
@@ -132,6 +137,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (map! :leader :desc "Today's Entry" "nj." #'org-journal-open-current-journal-file)
 
 
+;; Maybe see https://www.reddit.com/r/emacs/comments/n1gkkk/doom_emacs_pyright_lsp_conda/
 (after! python
   (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
   (setq conda-env-home-directory (expand-file-name "~/miniconda3")))

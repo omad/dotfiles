@@ -81,7 +81,7 @@ font-3 = Noto Emoji:scale=15:antialias=false;0
 modules-left = i3
 ;#modules-center = mpd xbacklight xkeyboard
 modules-center = orgpomo ${env:POMO:}
-modules-right = filesystem alsa pulseaudio memory cpu wlan eth battery-combined-udev battery temperature date powermenu
+modules-right = filesystem alsa pulseaudio memory cpu wlan eth battery battery-combined-udev temperature date powermenu
 
 tray-position = ${env:TRAY_POS:none}
 tray-padding = 2
@@ -448,10 +448,10 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = systemctl reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = systemctl poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
