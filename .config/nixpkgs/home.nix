@@ -59,6 +59,7 @@
     jiq
     docker-credential-helpers
     pup
+    docker-compose
 
   ];
 }

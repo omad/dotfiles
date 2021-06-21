@@ -20,8 +20,8 @@ fi
 for m in $(polybar --list-monitors | cut -d":" -f1); do
     # Fancy way of matching against arrays in bash
     if [[ " ${MAINMONITOR[@]} " =~ " ${m} " ]]; then
-        TRAY_POS=right MONITOR=$m polybar --reload example &
+        TRAY_POS=right MONITOR=$m polybar --reload main &
     else
-        MONITOR=$m polybar --reload example &
+        MONITOR=$m polybar --reload main &
     fi
 done
