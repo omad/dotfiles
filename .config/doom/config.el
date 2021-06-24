@@ -77,6 +77,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   :after projectile magit
   :config
   (projectile-git-autofetch-mode 1)
+  (setq! projectile-git-autofetch-notify nil)
   )
 (setq sql-postgres-login-params
       '((user :default "dra547")
