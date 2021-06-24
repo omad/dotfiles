@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Thank you https://unix.stackexchange.com/questions/497146/create-a-custom-url-protocol-handler
+
+#xdg-mime default ddg-opener.desktop x-scheme-handler/ddg
+
+#A reference implementation of the ddg-open.sh handler:
+
+
+# bash and not just sh because we are using some bash-specific syntax
+
+if [[ "$1" == "omad:"* ]]; then
+    ref=${1#omad://}
+    ref=$(python -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))" "$ref") # If you want decoding
+    notify-send "Omad Scheme omad://!" "$ref"
+#    xdg-open "https://duckduckgo.com/?q=$ref"
+else
+    xdg-open "$1" # Just open with the default handler
+fi
+

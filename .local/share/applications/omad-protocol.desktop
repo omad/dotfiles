@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Omad Protocol Scheme Handler
+Exec=omad-protocol %u
+StartupNotify=false
+MimeType=x-scheme-handler/omad;
