@@ -34,7 +34,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id copyq
 
 # Setup monitors at work
-#exec --no-startup-id autorandr --change
+exec --no-startup-id autorandr --change --force
 #exec --no-startup-id xrandr --output DVI-I-2-1 --auto --right-of eDP-1
 #exec --no-startup-id xrandr --output DVI-I-3-2 --auto --right-of DVI-I-2-1
 
