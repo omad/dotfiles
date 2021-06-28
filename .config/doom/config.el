@@ -182,11 +182,10 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (after! tramp
   (add-to-list 'tramp-methods
                '("yadm"
-                 (tramp-login-program "env")
-                 (tramp-login-args (("SHELL=/bin/sh" "yadm" "enter")))
-                 ;; (tramp-login-program "yadm")
-                 ;; (tramp-login-args (("enter")))
-                 ;; (tramp-login-env (("SHELL") ("/bin/sh")))
+                 (tramp-login-program "yadm")
+                 (tramp-login-args (("enter" "/bin/bash")))
+                 (tramp-remote-shell "/bin/bash")
+                 (tramp-remote-shell-args ("-c"))
                  )))
 
 (map! :leader :desc "yadm status" "g." (cmd! (magit-status "/yadm::")))
