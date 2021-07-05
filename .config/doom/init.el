@@ -151,7 +151,7 @@
         +journal
         +export          ; Exporting org to whatever you want
                                         ;habit           ; Keep track of your habits
-;        +present         ; Emacs for presentations
+        +present         ; Emacs for presentations
         +dragndrop
         +roam          ;
         +pretty
