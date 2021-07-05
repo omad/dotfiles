@@ -121,6 +121,8 @@ format = <label-state> <label-mode>
 format-margin = 4
 index-sort = true
 
+; Only show workspaces on the current monitor
+pin-workspaces = true
 enable-click = true
 reverse-scroll = false
 
@@ -279,11 +281,15 @@ type = internal/battery
 battery = BAT0
 battery_snd = BAT1
 adapter = AC
-full-at = 98
+full-at = 95
 
+time-format = %H:%M
+
+label-charging = %percentage%% (%time%)
 format-charging = <animation-charging> <label-charging>
 format-charging-underline = #ffb52a
 
+label-discharging = %percentage%% (%time%)
 format-discharging = <animation-discharging> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
