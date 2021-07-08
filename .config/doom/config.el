@@ -42,6 +42,7 @@
 
   (org-super-agenda-mode))
 
+
 (defun dra/org-skip-subtree-if-priority (priority)
   "Skip an agenda subtree if it has a priority of PRIORITY.
 
@@ -136,6 +137,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 ;; (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file)))
 (map! :leader :desc "Today's Entry" "nj." #'org-journal-open-current-journal-file)
+
+(map! :leader :desc "Insert date" "id" #'org-time-stamp)
 
 
 ;; Maybe see https://www.reddit.com/r/emacs/comments/n1gkkk/doom_emacs_pyright_lsp_conda/
