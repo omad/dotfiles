@@ -33,8 +33,10 @@ exec --no-startup-id nm-applet
 # Clipboard manager
 exec --no-startup-id copyq
 
+#exec --no-startup-id nvidia-settings -l # Load settings only
+#exec --no-startup-id autorandr --change --force
+exec --no-startup-id xrandr --auto
 # Setup monitors at work
-exec --no-startup-id autorandr --change --force
 #exec --no-startup-id xrandr --output DVI-I-2-1 --auto --right-of eDP-1
 #exec --no-startup-id xrandr --output DVI-I-3-2 --auto --right-of DVI-I-2-1
 
