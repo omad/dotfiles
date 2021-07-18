@@ -33,6 +33,7 @@
 ;; I need this in my life. It take a URL to a recipe from a common site, and inserts an org-ified version at point. Isn’t that just great.)
 
 (package! org-chef)
+(package! org-jira)
 
 (package! cython-mode)
 (package! flycheck-cython)

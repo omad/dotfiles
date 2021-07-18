@@ -1,6 +1,7 @@
-personal_ws-1.1 en 57
+personal_ws-1.1 en 63
 APIs
 Aurion
+Bitbucket
 Bunnings
 CaRSA
 Cate
@@ -21,8 +22,10 @@ Grafana
 Haesler
 Jira
 JupyterHub
+JupyterLab
 Kieran
 Kirill
+Kubernetes
 Leith
 NCI
 NEMO
@@ -53,6 +56,9 @@ hdstats
 many
 observability
 opendatacube
+parallelisation
 pytest
+sharding
+templating
 tricksy
 vectorisation

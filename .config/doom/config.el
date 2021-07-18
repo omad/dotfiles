@@ -68,12 +68,26 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                    ((org-agenda-skip-function
                      '(or (dra/org-skip-subtree-if-priority ?A)
                           (org-agenda-skip-if nil '(scheduled deadline))))
-                    (org-agenda-overriding-header "ALL normal priority tasks:")))))))
-                                        ;          (tags-todo "+PRIORITY=\"B\""))
-;         (org-agenda-sorting-strategy '(priority-down))
-;         (org-agenda-start-day nil)
-;         (org-agenda-span 'day)))) ; only list top level TODOs
+                    (org-agenda-overriding-header "ALL normal priority tasks:")))))
+        ("x" "Old Journal TODOs" alltodo ""
+         ((org-agenda-files (dra/old-journal-files))))))
 
+
+                                        ;          (tags-todo "+PRIORITY=\"B\""))
+                                        ;         (org-agenda-sorting-strategy '(priority-down))
+                                        ;         (org-agenda-start-day nil)
+                                        ;         (org-agenda-span 'day)))) ; only list top level TODOs
+                                        ; want to build a list of 'recent' org-journal files, to grab TODOs from
+(defun dra/old-journal-files ()
+  "Find old journal files"
+  (let* ((start (time-subtract (current-time) (days-to-time 31)))
+                                        ; build a list of 'recent' org-journal files, to grab TODOs from
+         (end (current-time)))
+    (org-journal--search-build-file-list start end)
+    ))
+
+;; (format-time-string "%F" (time-subtract (current-time) (days-to-time 5)))
+;;
 (use-package projectile-git-autofetch
   :after projectile magit
   :config
@@ -436,7 +450,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   '(outline-9 :weight semi-bold))
 
 
-
+(use-package! org-jira)
+(setq jiralib-url "https://gajira.atlassian.net")
 
 
 
