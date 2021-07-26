@@ -147,13 +147,12 @@
         +attach          ; custom attachment system
         +babel           ; running code in org
 ;        +capture         ; org-capture in and outside of Emacs
-        +roam
+        +roam2
         +journal
         +export          ; Exporting org to whatever you want
                                         ;habit           ; Keep track of your habits
         +present         ; Emacs for presentations
         +dragndrop
-        +roam          ;
         +pretty
         +pandoc
         +pomodoro
