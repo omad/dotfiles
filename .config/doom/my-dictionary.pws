@@ -1,4 +1,4 @@
-personal_ws-1.1 en 63
+personal_ws-1.1 en 65
 APIs
 Aurion
 Bitbucket
@@ -34,6 +34,7 @@ Reflectance
 Sai
 Statistican
 TODO
+Terraform
 Terria
 Thinkpad
 Tish
@@ -49,6 +50,7 @@ artifacts
 aws
 codecov
 conda
+config
 datacube
 digitalearthau
 env
