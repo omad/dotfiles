@@ -1,4 +1,4 @@
-personal_ws-1.1 en 67
+personal_ws-1.1 en 72
 APIs
 Aurion
 Bex
@@ -10,6 +10,7 @@ Cloudfront
 Dask
 Dataset
 Datasets
+Deliverables
 Dev
 Exetel
 FC
@@ -19,9 +20,11 @@ GQA
 Gadi
 Geomedian
 Geoscience
+Geospatial
 Grafana
 Haesler
 Jira
+Journaling
 JupyterHub
 JupyterLab
 Kieran
@@ -29,6 +32,8 @@ Kieran's
 Kirill
 Kubernetes
 Leith
+Maree
+Minchin
 NCI
 NEMO
 NetCDF
