@@ -9,6 +9,7 @@
  ;; doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
  ;; doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
  ;; doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14)
+ doom-variable-pitch-font (font-spec :family "Iosevka Aile" :size 16)
  doom-scratch-initial-major-mode 'lisp-interaction-mode
  projectile-project-search-path '("~/dev/")
  auto-save-visited-mode t
@@ -450,12 +451,51 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   '(outline-8 :weight semi-bold)
   '(outline-9 :weight semi-bold))
 
+(use-package calfw
+  )
+
+(map! :leader :desc "Calendar" "oc" #'cfw:open-org-calendar)
 
 (use-package! org-jira)
 (setq jiralib-url "https://gajira.atlassian.net")
 
+(use-package org-appear
+  :hook (org-mode . org-appear-mode))
+
+;; Appearch and fonts
+;; Thanks https://config.daviwil.com/emacs
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil
+                    :font "Iosevka Aile"
+                    :height 1.2
+                    :weight 'light
+                    )
 
 
+(set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.3)
+(dolist (face '((org-level-1 . 1.2)
+                (org-level-2 . 1.1)
+                (org-level-3 . 1.05)
+                (org-level-4 . 1.0)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.1)
+                (org-level-7 . 1.1)
+                (org-level-8 . 1.1)))
+  (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
 
+
+;; Make sure org-indent face is available
+(require 'org-indent)
+
+;; Ensure that anything that should be fixed-pitch in Org files appears that way
+(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
+(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 (provide 'config)
 ;;; config.el ends here

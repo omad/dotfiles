@@ -50,3 +50,5 @@
 (package! pandoc-mode)
 
 (package! fish-mode)
+
+(package! org-appear)
