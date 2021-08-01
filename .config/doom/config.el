@@ -245,7 +245,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                         (66 :foreground "#da8548")
                         (67 :foreground "#0098dd"))
    org-roam-buffer-width 0.2
-   org-roam-directory "~/org"
+   org-roam-directory (file-truename org-directory)
+   ;   org-roam-directory (file-truename (expand-file-name "roam" org-directory))
    org-hide-emphasis-markers t
    org-todo-keywords '((type "TODO(t!)" "NEXT(w)" "WIP(w!)" "CHASE(c!)" "GAVE(g!)" "|" "DONE(d!)" "KILL(k@/!)"))
    org-pretty-entities t
