@@ -87,3 +87,5 @@
 	protocol = ssh
 [github]
 	user = omad
+[init]
+	defaultBranch = main

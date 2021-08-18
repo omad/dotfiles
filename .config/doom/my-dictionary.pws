@@ -1,4 +1,4 @@
-personal_ws-1.1 en 72
+personal_ws-1.1 en 74
 APIs
 Aurion
 Bex
@@ -62,6 +62,8 @@ datacube
 digitalearthau
 env
 hdstats
+isochrone
+lockdown
 many
 observability
 opendatacube

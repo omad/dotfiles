@@ -60,6 +60,8 @@
     docker-credential-helpers
     pup
     docker-compose
+    eksctl
+    youtube-dl
 
   ];
 }

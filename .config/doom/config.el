@@ -120,6 +120,9 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 
 (setq doom-theme 'doom-vibrant)
+(set-mouse-color "white")
+; (setq default-frame-alist '((mouse-color . "white")))
+(add-to-list 'default-frame-alist '(mouse-color . "white"))
 
 (use-package! xref-rst
   :when (featurep! :tools lookup)
@@ -154,6 +157,9 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (map! :leader :desc "Today's Entry" "nj." #'org-journal-open-current-journal-file)
 
 (map! :leader :desc "Insert date" "id" #'org-time-stamp)
+(map! :map org-mode-map
+      :leader
+      :desc "Toggle Images" "ti" #'org-toggle-inline-images)
 
 
 ;; Maybe see https://www.reddit.com/r/emacs/comments/n1gkkk/doom_emacs_pyright_lsp_conda/
@@ -482,6 +488,9 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                 (org-level-7 . 1.1)
                 (org-level-8 . 1.1)))
   (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
+
+;(load "youtube_captions.el")
+;(require 'youtube_captions)
 
 
 ;; Make sure org-indent face is available
