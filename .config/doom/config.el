@@ -55,6 +55,13 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
         subtree-end
       nil)))
 
+;(add-hook 'org-agenda-finalize-hook (lambda () (goto-char (point-min))) 90)
+
+;I wouldn't add it as a lambda as this can be hard to remove, but the above works as a test. For example, I'm using:
+(defun dra/agenda-place-point ()
+  (goto-char (point-min)))
+; Move Cursor to the top of agenda when displaying
+(add-hook 'org-agenda-finalize-hook #'dra/agenda-place-point 90)
 (setq org-agenda-span 'week
       org-agenda-todo-list-sublevels nil
                                         ; Thanks https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
@@ -147,10 +154,10 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
    org-journal-enable-agenda-integration t
    org-journal-file-type 'weekly
    org-journal-file-format "%Y-%m-%d.org"
+   org-journal-date-format "%Y-%m-%d"
    org-journal-carryover-items ""))
 
 ;; org-journal-file-header "#+TITLE: Weekly Journal\n#+STARTUP: folded"
-;; org-journal-date-format "%A, %d %B %Y")
 
 
 ;; (map! :leader :desc "Today's Entry" "nj." (cmd! (org-journal-open-current-journal-file)))
