@@ -496,9 +496,27 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                 (org-level-8 . 1.1)))
   (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
 
-;(load "youtube_captions.el")
-;(require 'youtube_captions)
+(require-relative 'youtube_captions)
 
+
+; Thanks:https://tecosaur.github.io/emacs-config/config.html#plain-text
+; Ispell is nice, let’s have it in text, markdown, and GFM.
+
+(set-company-backend!
+  '(text-mode
+    markdown-mode
+    gfm-mode)
+  '(:seperate
+    company-ispell
+    company-files
+    company-yasnippet))
+
+; We then configure the dictionary we’re using in Ispell.
+
+; If I'm still not happy with completion, look at these:
+; https://www.gtrun.org/post/config/#company-backend
+; https://www.reddit.com/r/emacs/comments/idm4hg/set_tab_to_companycapf_when_appropriate_in/
+;
 
 ;; Make sure org-indent face is available
 (require 'org-indent)

@@ -62,6 +62,15 @@
     docker-compose
     eksctl
     youtube-dl
+    onefetch
+
+    nodePackages.yaml-language-server
+    argo
+    watchexec
+
+    chezmoi
+    oil
+    s5cmd
 
   ];
 }
