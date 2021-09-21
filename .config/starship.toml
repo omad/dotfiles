@@ -1,0 +1,21 @@
+
+[nodejs]
+disabled = true
+
+[ruby]
+disabled = true
+
+[package]
+disabled = true
+
+
+[kubernetes]
+format = 'on [⛵ $context \($namespace\)](dimmed green) '
+disabled = true
+
+
+[docker_context]
+disabled = true
+
+[python]
+disabled = true
