@@ -21,14 +21,14 @@
  grip-update-after-change nil  ; Markdown previews after save, not after change
 
  +python-ipython-command '("ipython3" "-i" "--simple-prompt" "--no-color-info"))
- ;; lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
+;; lsp-pyright-venv-path (expand-file-name "~/miniconda3/envs/"))
 
 
 
 ;; (add-to-list 'org-pandoc-menu-entry '(58 "to rst." org-pandoc-export-to-rst))
 ;; (add-to-list 'org-pandoc-menu-entry '(42 "to rst and open." org-pandoc-export-to-rst-and-open))
-;(setq org-pandoc-menu-entry '((58 "to rst." org-pandoc-export-to-rst)
-;                              (42 "to rst and open." org-pandoc-export-to-rst-and-open))
+                                        ;(setq org-pandoc-menu-entry '((58 "to rst." org-pandoc-export-to-rst)
+                                        ;                              (42 "to rst and open." org-pandoc-export-to-rst-and-open))
 
 ;;(?: "to rst and open." org-pandoc-export-to-rst-and-open)
 
@@ -55,12 +55,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
         subtree-end
       nil)))
 
-;(add-hook 'org-agenda-finalize-hook (lambda () (goto-char (point-min))) 90)
+                                        ;(add-hook 'org-agenda-finalize-hook (lambda () (goto-char (point-min))) 90)
 
-;I wouldn't add it as a lambda as this can be hard to remove, but the above works as a test. For example, I'm using:
+                                        ;I wouldn't add it as a lambda as this can be hard to remove, but the above works as a test. For example, I'm using:
 (defun dra/agenda-place-point ()
   (goto-char (point-min)))
-; Move Cursor to the top of agenda when displaying
+                                        ; Move Cursor to the top of agenda when displaying
 (add-hook 'org-agenda-finalize-hook #'dra/agenda-place-point 90)
 (setq org-agenda-span 'week
       org-agenda-todo-list-sublevels nil
@@ -101,6 +101,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   :config
   (projectile-git-autofetch-mode 1)
   (setq! projectile-git-autofetch-notify nil)
+  (setq! projectile-git-autofetch-after-fetch-hook  'forge-pull)
   )
 (setq sql-postgres-login-params
       '((user :default "dra547")
@@ -128,7 +129,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (setq doom-theme 'doom-vibrant)
 (set-mouse-color "white")
-; (setq default-frame-alist '((mouse-color . "white")))
+                                        ; (setq default-frame-alist '((mouse-color . "white")))
 (add-to-list 'default-frame-alist '(mouse-color . "white"))
 
 (use-package! xref-rst
@@ -147,7 +148,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (global-subword-mode 1)  ; iterate through CamelCase words
 
-(use-package! org-journal
+(after! org-journal
   :config
 
   (setq!
@@ -187,7 +188,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 (add-hook! 'treemacs-mode #'treemacs-follow-mode)
 
 ;; With some creative use of X401 and xrandr, this finally works in Windows
-;(add-hook! 'window-setup-hook #'toggle-frame-maximized)
+                                        ;(add-hook! 'window-setup-hook #'toggle-frame-maximized)
 
 ;; (map! ;; Easier window movement
 ;;       :n "C-h" #'evil-window-left
@@ -231,10 +232,34 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   (setq!
    magit-repository-directories '(("~/PycharmProjects/" . 1) ("~/dev/" . 1))))
 
+(custom-set-faces!
+  '(org-document-title :height 1.4 :font "Iosevka Aile" :weight bold)
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  '(org-block nil :foreground nil :inherit 'fixed-pitch)
+  '(org-table nil  :inherit 'fixed-pitch)
+  '(org-formula nil  :inherit 'fixed-pitch)
+  '(org-code nil   :inherit '(shadow fixed-pitch))
+  '(org-indent nil :inherit '(org-hide fixed-pitch))
+  '(org-verbatim nil :inherit '(shadow fixed-pitch))
+  '(org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  '(org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  '(org-checkbox nil :inherit 'fixed-pitch)
+  )
+
+(after! org-indent
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
+  )
+
 
 (after! org
-  (custom-set-faces!
-    '(org-document-title :height 1.4))
   (setq!
    org-log-done 'time
    org-log-into-drawer t
@@ -260,7 +285,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                         (67 :foreground "#0098dd"))
    org-roam-buffer-width 0.2
    org-roam-directory (file-truename org-directory)
-   ;   org-roam-directory (file-truename (expand-file-name "roam" org-directory))
+                                        ;   org-roam-directory (file-truename (expand-file-name "roam" org-directory))
    org-hide-emphasis-markers t
    org-todo-keywords '((type "TODO(t!)" "NEXT(w)" "WIP(w!)" "CHASE(c!)" "GAVE(g!)" "|" "DONE(d!)" "KILL(k@/!)"))
    org-pretty-entities t
@@ -363,8 +388,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   (let
       ((def-filename (concat (s-join "" (nreverse (split-string backwards-date "/"))) ".org"))
        (insert-default-directory t))
-      (find-file-other-window
-        (read-file-name "Move subtree to file:" def-filename)))
+    (find-file-other-window
+     (read-file-name "Move subtree to file:" def-filename)))
   (org-paste-subtree))
 
 
@@ -469,11 +494,11 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (map! :leader :desc "Calendar" "oc" #'cfw:open-org-calendar)
 
-(use-package! org-jira)
-(setq jiralib-url "https://gajira.atlassian.net")
+;; (use-package! org-jira)
+;; (setq jiralib-url "https://gajira.atlassian.net")
 
-(use-package org-appear
-  :hook (org-mode . org-appear-mode))
+;; (use-package org-appear
+;;   :hook (org-mode . org-appear-mode))
 
 ;; Appearch and fonts
 ;; Thanks https://config.daviwil.com/emacs
@@ -485,22 +510,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                     )
 
 
-(set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.3)
-(dolist (face '((org-level-1 . 1.2)
-                (org-level-2 . 1.1)
-                (org-level-3 . 1.05)
-                (org-level-4 . 1.0)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1)))
-  (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
 
 (require-relative 'youtube_captions)
 
 
-; Thanks:https://tecosaur.github.io/emacs-config/config.html#plain-text
-; Ispell is nice, let’s have it in text, markdown, and GFM.
+                                        ; Thanks:https://tecosaur.github.io/emacs-config/config.html#plain-text
+                                        ; Ispell is nice, let’s have it in text, markdown, and GFM.
 
 (set-company-backend!
   '(text-mode
@@ -511,25 +526,12 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
     company-files
     company-yasnippet))
 
-; We then configure the dictionary we’re using in Ispell.
+                                        ; We then configure the dictionary we’re using in Ispell.
 
-; If I'm still not happy with completion, look at these:
-; https://www.gtrun.org/post/config/#company-backend
-; https://www.reddit.com/r/emacs/comments/idm4hg/set_tab_to_companycapf_when_appropriate_in/
-;
+                                        ; If I'm still not happy with completion, look at these:
+                                        ; https://www.gtrun.org/post/config/#company-backend
+                                        ; https://www.reddit.com/r/emacs/comments/idm4hg/set_tab_to_companycapf_when_appropriate_in/
+                                        ;
 
-;; Make sure org-indent face is available
-(require 'org-indent)
-
-;; Ensure that anything that should be fixed-pitch in Org files appears that way
-(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-(set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 (provide 'config)
 ;;; config.el ends here

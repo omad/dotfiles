@@ -1,7 +1,8 @@
-personal_ws-1.1 en 77
+personal_ws-1.1 en 80
 APIs
 Alla
 Aurion
+Beckwith
 Bex
 Bitbucket
 Bunnings
@@ -42,6 +43,7 @@ NetCDF
 Queanbeyan
 Reflectance
 Sai
+Standup
 Statistican
 TODO
 Terraform
@@ -71,6 +73,7 @@ many
 observability
 opendatacube
 parallelisation
+parallelised
 pytest
 sharding
 templating
