@@ -53,7 +53,6 @@
     gh
     pspg
     pgmetrics
-    nodePackages.prettier
     dunst
     dive
     jiq
@@ -64,7 +63,6 @@
     youtube-dl
     onefetch
 
-    nodePackages.yaml-language-server
     argo
     watchexec
 
@@ -72,6 +70,10 @@
     oil
     s5cmd
     niv
+    mitmproxy
 
+    nodePackages.prettier
+    nodePackages.pyright
+    nodePackages.yaml-language-server
   ];
 }

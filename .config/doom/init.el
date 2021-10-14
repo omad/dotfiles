@@ -21,7 +21,7 @@
        :completion
        (company           ; the ultimate code completion backend
         +childframe)
-        ;; +tng)
+       ;; +tng)
        (ivy               ; a search engine for love and life
         +fuzzy
         +icons
@@ -70,7 +70,7 @@
        ;;lispy             ; vim for lisp, for people who dont like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       parinfer          ; turn lisp into python, sort of
+       ;; parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
@@ -108,11 +108,10 @@
        eval              ; run code, run (also, repls)
        gist              ; interacting with github gists
        lookup           ; helps you navigate your code and documentation
-        ;; +dictionary
-        ;; +docsets)        ; ...or in Dash docsets locally
+       ;; +dictionary
+       ;; +docsets)        ; ...or in Dash docsets locally
        (lsp +peek)
-       (magit             ; a git porcelain for Emacs
-        +forge)
+       magit             ; a git porcelain for Emacs
 
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -146,7 +145,7 @@
        (org              ; organize your plain life in plain text
         +attach          ; custom attachment system
         +babel           ; running code in org
-;        +capture         ; org-capture in and outside of Emacs
+                                        ;        +capture         ; org-capture in and outside of Emacs
         +roam2
         +journal
         +export          ; Exporting org to whatever you want
@@ -157,7 +156,7 @@
         +pandoc
         +pomodoro
         +hugo)
-;        +protocol)       ; Support for org-protocol:// links
+                                        ;        +protocol)       ; Support for org-protocol:// links
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more

@@ -91,8 +91,8 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   (let* ((start (time-subtract (current-time) (days-to-time 31)))
                                         ; build a list of 'recent' org-journal files, to grab TODOs from
          (end (current-time)))
-    (org-journal--search-build-file-list start end)
-    ))
+    (org-journal--search-build-file-list start end)))
+
 
 ;; (format-time-string "%F" (time-subtract (current-time) (days-to-time 5)))
 ;;
@@ -100,9 +100,10 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   :after projectile magit
   :config
   (projectile-git-autofetch-mode 1)
-  (setq! projectile-git-autofetch-notify nil)
-  (setq! projectile-git-autofetch-after-fetch-hook  'forge-pull)
-  )
+  (setq! projectile-git-autofetch-notify nil))
+;;  The following is kind of nice, but throws errors for non-forge repos
+;;  (setq! projectile-git-autofetch-after-fetch-hook  'forge-pull)
+
 (setq sql-postgres-login-params
       '((user :default "dra547")
         (database :default "datacube")

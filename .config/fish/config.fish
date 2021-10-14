@@ -18,10 +18,11 @@ source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 #    set -a fish_complete_path /home/linuxbrew/.linuxbrew/share/fish/vendor_completions.d
 #end
 
+set -a fish_complete_path $HOME/.nix-profile/share/fish/vendor_completions.d/
+set -a fish_complete_path $HOME/.nix-profile/etc/fish/completions
+
+
 test -d $HOME/go/bin; and set -a PATH $HOME/go/bin
-
-
-type -q gh; and gh completion --shell fish | source
 
 if test -d ~/miniconda3/
     status is-interactive && eval ~/miniconda3/bin/conda "shell.fish" "hook" $argv | source
@@ -31,10 +32,6 @@ type -q direnv; and eval (direnv hook fish)
 
 set -gx MANPAGER 'less -X'
 set -x EDITOR vim
-
-if test -f ~/.asdf/asdf.fish
-    source ~/.asdf/asdf.fish
-end
 
 set -gx AWS_SESSION_TOKEN_TTL 4h
 
@@ -57,29 +54,10 @@ if type -q ssh-pageant
 end
 
 
-# pyenv
-if test -d $HOME/.pyenv
-    
-# Add pyenv executable to PATH by running
-# the following interactively:
-
-    set -Ux PYENV_ROOT $HOME/.pyenv
-    set -U fish_user_paths $PYENV_ROOT/bin $fish_user_paths
-
-# Load pyenv automatically by appending
-# the following to ~/.config/fish/config.fish:
-
-    status is-login; and pyenv init --path | source
-    pyenv init - | source
-end
-
 # fzf
 if test -d $HOME/.fzf/shell
 	source $HOME/.fzf/shell/key-bindings.fish
 	set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-end
-if type -q register-python-argcomplete; and type -q pipx
-    register-python-argcomplete --shell fish pipx | source
 end
 
 # Fix slow command autocompletion on OS X Catalina
@@ -142,9 +120,6 @@ if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"; and type -q fenv
 end
 if test -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"; and type -q fenv
     fenv source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-end
-for f in $HOME/.nix-profile/share/fish/vendor_completions.d/*
-    source $f
 end
 
 test -d ~/.emacs.d/bin; and set -a PATH ~/.emacs.d/bin
