@@ -14,6 +14,7 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;;(defvar native-comp-deferred-compilation-deny-list nil)
 (doom! :input
        ;;chinese
        ;;japanese
@@ -33,7 +34,7 @@
        :ui
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       doom-dashboard    ; a nifty splash screen for Emacs
+       ;; doom-dashboard    ; a nifty splash screen for Emacs
        (emoji
         +ascii
         +github
@@ -77,7 +78,7 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-        ;; +ranger         ; bringing the goodness of ranger to dired
+        +ranger         ; bringing the goodness of ranger to dired
         +icons)          ; colorful icons for dired-mode
        (ibuffer +icons)
 
@@ -111,7 +112,8 @@
        ;; +dictionary
        ;; +docsets)        ; ...or in Dash docsets locally
        (lsp +peek)
-       magit             ; a git porcelain for Emacs
+       (magit             ; a git porcelain for Emacs
+        +forge)
 
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds

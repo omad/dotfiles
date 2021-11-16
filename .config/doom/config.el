@@ -1,6 +1,9 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 
 
+; Workaround, delete soon
+(defun native-comp-available-p () nil)
+
 ;;; Code:
 (setq!
  user-full-name "Damien Ayers"
