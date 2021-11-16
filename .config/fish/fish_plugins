@@ -4,4 +4,5 @@ PatrickF1/fzf.fish
 evanlucas/fish-kubectl-completions
 oh-my-fish/plugin-foreign-env
 brgmnn/fish-docker-compose
-IlanCosman/tide
+jethrokuan/z
+decors/fish-ghq

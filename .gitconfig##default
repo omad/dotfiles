@@ -89,3 +89,7 @@
 	user = omad
 [init]
 	defaultBranch = main
+
+[ghq]
+  root = ~/dev
+  root = ~/go/src

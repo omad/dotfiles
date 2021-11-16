@@ -72,6 +72,18 @@
     niv
     mitmproxy
 
+    btop
+
+    goaccess  # Web Access Log Analyser
+
+    kubernetes-helm
+
+    hadolint  # Dockerfile linter
+
+    ghq  # git repo manager
+
+    kakoune  # experimental better code editor
+
     nodePackages.prettier
     nodePackages.pyright
     nodePackages.yaml-language-server
