@@ -1,0 +1,5 @@
+
+alias vim=nvim
+alias git=hub
+alias e='emacsclient --no-wait'
+alias qsub_interactive='qsub -I -q express -lwalltime=2:00:00,jobfs=16GB,mem=4GB,ncpus=1,wd'

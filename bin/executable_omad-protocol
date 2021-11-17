@@ -12,7 +12,7 @@
 if [[ "$1" == "omad:"* ]]; then
     ref=${1#omad://}
     ref=$(python -c "import sys, urllib.parse as ul; print(ul.unquote_plus(sys.argv[1]))" "$ref") # If you want decoding
-    notify-send "Omad Scheme omad://!" "$ref"
+#    notify-send "Omad Scheme omad://!" "$ref"
     xdg-open "$ref"
 else
     xdg-open "$1" # Just open with the default handler

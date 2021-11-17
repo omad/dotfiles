@@ -1,0 +1,12 @@
+vim/backups/
+*~
+.*~
+
+# Vim swap files
+*.swp
+*.swo
+tags
+*~
+.DS_Store
+
+.envrc
