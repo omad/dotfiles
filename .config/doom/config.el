@@ -265,6 +265,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
 
 (after! org
   (setq!
+   org-image-actual-width (list 550)
    org-log-done 'time
    org-log-into-drawer t
    org-directory "~/org/"

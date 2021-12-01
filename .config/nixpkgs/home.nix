@@ -78,11 +78,23 @@
 
     kubernetes-helm
 
-    hadolint  # Dockerfile linter
+    hurl  # Rust wrapper for programmatic curl
+
+    yq-go
+
+#    hadolint  # Dockerfile linter
 
     ghq  # git repo manager
 
     kakoune  # experimental better code editor
+
+    oil  # a new shell
+    elvish  # another new shell
+    nim  # a new programming language
+
+    navi # interactive cli cheat sheets
+
+    _1password
 
     nodePackages.prettier
     nodePackages.pyright

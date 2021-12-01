@@ -1,4 +1,4 @@
-personal_ws-1.1 en 100
+personal_ws-1.1 en 102
 APIs
 Acyclic
 Airbnb
@@ -57,6 +57,7 @@ PRs
 Queanbeyan
 Reflectance
 Sai
+Snipper
 Standup
 Statistican
 TODO
@@ -96,6 +97,7 @@ pytest
 reproducibility
 scalability
 sharding
+suspeicions
 templating
 tricksy
 vectorisation

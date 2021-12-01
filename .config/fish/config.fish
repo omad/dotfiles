@@ -30,12 +30,12 @@ end
 
 type -q direnv; and eval (direnv hook fish)
 
-set -gx MANPAGER 'less -X'
 set -x EDITOR vim
 
 set -gx AWS_SESSION_TOKEN_TTL 4h
 
 # Colorize man
+set -gx MANPAGER 'less -X'
 set MANROFFOPT '-c'
 set LESS_TERMCAP_mb (tput bold; tput setaf 2)
 set LESS_TERMCAP_md (tput bold; tput setaf 6)
@@ -46,13 +46,6 @@ set LESS_TERMCAP_us (tput smul; tput bold; tput setaf 7)
 set LESS_TERMCAP_ue (tput rmul; tput sgr0)
 set LESS_TERMCAP_mr (tput rev)
 set LESS_TERMCAP_mh (tput dim)
-
-if type -q ssh-pageant
-    ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME" -S fish | source
-    set PATH $PATH /c/msys64/mingw64/bin
-    set GIT_GUI_LIB_DIR /c/msys64/usr/share/git-gui/lib
-end
-
 
 # fzf
 if test -d $HOME/.fzf/shell
@@ -71,7 +64,7 @@ if test (uname) = Darwin
     end
 end
 
-# fnm
+# Fish Node Manager
 if test -d $HOME/.fnm
     set -a PATH $HOME/.fnm
     fnm env --multi | source
@@ -94,27 +87,6 @@ if test -d /opt/TurboVNC/
     set -a PATH /opt/TurboVNC/bin
 end
 
-# Theme and visuals
-# See https://github.com/oh-my-fish/theme-bobthefish#configuration
-set -g theme_display_k8s_context yes
-set -g theme_display_k8s_namespace yes
-
-set -g theme_date_timezone "Australia/Canberra"
-set -g theme_title_display_user yes
-set -g theme_color_scheme solarized-dark
-if string match -q -r 'putty.*' $TERM; or set -q BAD_WINDOWS_FONTS
-    set -x BAD_WINDOWS_FONTS yes
-    set -g theme_powerline_fonts no
-    set -g theme_nerd_fonts no
-end
-
-# Back in a proper terminal
-if string match -q -r 'rxvt.*' $TERM
-    set -e BAD_WINDOWS_FONTS
-    set -g theme_powerline_fonts yes
-    set -g theme_nerd_fonts yes
-end
-
 if test -e "$HOME/.nix-profile/etc/profile.d/nix.sh"; and type -q fenv
   fenv source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 end
@@ -127,13 +99,16 @@ test -d ~/.local/bin; and set -a PATH ~/.local/bin
 set -a PATH /usr/local/sbin
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-set -gx MANPAGER 'less -X'
-set -x EDITOR vim
 
 
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.fish ]; and . ~/.config/tabtab/__tabtab.fish; or true
 
+# Add git/fzf keybindings from https://brettterpstra.com/2021/11/25/git-better-with-fzf-and-fish/
+if status is-interactive && test -f ~/.config/fish/custom/git_fzf.fish
+	source ~/.config/fish/custom/git_fzf.fish
+	git_fzf_key_bindings
+end
 
 starship init fish | source
