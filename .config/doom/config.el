@@ -179,7 +179,10 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
   (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
   (setq conda-env-home-directory (expand-file-name "~/miniconda3")))
 
-(setq! auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo"))
+(when IS-LINUX
+  (setq! auth-sources '("secrets:Login" "~/.authinfo.gpg" "~/.authinfo")))
+(when IS-MAC
+  (setq! auth-sources '(macos-keychain-internet macos-keychain-generic "~/.authinfo.gpg" "~/.authinfo")))
 
 ;;(when IS-LINUX
 ;;  (font-put doom-font :weight 'semi-light))
