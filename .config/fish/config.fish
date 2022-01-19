@@ -8,6 +8,9 @@ if status --is-login; and type -q fenv
     fenv source $HOME/.profile
 end
 
+set -x DOCKER_BUILDKIT 1
+
+
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
