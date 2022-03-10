@@ -39,6 +39,7 @@
     gitAndTools.hub
     kubectl
     kubectx
+    kubeseal
     nixfmt
 #    python-language-server
     bottom
@@ -60,8 +61,10 @@
     pup
     docker-compose
     eksctl
-    youtube-dl
+    yt-dlp
     onefetch
+
+    jless
 
     argo
     watchexec

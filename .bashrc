@@ -262,3 +262,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+complete -C /nix/store/l82nqzrn2s442d40zpa1r2jg7a2chrlz-s5cmd-1.4.0/bin/s5cmd s5cmd
