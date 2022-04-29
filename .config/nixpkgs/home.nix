@@ -20,7 +20,16 @@
 #  services.lorri.enable = true;
 
   home.packages = with pkgs; [
+    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
+    nixos-generators
+    morph
+
+    lftp
+    tig
+
+    dasel
     awscli2
+    nixops
     mdcat
     prettyping
     spotify-tui # rust spotify client
@@ -43,6 +52,9 @@
     nixfmt
 #    python-language-server
     bottom
+    du-dust
+    duf
+
     scc
     kube3d
     exa
@@ -103,4 +115,21 @@
     nodePackages.pyright
     nodePackages.yaml-language-server
   ];
+
+  systemd.user.timers.odc-slack-export = {
+      Unit = { Description = "Export ODC Slack"; };
+      Timer = { 
+        OnCalendar = "daily";
+        Unit = "odc-slack-export.service";
+      };
+      Install = { WantedBy = [ "timers.target" ]; };
+  };
+  systemd.user.services.odc-slack-export = {
+      Unit = { Description = "Export ODC Slack"; };
+      Service = {
+        EnvironmentFile = "/home/omad/dev/slack-export/token.env";
+        WorkingDirectory = "/home/omad/dev/slack-export/";
+        ExecStart = "/home/omad/dev/slack-export/.direnv/python-3.10.4/bin/python slack_export.py --token $SLACK_TOKEN";
+      };
+  };
 }
