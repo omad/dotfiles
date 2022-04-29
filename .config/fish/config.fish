@@ -24,6 +24,7 @@ source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 set -a fish_complete_path $HOME/.nix-profile/share/fish/vendor_completions.d/
 set -a fish_complete_path $HOME/.nix-profile/etc/fish/completions
 
+test -f completions/granted_completer_fish.fish; and source completions/granted_completer_fish.fish
 
 test -d $HOME/go/bin; and set -a PATH $HOME/go/bin
 
@@ -115,3 +116,5 @@ if status is-interactive && test -f ~/.config/fish/custom/git_fzf.fish
 end
 
 starship init fish | source
+
+alias assume="source /usr/local/bin/assume.fish"
