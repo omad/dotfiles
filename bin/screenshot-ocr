@@ -10,6 +10,5 @@ mogrify -modulate 100,0 -resize 400% $SCR.png
 
 tesseract $SCR.png $SCR -l eng --dpi 300
 cat $SCR.txt | xclip -selection clipboard
-#you can only scan one character at a time
 
 exit
