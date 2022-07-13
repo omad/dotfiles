@@ -8,6 +8,11 @@
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
+if [ -f /etc/bash.bashrc ]; then
+    . /etc/bash.bashrc
+fi
+
+#source ~/.profile
 
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then

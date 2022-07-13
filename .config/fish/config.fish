@@ -2,6 +2,17 @@
 # Turn off welcome message
 set fish_greeting
 
+if status --is-login
+    echo (date) config.fish TERM_PROGRAM = $TERM_PROGRAM >> ~/.profile_log
+end
+#if test "$TERM_PROGRAM" = "vscode"
+  # ~/.profile is run by the login shell (this is what ssh uses)
+  # ~/.bashrc is run by the interactive shell (this is what vscode uses)
+  # Therefore, we only need to change the shell to zsh here since
+  # vscode will run ~/.bashrc for us.
+  #  exec zsh -l
+  #end
+
 # Prefer setting up cross shell environment from ~/.profile
 # There's still plenty to move across
 if status --is-login; and type -q fenv
