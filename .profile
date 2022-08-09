@@ -8,8 +8,7 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-date >> "$HOME/.profile_log"
-echo SHELL=$SHELL >> "$HOME/.profile_log"
+echo $(date) .profile SHELL=$SHELL >> "$HOME/.profile_log"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -77,21 +76,6 @@ export CPATH=$HOME/include
 export PATH="$HOME/.poetry/bin:$PATH"
 
 
-# Set MANPATH so it includes users' private man if it exists
-if [ -d "${HOME}/man" ]; then
-  MANPATH="${HOME}/man:${MANPATH}"
-fi
-
-if [ -d "${HOME}/share/man" ]; then
-    MANPATH=$MANPATH:$HOME/share/man
-fi
-
-# Set INFOPATH so it includes users' private info if it exists
-if [ -d "${HOME}/info" ]; then
-  INFOPATH="${HOME}/info:${INFOPATH}"
-fi
-
-
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export CLICOLOR=1
@@ -109,3 +93,7 @@ if [[ $HOSTNAME =~ ^gadi-login.* ]]; then
 fi
 
 if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+
+# Added by Toolbox App
+export PATH="$PATH:/home/omad/.local/share/JetBrains/Toolbox/scripts"
