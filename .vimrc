@@ -66,6 +66,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'dag/vim-fish'
   Plug 'LnL7/vim-nix'
+  Plug 'ojroques/vim-oscyank', {'branch': 'main'} " System clipboard support
+
 
 " Colorschemes
   Plug 'mhartington/oceanic-next'
