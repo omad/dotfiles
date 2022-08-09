@@ -20,16 +20,24 @@
 #  services.lorri.enable = true;
 
   home.packages = with pkgs; [
-    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
-    nixos-generators
+#    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
+#    nixos-generators
     morph
 
     lftp
     tig
 
+    vale # Syntax aware prose linter
+
+    comby # Structural code search and replace
+
+    nodePackages.insect # Nice calculator
+    nasc  # Another GUI calculator
+
     dasel
+
     awscli2
-    nixops
+
     mdcat
     prettyping
     spotify-tui # rust spotify client
@@ -46,9 +54,13 @@
     bat
     fluxctl
     gitAndTools.hub
+
     kubectl
     kubectx
     kubeseal
+
+    terraform
+
     nixfmt
 #    python-language-server
     bottom
@@ -82,12 +94,13 @@
     watchexec
 
     chezmoi
-    oil
-    s5cmd
+#    s5cmd
     niv
     mitmproxy
 
     btop
+
+    tokei  # source lines of code counter
 
     goaccess  # Web Access Log Analyser
 
@@ -101,7 +114,7 @@
 
     ghq  # git repo manager
 
-    kakoune  # experimental better code editor
+#    kakoune  # experimental better code editor
 
     oil  # a new shell
     elvish  # another new shell
@@ -114,6 +127,7 @@
     nodePackages.prettier
     nodePackages.pyright
     nodePackages.yaml-language-server
+    nodePackages.aws-azure-login
   ];
 
   systemd.user.timers.odc-slack-export = {
