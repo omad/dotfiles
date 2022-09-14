@@ -32,12 +32,14 @@
     comby # Structural code search and replace
 
     nodePackages.insect # Nice calculator
-    nasc  # Another GUI calculator
+
+    # nasc  # TODO uncomment not building 2022-09-14 # Another GUI calculator
 
     dasel
 
     awscli2
 
+    difftastic
     mdcat
     prettyping
     spotify-tui # rust spotify client
@@ -81,9 +83,10 @@
     dunst
     dive
     jiq
-    docker-credential-helpers
     pup
+    docker-credential-helpers
     docker-compose
+    docker-slim
     eksctl
     yt-dlp
     onefetch
@@ -116,9 +119,9 @@
 
 #    kakoune  # experimental better code editor
 
-    oil  # a new shell
-    elvish  # another new shell
-    nim  # a new programming language
+#    oil  # a new shell
+#    elvish  # another new shell
+#    nim  # a new programming language
 
     navi # interactive cli cheat sheets
 
@@ -127,7 +130,7 @@
     nodePackages.prettier
     nodePackages.pyright
     nodePackages.yaml-language-server
-    nodePackages.aws-azure-login
+#    nodePackages.aws-azure-login
   ];
 
   systemd.user.timers.odc-slack-export = {
@@ -146,4 +149,17 @@
         ExecStart = "/home/omad/dev/slack-export/.direnv/python-3.10.4/bin/python slack_export.py --token $SLACK_TOKEN";
       };
   };
+  
+  systemd.user.services.theengs-gateway = with pkgs; let
+    TheengsGateway = callPackage ./theengs-gateway.nix {
+      pythonPackages = python3Packages;
+    };
+    TheengsEnv = python3.withPackages (ps: [TheengsGateway ]);
+  in {
+      Unit.Description = "Run Theengs Gateway BLE-MQTT gateway";
+      Service = {
+        ExecStart = "${TheengsEnv}/bin/python3 -m TheengsGateway -ll INFO";
+      };
+    };
+
 }
