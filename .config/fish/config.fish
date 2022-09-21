@@ -68,6 +68,12 @@ if test -d $HOME/.fzf/shell
 	set -x FZF_DEFAULT_COMMAND 'rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 end
 
+if test -d $HOME/.fly
+    set -x FLYCTL_INSTALL "$HOME/.fly"
+    set -a PATH "$FLYCTL_INSTALL/bin"
+end
+
+
 # Fix slow command autocompletion on OS X Catalina
 # See: https://github.com/fish-shell/fish-shell/issues/6270
 if test (uname) = Darwin
