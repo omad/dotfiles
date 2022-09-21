@@ -31,11 +31,15 @@
 
     comby # Structural code search and replace
 
+    cloudflared
+
     nodePackages.insect # Nice calculator
 
     # nasc  # TODO uncomment not building 2022-09-14 # Another GUI calculator
 
     dasel
+
+    gitui # fast cli git client https://github.com/extrawurst/gitui
 
     awscli2
 
