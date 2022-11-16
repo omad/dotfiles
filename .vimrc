@@ -104,6 +104,11 @@ set gdefault
 nnoremap <tab> %
 vnoremap <tab> %
 
+" Setup OSCYank for copying to the system clipboard. In Visual mode and Normal
+" mode
+vnoremap <leader>c :OSCYank<CR>
+nmap <leader>o <Plug>OSCYank
+
 
 " Use standard regex syntax
 nnoremap / /\v

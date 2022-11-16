@@ -42,6 +42,7 @@
     gitui # fast cli git client https://github.com/extrawurst/gitui
 
     awscli2
+    packer
 
     difftastic
     mdcat
@@ -67,6 +68,8 @@
 
     terraform
 
+    zola # Rust Static Site Generator
+
     nixfmt
 #    python-language-server
     bottom
@@ -75,7 +78,10 @@
 
     scc
     kube3d
+
     exa
+    lsd
+
     git-secrets
     k9s
     rclone
@@ -154,16 +160,16 @@
       };
   };
   
-  systemd.user.services.theengs-gateway = with pkgs; let
-    TheengsGateway = callPackage ./theengs-gateway.nix {
-      pythonPackages = python3Packages;
-    };
-    TheengsEnv = python3.withPackages (ps: [TheengsGateway ]);
-  in {
-      Unit.Description = "Run Theengs Gateway BLE-MQTT gateway";
-      Service = {
-        ExecStart = "${TheengsEnv}/bin/python3 -m TheengsGateway -ll INFO";
-      };
-    };
+#  systemd.user.services.theengs-gateway = with pkgs; let
+#    TheengsGateway = callPackage ./theengs-gateway.nix {
+#      pythonPackages = python3Packages;
+#    };
+#    TheengsEnv = python3.withPackages (ps: [TheengsGateway ]);
+#  in {
+#      Unit.Description = "Run Theengs Gateway BLE-MQTT gateway";
+#      Service = {
+#        ExecStart = "${TheengsEnv}/bin/python3 -m TheengsGateway -ll INFO";
+#      };
+#    };
 
 }

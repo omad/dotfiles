@@ -32,8 +32,7 @@ source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 #    set -a fish_complete_path /home/linuxbrew/.linuxbrew/share/fish/vendor_completions.d
 #end
 
-set -a fish_complete_path $HOME/.nix-profile/share/fish/vendor_completions.d/
-set -a fish_complete_path $HOME/.nix-profile/etc/fish/completions
+set -p fish_complete_path $HOME/.nix-profile/share/fish/vendor_completions.d/
 
 test -f completions/granted_completer_fish.fish; and source completions/granted_completer_fish.fish
 
@@ -72,6 +71,8 @@ if test -d $HOME/.fly
     set -x FLYCTL_INSTALL "$HOME/.fly"
     set -a PATH "$FLYCTL_INSTALL/bin"
 end
+
+set -a PATH "$HOME/.pulumi/bin"
 
 
 # Fix slow command autocompletion on OS X Catalina
@@ -135,3 +136,5 @@ end
 starship init fish | source
 
 alias assume="source /usr/local/bin/assume.fish"
+
+

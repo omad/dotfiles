@@ -8,11 +8,6 @@
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
-if [ -f /etc/bash.bashrc ]; then
-    . /etc/bash.bashrc
-fi
-
-#source ~/.profile
 
 system_type=$(uname -s)
 if [ "$system_type" = "Darwin" ]; then
@@ -265,11 +260,5 @@ else
     fi
 fi
 unset __conda_setup
-
-if [ -f "/home/omad/miniconda3/etc/profile.d/mamba.sh" ]; then
-    . "/home/omad/miniconda3/etc/profile.d/mamba.sh"
-fi
 # <<< conda initialize <<<
 
-
-complete -C /nix/store/l82nqzrn2s442d40zpa1r2jg7a2chrlz-s5cmd-1.4.0/bin/s5cmd s5cmd

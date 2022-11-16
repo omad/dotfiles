@@ -12,7 +12,7 @@
 	required = true
 	process = git-lfs filter-process
 [push]
-	default = upstream
+	default = current
 [core]
 	autocrlf = input
 	safecrlf = warn
