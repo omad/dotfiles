@@ -67,7 +67,7 @@ export VISUAL=vim
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
 
-export PYTEST_ADDOPTS='--pdbcls=IPython.core.debugger:Pdb'
+export PYTEST_ADDOPTS='--pdbcls=IPython.terminal.debugger:TerminalPdb'
 
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH:/usr/local/sbin"
 export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
