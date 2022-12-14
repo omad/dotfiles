@@ -27,6 +27,8 @@
     lftp
     tig
 
+    upterm
+
     vale # Syntax aware prose linter
 
     comby # Structural code search and replace
@@ -61,6 +63,14 @@
     bat
     fluxctl
     gitAndTools.hub
+
+
+    # Language Servers
+    terraform-ls
+    taplo
+    rnix-lsp
+    nodePackages.dockerfile-language-server-nodejs
+    cmake-language-server
 
     kubectl
     kubectx
