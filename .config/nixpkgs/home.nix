@@ -18,6 +18,7 @@
   home.homeDirectory = "/home/omad/";
 
 #  services.lorri.enable = true;
+  manual.manpages.enable = false;
 
   home.packages = with pkgs; [
 #    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
@@ -27,7 +28,19 @@
     lftp
     tig
 
+    mqttui
+
     upterm
+    wine
+    winetricks
+
+    mosquitto
+
+    driftctl
+
+    skopeo # container registry sync tool
+
+    cue # cue language
 
     vale # Syntax aware prose linter
 
@@ -73,6 +86,7 @@
     cmake-language-server
 
     kubectl
+    kubectl-convert
     kubectx
     kubeseal
 
@@ -120,6 +134,7 @@
 #    s5cmd
     niv
     mitmproxy
+    rustscan
 
     btop
 
@@ -145,7 +160,7 @@
 
     navi # interactive cli cheat sheets
 
-    _1password
+#    _1password
 
     nodePackages.prettier
     nodePackages.pyright
