@@ -75,11 +75,13 @@
     aws-vault
     bat
     fluxctl
+    fluxcd
     gitAndTools.hub
 
 
     # Language Servers
     terraform-ls
+    tflint
     taplo
     rnix-lsp
     nodePackages.dockerfile-language-server-nodejs
@@ -88,6 +90,7 @@
     kubectl
     kubectl-convert
     kubectx
+    kubecolor
     kubeseal
 
     terraform

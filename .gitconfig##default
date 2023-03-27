@@ -93,3 +93,5 @@
 [ghq]
   root = ~/dev
   root = ~/go/src
+[rerere]
+	enabled = true

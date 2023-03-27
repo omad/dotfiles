@@ -70,6 +70,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'jremmen/vim-ripgrep'
 
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Colorschemes
   Plug 'mhartington/oceanic-next'
@@ -108,8 +109,9 @@ vnoremap <tab> %
 
 " Setup OSCYank for copying to the system clipboard. In Visual mode and Normal
 " mode
-vnoremap <leader>c :OSCYank<CR>
-nmap <leader>o <Plug>OSCYank
+nmap <leader>c <Plug>OSCYankOperator
+nmap <leader>cc <leader>c_
+vmap <leader>c <Plug>OSCYankVisual
 
 
 " Use standard regex syntax
@@ -211,6 +213,9 @@ augroup navigator
   autocmd!
   autocmd FileType netrw call s:reset_netrw_keys()
 augroup END
+
+" Add support for commented JSON
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 function! s:reset_netrw_keys() abort
 "  nmap <buffer> <silent> <c-h> <Plug>NetrwHideEdit
