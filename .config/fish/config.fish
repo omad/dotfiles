@@ -24,6 +24,7 @@ set -x DOCKER_BUILDKIT 1
 
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
+source $HOME/.config/fish/autocorrections.fish > /dev/null 2>&1
 source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 
 # Linuxbrew. Needs to be early so that we can detect available commands.
@@ -137,4 +138,17 @@ starship init fish | source
 
 alias assume="source /usr/local/bin/assume.fish"
 
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+#if test -f /home/omad/miniconda3/bin/conda
+#    eval /home/omad/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+#end
+
+if test -f "/home/omad/miniconda3/etc/fish/conf.d/mamba.fish"
+    source "/home/omad/miniconda3/etc/fish/conf.d/mamba.fish"
+end
+# <<< conda initialize <<<
+complete --command mamba --wraps conda
 
