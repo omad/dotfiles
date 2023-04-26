@@ -13,7 +13,7 @@ for line in git.remote('-v'):
         sys.exit(1)
     elif url.startswith('git'):
         host, path = url.split(':')
-        path, _ = path.split('.')
+        path, *_ = path.split('.')
 
 remote_url = f'https://bitbucket.org/{path}'
 
