@@ -4,6 +4,13 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+#  programs.neovim = {
+#    enable = true;
+#    vimAlias = true;
+#    vimdiffAlias = true;
+#
+#  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -25,10 +32,17 @@
 #    nixos-generators
     morph
 
+    nushell
+    usql
+
     lftp
     tig
 
     mqttui
+
+    gitui
+
+    btop
 
     upterm
     wine
@@ -37,6 +51,8 @@
     mosquitto
 
     driftctl
+
+    ruff
 
     skopeo # container registry sync tool
 
@@ -133,7 +149,6 @@
     argo
     watchexec
 
-    chezmoi
 #    s5cmd
     niv
     mitmproxy
@@ -171,22 +186,22 @@
 #    nodePackages.aws-azure-login
   ];
 
-  systemd.user.timers.odc-slack-export = {
-      Unit = { Description = "Export ODC Slack"; };
-      Timer = { 
-        OnCalendar = "daily";
-        Unit = "odc-slack-export.service";
-      };
-      Install = { WantedBy = [ "timers.target" ]; };
-  };
-  systemd.user.services.odc-slack-export = {
-      Unit = { Description = "Export ODC Slack"; };
-      Service = {
-        EnvironmentFile = "/home/omad/dev/slack-export/token.env";
-        WorkingDirectory = "/home/omad/dev/slack-export/";
-        ExecStart = "/home/omad/dev/slack-export/.direnv/python-3.10.4/bin/python slack_export.py --token $SLACK_TOKEN";
-      };
-  };
+#  systemd.user.timers.odc-slack-export = {
+#      Unit = { Description = "Export ODC Slack"; };
+#      Timer = { 
+#        OnCalendar = "daily";
+#        Unit = "odc-slack-export.service";
+#      };
+#      Install = { WantedBy = [ "timers.target" ]; };
+#  };
+#  systemd.user.services.odc-slack-export = {
+#      Unit = { Description = "Export ODC Slack"; };
+#      Service = {
+#        EnvironmentFile = "/home/omad/dev/slack-export/token.env";
+#        WorkingDirectory = "/home/omad/dev/slack-export/";
+#        ExecStart = "/home/omad/dev/slack-export/.direnv/python-3.10.4/bin/python slack_export.py --token $SLACK_TOKEN";
+#      };
+#  };
   
 #  systemd.user.services.theengs-gateway = with pkgs; let
 #    TheengsGateway = callPackage ./theengs-gateway.nix {
