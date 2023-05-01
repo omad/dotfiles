@@ -21,14 +21,15 @@
     in {
         homeManagerConfigurations = {
             omad = home-manager.lib.homeManagerConfiguration {
-                inherit system pkgs;
-                username = "omad";
-                homeDirectory = "/home/omad";
-                configuration = {
-                    imports = [
-                        ./home.nix
-                    ];
-                };
+                pkgs = nixpkgs.legacyPackages.${system};
+                modules = [
+                    ./home.nix
+                    {
+                        home = {
+                            username = "omad";
+                        };
+                    }
+                ];
             };
         };
     };
