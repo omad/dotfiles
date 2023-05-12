@@ -19,7 +19,7 @@
 
         lib = nixpkgs.lib;
     in {
-        homeManagerConfigurations = {
+        homeConfigurations = {
             omad = home-manager.lib.homeManagerConfiguration {
                 pkgs = nixpkgs.legacyPackages.${system};
                 modules = [

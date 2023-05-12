@@ -102,6 +102,7 @@
     rnix-lsp
     nodePackages.dockerfile-language-server-nodejs
     cmake-language-server
+    docker-compose-language-service
 
     kubectl
     kubectl-convert
@@ -186,6 +187,36 @@
 #    nodePackages.aws-azure-login
   ];
 
+   systemd.user.paths.watch-download-torrents = {
+       Unit = { Description = "Watch Downloads"; };
+       Path = {
+           PathChanged = "/home/omad/Downloads/";
+#           PathExistsGlob = "/home/omad/Downloads/*.torrent";
+           Unit = "watch-download-torrents.service";
+       };
+      Install = { WantedBy = [ "paths.target" ]; };
+ 
+   };
+   systemd.user.services.watch-download-torrents = let
+       script = pkgs.writeScript "watch-download-torrents" ''
+           #!${pkgs.fish}/bin/fish
+           echo Download Manager Triggered
+
+           for f in *.torrent
+              echo Adding $f
+              ${pkgs.transmission}/bin/transmission-remote nixos --add "$f"
+              and rm "$f"
+           end
+           '';
+   in
+     {
+       Unit = { Description = "Act on Downloaded File"; };
+       Service = {
+           WorkingDirectory = "/home/omad/Downloads/";
+           ExecStart = "${script}";
+ #          ExecStart = "";
+       };
+   };
 #  systemd.user.timers.odc-slack-export = {
 #      Unit = { Description = "Export ODC Slack"; };
 #      Timer = { 
