@@ -30,6 +30,7 @@
   home.packages = with pkgs; [
 #    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
 #    nixos-generators
+    (callPackage ./fastgron.nix {})
     morph
 
     nushell
@@ -38,9 +39,16 @@
     lftp
     tig
 
+    ltex-ls
+
     mqttui
 
+    nix-init
+
     gitui
+    helix
+
+    qpwgraph
 
     btop
 
@@ -150,7 +158,7 @@
     argo
     watchexec
 
-#    s5cmd
+    s5cmd
     niv
     mitmproxy
     rustscan
