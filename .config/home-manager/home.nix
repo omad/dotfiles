@@ -36,6 +36,8 @@
     nushell
     usql
 
+    hugo
+
     lftp
     tig
 
