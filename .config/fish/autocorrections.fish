@@ -9,6 +9,8 @@ function _autocorrect
     if contains apt (commandline) 
         echo remove
         return 0
+    else
+        return 1
     end
 end
 
