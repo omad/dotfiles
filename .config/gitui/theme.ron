@@ -1,0 +1,61 @@
+(
+    // Colour map for solarized theme
+
+    // Reset - background colour for theme (light/dark)
+    // Black - black
+    // White - white - invisible on light theme background
+    // Red - red
+    // Green - green
+    // Yellow - orangey-yellow
+    // Blue - blue
+    // Magenta - pink/magenta
+    // Cyan - cyan / light-blue
+    // Gray - almost white - very low contrast on light theme background
+    // DarkGray - almost black - invisible on dark theme background
+    // LightRed - orangey-red
+    // LightGreen - grey
+    // LightYellow - grey
+    // LightBlue - grey
+    // LightMagenta - purple
+    // LightCyan - slightly lighter grey
+
+    // inactive tab+button text colour, plus inactive UI elements (borders etc)
+    disabled_fg: LightGreen, // actually grey
+
+    // active tab at top, text colour  - e.g. Status [1]
+    selected_tab: Green,
+
+    // - buttons at bottom - active button text - e.g. Branches [b]
+    // - highlighted commit in log - text colour
+    command_fg: White,
+
+    selection_fg: Gray,
+
+    // buttons at bottom - background
+    selection_bg: Reset, // turn off different background
+
+    cmdbar_bg: Blue,
+
+    // don't know what this is for
+    cmdbar_extra_lines_bg: LightCyan,
+
+    diff_line_add: Green,
+    diff_line_delete: Red,
+    diff_file_added: Green,
+    diff_file_removed: Red,
+    diff_file_moved: Yellow,
+    diff_file_modified: Blue,
+
+    commit_hash: LightMagenta,
+    commit_time: LightRed,
+    commit_author: Yellow,
+
+    tag_fg: LightMagenta,
+    branch_fg: LightYellow,
+
+    danger_fg: Red,
+
+    // Don't know what this is
+    push_gauge_bg: Blue,
+    push_gauge_fg: Black,
+)
