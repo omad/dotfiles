@@ -36,10 +36,21 @@
     nushell
     usql
 
+    hyperfine
+
+    jsonnet-bundler
+
     hugo
+
+    lazygit
+    lazydocker
+
+    glow # tui markdown reader
 
     lftp
     tig
+
+    bfs # Breadth first find alternative
 
     ltex-ls
 
@@ -48,7 +59,6 @@
     nix-init
 
     gitui
-    helix
 
     qpwgraph
 
@@ -83,6 +93,7 @@
     gitui # fast cli git client https://github.com/extrawurst/gitui
 
     awscli2
+    ssm-session-manager-plugin
     packer
 
     difftastic
@@ -100,8 +111,8 @@
     direnv
     aws-vault
     bat
-    fluxctl
-    fluxcd
+
+
     gitAndTools.hub
 
 
@@ -113,19 +124,26 @@
     nodePackages.dockerfile-language-server-nodejs
     cmake-language-server
     docker-compose-language-service
+#    python-language-server
 
     kubectl
     kubectl-convert
     kubectx
     kubecolor
     kubeseal
+    kustomize
+    fluxctl
+    fluxcd
+    k9s
+    argo
+    kubernetes-helm
 
     terraform
+    terraform-docs
 
     zola # Rust Static Site Generator
 
     nixfmt
-#    python-language-server
     bottom
     du-dust
     duf
@@ -137,10 +155,8 @@
     lsd
 
     git-secrets
-    k9s
     rclone
     shellcheck
-    terraform-docs
     gh
     pspg
     pgmetrics
@@ -157,7 +173,6 @@
 
     jless
 
-    argo
     watchexec
 
     s5cmd
@@ -171,7 +186,6 @@
 
     goaccess  # Web Access Log Analyser
 
-    kubernetes-helm
 
     hurl  # Rust wrapper for programmatic curl
 
@@ -182,6 +196,7 @@
     ghq  # git repo manager
 
 #    kakoune  # experimental better code editor
+    helix
 
 #    oil  # a new shell
 #    elvish  # another new shell

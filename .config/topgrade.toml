@@ -1,3 +1,4 @@
+[misc]
 # Don't ask for confirmations
 #assume_yes = true
 
@@ -52,6 +53,8 @@ cleanup = true
 # Commands to run before anything
 [pre_commands]
 #"Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
+
+"Update Home Manager Flake" = "nix flake update $HOME/.config/home-manager/"
 
 # Custom commands
 [commands]
