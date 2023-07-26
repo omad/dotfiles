@@ -21,6 +21,10 @@ end
 
 set -x DOCKER_BUILDKIT 1
 
+if status is-interactive
+    atuin init fish | source
+end
+
 
 # Source command abbreviations
 source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
