@@ -1,5 +1,7 @@
 channels:
+  - microsoft
   - conda-forge
   - defaults
 auto_activate_base: false
 channel_priority: strict
+solver: libmamba

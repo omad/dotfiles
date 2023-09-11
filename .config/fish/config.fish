@@ -22,7 +22,11 @@ end
 set -x DOCKER_BUILDKIT 1
 
 if status is-interactive
-    atuin init fish | source
+    # Fancy prompt history using atuin
+    type -q atuin; and atuin init fish | source
+
+    # Fancy prompt using starship
+    type -q starship; and starship init fish | source
 end
 
 
@@ -31,11 +35,6 @@ source $HOME/.config/fish/abbreviations.fish > /dev/null 2>&1
 source $HOME/.config/fish/autocorrections.fish > /dev/null 2>&1
 source $HOME/.config/fish/aliases.fish > /dev/null 2>&1
 
-# Linuxbrew. Needs to be early so that we can detect available commands.
-#if test -d /home/linuxbrew/.linuxbrew
-#    /home/linuxbrew/.linuxbrew/bin/brew shellenv | source
-#    set -a fish_complete_path /home/linuxbrew/.linuxbrew/share/fish/vendor_completions.d
-#end
 
 set -p fish_complete_path $HOME/.nix-profile/share/fish/vendor_completions.d/
 
@@ -138,7 +137,6 @@ if status is-interactive && test -f ~/.config/fish/custom/git_fzf.fish
 	git_fzf_key_bindings
 end
 
-starship init fish | source
 
 alias assume="source /usr/local/bin/assume.fish"
 
@@ -156,3 +154,13 @@ end
 # <<< conda initialize <<<
 complete --command mamba --wraps conda
 
+
+# pnpm
+set -gx PNPM_HOME "/home/omad/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
+
+fish_add_path /home/omad/.pixi/bin
+pixi completion --shell fish | source

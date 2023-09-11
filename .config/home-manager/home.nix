@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, args, ... }:
 
 {
   # Let Home Manager install and manage itself.
@@ -9,6 +9,16 @@
 #    vimAlias = true;
 #    vimdiffAlias = true;
 #
+#  };
+
+
+  targets.genericLinux.enable = true;
+
+  # avoid redownloding and re-evaluating nixpkgs every time I
+  # do a 'nix search' or 'nix shell'
+#  nix.registry.nixpkgs = {
+#      from = { type = "indirect"; id = "nixpkgs"; };
+#      flake = args.pkgs;
 #  };
 
   # This value determines the Home Manager release that your
@@ -33,12 +43,19 @@
     (callPackage ./fastgron.nix {})
     morph
 
-    nushell
+    nushellFull
     usql
+
+    # Convert lots of standard command output to JSON
+    jc
+
+    jira-cli-go
 
     hyperfine
 
     jsonnet-bundler
+
+    neovide
 
     hugo
 
@@ -61,6 +78,8 @@
     gitui
 
     qpwgraph
+
+    asciinema
 
     btop
 

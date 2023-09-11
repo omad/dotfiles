@@ -1,6 +1,9 @@
 # Inserts a blank line between shell prompts
 #add_newline = true
 
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 # format = """$username\
 # $hostname\
 # $shlvl\
@@ -53,3 +56,6 @@ disabled = true
 
 [nodejs]
 disabled = true
+
+[shell]
+disabled = false
