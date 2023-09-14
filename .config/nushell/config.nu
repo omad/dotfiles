@@ -362,6 +362,16 @@ $env.config = {
             }
         }
         {
+            name: insert_last_token
+            modifier: alt
+            keycode: char_.
+            mode: emacs
+            event: [
+              { edit: InsertString, value: " !$" }
+              { send: Enter }
+            ]
+        }
+        {
             name: escape
             modifier: none
             keycode: escape
@@ -783,3 +793,5 @@ $env.PROMPT_INDICATOR = ""
 $env.PROMPT_INDICATOR_VI_INSERT = ": "
 $env.PROMPT_INDICATOR_VI_NORMAL = "〉"
 $env.PROMPT_MULTILINE_INDICATOR = "::: "
+
+alias hm = home-manager

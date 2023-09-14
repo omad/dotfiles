@@ -5,15 +5,15 @@
         nixpkgs.url = "nixpkgs/nixos-unstable";
         home-manager.url = "github:nix-community/home-manager/master";
         home-manager.inputs.nixpkgs.follows = "nixpkgs";
-        martinvonz.url = "github:martinvonz/jj";
-        martinvonz.inputs.nixpkgs.follows = "nixpkgs";
+#        martinvonz.url = "github:martinvonz/jj";
+#        martinvonz.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = { nixpkgs, home-manager, martinvonz, ... }:
+    outputs = { nixpkgs, home-manager, ... }:
     let
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
-        martinvonz_pkgs = martinvonz.packages.${system};
+#        martinvonz_pkgs = martinvonz.packages.${system};
 #        pkgs = import nixpkgs {
 #            inherit system;
 #            config = {
@@ -34,9 +34,9 @@
                   nixpkgs.config = {
                     allowUnfree = true;
                   };
-                  home.packages = [
-                      martinvonz_pkgs.jujutsu
-                  ];
+#                  home.packages = [
+#                      martinvonz_pkgs.jujutsu
+#                  ];
         #          nix.registry.nixpkgs-unstable.flake = nixpkgs-unstable;
                 })
 

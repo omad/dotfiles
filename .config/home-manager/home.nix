@@ -59,8 +59,12 @@
 
     hugo
 
+    duckdb
+
     lazygit
     lazydocker
+
+    kubeconform
 
     glow # tui markdown reader
 
@@ -170,7 +174,7 @@
     scc
     kube3d
 
-    exa
+#    exa No longer supported apparently
     lsd
 
     git-secrets
