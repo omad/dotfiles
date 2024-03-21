@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 
 
+path = None
 for line in git.remote('-v'):
     name, url, _type = line.split()
     if url.startswith('http'):
@@ -15,6 +16,10 @@ for line in git.remote('-v'):
         host, path = url.split(':')
         path, *_ = path.split('.')
 
+if path is None:
+    print("Couldn't determine remote git path", file=sys.stderr)
+    sys.exit(1)
+
 remote_url = f'https://bitbucket.org/{path}'
 
 if len(sys.argv) == 2:
@@ -22,7 +27,9 @@ if len(sys.argv) == 2:
 
     git_dir = Path(str(git('rev-parse', '--show-toplevel')).strip())
 
+    git_branch = git('rev-parse', '--abbrev-ref', '@{upstream}').split('/')[1]
+
     relative_file = filename.relative_to(git_dir)
 
-    remote_url = f'https://bitbucket.org/{path}/src/master/{relative_file}'
+    remote_url = f'https://bitbucket.org/{path}/src/{git_branch}/{relative_file}'
 xdg_open(remote_url)

@@ -110,26 +110,6 @@ function preexec {
     refresh-tmux-env-vars
 }
 
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
-
-
-
-if [[ `hostname` =~ vdi ]]; then
-    mkdir -p /local/u46/dra547/tmp/dotcondapkgcache
-    mkdir -p /local/u46/dra547/tmp/dotcache
-    export PATH="${PATH}:${HOME}/src/damootils/scripts"
-    export PIP_DOWNLOAD_CACHE=$TMPDIR/pipcache
-    mkdir -p $PIP_DOWNLOAD_CACHE
-    export CARGO_HOME=/local/u46/dra547/cargo
-    export RUSTUP_HOME=/local/u46/dra547/rustup
-    export PATH=$PATH:$CARGO_HOME/bin
-fi
-if [[ ! -S ~/.ssh/ssh_auth_sock && -S "$SSH_AUTH_SOCK" ]]; then
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-fi
-
-
 ###########################################
 # Setup Prompt
 
@@ -244,9 +224,6 @@ if command_exists fnm; then
     eval "`fnm env --multi`"
 fi
 
-# added by travis gem
-[ -f /home/omad/.travis/travis.sh ] && source /home/omad/.travis/travis.sh
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/omad/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -269,3 +246,5 @@ fi
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"
+export OP_DEVICE="dogy2etmd35kcfnek6qurujj7i"
+. "$HOME/.cargo/env"

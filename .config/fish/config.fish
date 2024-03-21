@@ -42,10 +42,6 @@ test -f completions/granted_completer_fish.fish; and source completions/granted_
 
 test -d $HOME/go/bin; and set -a PATH $HOME/go/bin
 
-if test -d ~/miniconda3/
-    status is-interactive && eval ~/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-end
-
 type -q direnv; and eval (direnv hook fish)
 
 set -x EDITOR vim
@@ -53,7 +49,8 @@ set -x EDITOR vim
 set -gx AWS_SESSION_TOKEN_TTL 4h
 
 # Colorize man
-set -gx MANPAGER 'less -X'
+#set -gx MANPAGER 'less -X
+set -gx MANPAGER 'less -R'
 set MANROFFOPT '-c'
 set LESS_TERMCAP_mb (tput bold; tput setaf 2)
 set LESS_TERMCAP_md (tput bold; tput setaf 6)
@@ -100,6 +97,8 @@ if test -d /Applications/Postgres.app/Contents/Versions/latest/bin
     set -a PATH /Applications/Postgres.app/Contents/Versions/latest/bin
 end
 
+set -gx PATH $PATH $HOME/.krew/bin
+
 
 # Automatically bootstrap fisher
 if not functions -q fisher
@@ -141,20 +140,6 @@ end
 alias assume="source /usr/local/bin/assume.fish"
 
 
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-#if test -f /home/omad/miniconda3/bin/conda
-#    eval /home/omad/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-#end
-
-if test -f "/home/omad/miniconda3/etc/fish/conf.d/mamba.fish"
-    source "/home/omad/miniconda3/etc/fish/conf.d/mamba.fish"
-end
-# <<< conda initialize <<<
-complete --command mamba --wraps conda
-
-
 # pnpm
 set -gx PNPM_HOME "/home/omad/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
@@ -162,5 +147,14 @@ if not string match -q -- $PNPM_HOME $PATH
 end
 # pnpm end
 
+# Initialising pixi integration is slow
+#fish_add_path /home/omad/.pixi/bin
+#pixi completion --shell fish | source
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+set -gx MAMBA_EXE "/home/omad/.local/bin/micromamba"
+set -gx MAMBA_ROOT_PREFIX "/home/omad/micromamba"
+$MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+# <<< mamba initialize <<<
 fish_add_path /home/omad/.pixi/bin
-pixi completion --shell fish | source

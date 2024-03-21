@@ -1,25 +1,34 @@
-{ config, pkgs, args, ... }:
+{ pkgs, ... }:
 
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
-#  programs.neovim = {
-#    enable = true;
-#    vimAlias = true;
-#    vimdiffAlias = true;
-#
-#  };
+  #  programs.neovim = {
+  #    enable = true;
+  #    vimAlias = true;
+  #    vimdiffAlias = true;
+  #
+  #  };
 
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Damien Ayers";
+        email = "damien@omad.net";
+      };
+    };
+  };
 
-  targets.genericLinux.enable = true;
+  xsession.enable = false;
 
-  # avoid redownloding and re-evaluating nixpkgs every time I
-  # do a 'nix search' or 'nix shell'
-#  nix.registry.nixpkgs = {
-#      from = { type = "indirect"; id = "nixpkgs"; };
-#      flake = args.pkgs;
-#  };
+  # Not sure what this fixes, but it probably breaks thigns too
+  targets.genericLinux.enable = false;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -34,17 +43,52 @@
   home.username = "omad";
   home.homeDirectory = "/home/omad/";
 
-#  services.lorri.enable = true;
-  manual.manpages.enable = false;
+  #  services.flameshot.enable = true;
+  #  services.sxhkd = {
+  #      enable = true;
+  #      keybindings = {
+  #          "F1" = "jumpapp -m kitty";
+  #      };
+  #  };
+  # Mock tray for running my own WM/session
+  # See https://github.com/nix-community/home-manager/issues/2064
+  #  systemd.user.targets.tray = {
+  #          Unit = {
+  #                  Description = "Home Manager System Tray";
+  #                  Requires = [ "graphical-session-pre.target" ];
+  #          };
+  #  };
+  #    systemd.user.services.mock-tray = {
+  #      Unit = {
+  #        Description = "Mock X Tray";
+  #        PartOf = [ "tray.target" ];
+  #      };
+  #
+  #      Service = {
+  #        Type = "oneshot";
+  #        ExecStart = "${pkgs.coreutils}/bin/true";
+  #      };
+  #
+  #      Install.WantedBy = [ "graphical-session.target" ];
+  #    };
+
+  #  services.lorri.enable = true;
+  manual.manpages.enable = true;
 
   home.packages = with pkgs; [
-#    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
-#    nixos-generators
-    (callPackage ./fastgron.nix {})
+    #    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
+    #    nixos-generators
+    (callPackage ./fastgron.nix { })
     morph
 
     nushellFull
     usql
+
+    #    scrcpy
+
+    # I tried git from here because the pop-os deb install was crashing due to the envsubst version
+    # being differet
+    git
 
     # Convert lots of standard command output to JSON
     jc
@@ -54,17 +98,29 @@
     hyperfine
 
     jsonnet-bundler
+    ijq
 
-    neovide
+    hey
 
     hugo
 
+    #    granted
+
     duckdb
+
+    sops
+    age
+
+    atuin
 
     lazygit
     lazydocker
 
     kubeconform
+    #    envsubst  # The a8m go implementation, not the gnu gettext one
+    minikube
+    kubeswitch
+    prometheus # For promtool
 
     glow # tui markdown reader
 
@@ -87,9 +143,11 @@
 
     btop
 
+    trivy
+
     upterm
-    wine
-    winetricks
+    #    wine
+    #    winetricks
 
     mosquitto
 
@@ -107,8 +165,6 @@
 
     cloudflared
 
-    nodePackages.insect # Nice calculator
-
     # nasc  # TODO uncomment not building 2022-09-14 # Another GUI calculator
 
     dasel
@@ -116,13 +172,14 @@
     gitui # fast cli git client https://github.com/extrawurst/gitui
 
     awscli2
+    aws-sso-cli
     ssm-session-manager-plugin
-    packer
+    #    packer
 
     difftastic
     mdcat
     prettyping
-    spotify-tui # rust spotify client
+    # spotify-tui # rust spotify client
     tealdeer # rust tldr client
     fd # fast find alternative
     fzf
@@ -130,24 +187,19 @@
     starship # minimal blazing fast prompt
     gitAndTools.delta
     jq
+    fx
     htop
-    direnv
-    aws-vault
     bat
-
-
-    gitAndTools.hub
 
 
     # Language Servers
     terraform-ls
     tflint
     taplo
-    rnix-lsp
     nodePackages.dockerfile-language-server-nodejs
     cmake-language-server
     docker-compose-language-service
-#    python-language-server
+    #    python-language-server
 
     kubectl
     kubectl-convert
@@ -155,13 +207,15 @@
     kubecolor
     kubeseal
     kustomize
-    fluxctl
-    fluxcd
+
+    # The latest versions of flux aren't backwards compatible
+    # So I've downlaoded a binary from GitHub Releases
+    #    fluxcd
     k9s
     argo
     kubernetes-helm
 
-    terraform
+    #    terraform
     terraform-docs
 
     zola # Rust Static Site Generator
@@ -174,7 +228,7 @@
     scc
     kube3d
 
-#    exa No longer supported apparently
+    #    exa No longer supported apparently
     lsd
 
     git-secrets
@@ -183,7 +237,6 @@
     gh
     pspg
     pgmetrics
-    dunst
     dive
     jiq
     pup
@@ -205,93 +258,92 @@
 
     btop
 
-    tokei  # source lines of code counter
+    tokei # source lines of code counter
 
-    goaccess  # Web Access Log Analyser
+    goaccess # Web Access Log Analyser
 
 
-    hurl  # Rust wrapper for programmatic curl
+    hurl # Rust wrapper for programmatic curl
 
     yq-go
 
-#    hadolint  # Dockerfile linter
+    #    hadolint  # Dockerfile linter
 
-    ghq  # git repo manager
+    ghq # git repo manager
 
-#    kakoune  # experimental better code editor
-    helix
+    #    kakoune  # experimental better code editor
+    #    helix
 
-#    oil  # a new shell
-#    elvish  # another new shell
-#    nim  # a new programming language
+    #    oil  # a new shell
+    #    elvish  # another new shell
+    #    nim  # a new programming language
 
     navi # interactive cli cheat sheets
 
-#    _1password
+    #    _1password
 
     nodePackages.prettier
     nodePackages.pyright
     nodePackages.yaml-language-server
-#    nodePackages.aws-azure-login
+    #    nodePackages.aws-azure-login
   ];
 
-   systemd.user.paths.watch-download-torrents = {
-       Unit = { Description = "Watch Downloads"; };
-       Path = {
-           PathChanged = "/home/omad/Downloads/";
-#           PathExistsGlob = "/home/omad/Downloads/*.torrent";
-           Unit = "watch-download-torrents.service";
-       };
-      Install = { WantedBy = [ "paths.target" ]; };
- 
-   };
-   systemd.user.services.watch-download-torrents = let
-       script = pkgs.writeScript "watch-download-torrents" ''
-           #!${pkgs.fish}/bin/fish
-           echo Download Manager Triggered
+  systemd.user.paths.watch-download-torrents = {
+    Unit = { Description = "Watch Downloads"; };
+    Path = {
+      PathChanged = "/home/omad/Downloads/";
+      #           PathExistsGlob = "/home/omad/Downloads/*.torrent";
+      Unit = "watch-download-torrents.service";
+    };
+    Install = { WantedBy = [ "paths.target" ]; };
 
-           for f in *.torrent
-              echo Adding $f
-              ${pkgs.transmission}/bin/transmission-remote nixos --add "$f"
-              and rm "$f"
-           end
-           '';
-   in
-     {
-       Unit = { Description = "Act on Downloaded File"; };
-       Service = {
-           WorkingDirectory = "/home/omad/Downloads/";
-           ExecStart = "${script}";
- #          ExecStart = "";
-       };
-   };
-#  systemd.user.timers.odc-slack-export = {
-#      Unit = { Description = "Export ODC Slack"; };
-#      Timer = { 
-#        OnCalendar = "daily";
-#        Unit = "odc-slack-export.service";
-#      };
-#      Install = { WantedBy = [ "timers.target" ]; };
-#  };
-#  systemd.user.services.odc-slack-export = {
-#      Unit = { Description = "Export ODC Slack"; };
-#      Service = {
-#        EnvironmentFile = "/home/omad/dev/slack-export/token.env";
-#        WorkingDirectory = "/home/omad/dev/slack-export/";
-#        ExecStart = "/home/omad/dev/slack-export/.direnv/python-3.10.4/bin/python slack_export.py --token $SLACK_TOKEN";
-#      };
-#  };
-  
-#  systemd.user.services.theengs-gateway = with pkgs; let
-#    TheengsGateway = callPackage ./theengs-gateway.nix {
-#      pythonPackages = python3Packages;
-#    };
-#    TheengsEnv = python3.withPackages (ps: [TheengsGateway ]);
-#  in {
-#      Unit.Description = "Run Theengs Gateway BLE-MQTT gateway";
-#      Service = {
-#        ExecStart = "${TheengsEnv}/bin/python3 -m TheengsGateway -ll INFO";
-#      };
-#    };
+  };
+  systemd.user.services.watch-download-torrents =
+    let
+      script = pkgs.writeScript "watch-download-torrents" ''
+        #!${pkgs.fish}/bin/fish --no-config
+        echo Download Manager Triggered
+
+        for f in *.torrent
+           echo Adding $f
+           ${pkgs.transmission}/bin/transmission-remote nixos --add "$f"
+           and rm "$f"
+        end
+      '';
+    in
+    {
+      Unit = { Description = "Act on Downloaded File"; };
+      Service = {
+        WorkingDirectory = "/home/omad/Downloads/";
+        ExecStart = "${script}";
+        #          ExecStart = "";
+      };
+    };
+  systemd.user.timers.cleanup-caches = {
+    Unit = { Description = "Cleanup Caches"; };
+    Timer = {
+      OnCalendar = "daily";
+      Unit = "cleanup-caches.service";
+    };
+    Install = { WantedBy = [ "timers.target" ]; };
+  };
+  systemd.user.services.cleanup-caches = {
+    Unit = { Description = "Cleanup Caches"; };
+    Service = {
+      ExecStart = "docker system prune --force";
+    };
+  };
+
+  #  systemd.user.services.theengs-gateway = with pkgs; let
+  #    TheengsGateway = callPackage ./theengs-gateway.nix {
+  #      pythonPackages = python3Packages;
+  #    };
+  #    TheengsEnv = python3.withPackages (ps: [TheengsGateway ]);
+  #  in {
+  #      Unit.Description = "Run Theengs Gateway BLE-MQTT gateway";
+  #      Service = {
+  #        ExecStart = "${TheengsEnv}/bin/python3 -m TheengsGateway -ll INFO";
+  #      };
+  #    };
 
 }
