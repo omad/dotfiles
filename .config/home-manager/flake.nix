@@ -23,6 +23,8 @@
           ./home.nix
           nixvim.homeManagerModules.nixvim
 
+          ./k9s.nix
+
 
           # Set up nix registry with nixpkgs flakes.
           ({ lib, ... }: {

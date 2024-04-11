@@ -25,6 +25,10 @@
     };
   };
 
+  programs.helix.enable = true;
+
+  programs.granted.enable = true;
+
   xsession.enable = false;
 
   # Not sure what this fixes, but it probably breaks thigns too
@@ -211,7 +215,6 @@
     # The latest versions of flux aren't backwards compatible
     # So I've downlaoded a binary from GitHub Releases
     #    fluxcd
-    k9s
     argo
     kubernetes-helm
 
@@ -220,7 +223,7 @@
 
     zola # Rust Static Site Generator
 
-    nixfmt
+    nixfmt-classic
     bottom
     du-dust
     duf

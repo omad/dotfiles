@@ -38,6 +38,10 @@ if [ -d "$HOME/go" ]; then
     export PATH="$GOPATH/bin:$PATH"
 fi
 
+if [ -d "/usr/local/go/bin" ]; then
+    export PATH="/usr/local/go/bin:$PATH"
+fi
+
 if [ -d "$HOME/.emacs.d/bin" ]; then
     export PATH="$HOME/.emacs.d/bin:$PATH"
 fi
@@ -49,8 +53,6 @@ fi
 if [ -d "$HOME/.krew/bin" ]; then
     export PATH="$HOME/.krew/bin:$PATH"
 fi
-test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 
 #########################################
@@ -97,3 +99,5 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc
 
 # Added by Toolbox App
 export PATH="$PATH:/home/omad/.local/share/JetBrains/Toolbox/scripts"
+. "$HOME/.rye/env"
+. "$HOME/.cargo/env"

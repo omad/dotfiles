@@ -54,7 +54,7 @@ cleanup = true
 [pre_commands]
 #"Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
 
-"Update Home Manager Flake" = "nix flake update $HOME/.config/home-manager/"
+"Update Home Manager Flake" = "nix flake update --flake ~/.config/home-manager/"
 
 # Custom commands
 [commands]
