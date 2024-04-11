@@ -137,9 +137,6 @@ if status is-interactive && test -f ~/.config/fish/custom/git_fzf.fish
 end
 
 
-alias assume="source /usr/local/bin/assume.fish"
-
-
 # pnpm
 set -gx PNPM_HOME "/home/omad/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
@@ -158,3 +155,8 @@ set -gx MAMBA_ROOT_PREFIX "/home/omad/micromamba"
 $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
 # <<< mamba initialize <<<
 fish_add_path /home/omad/.pixi/bin
+
+# TODO: Maybe should only be is-interactive
+set -x GRANTED_ALIAS_CONFIGURED true
+alias assume="source ~/bin/assume.fish"
+

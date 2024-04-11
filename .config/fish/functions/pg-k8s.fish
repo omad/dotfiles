@@ -1,6 +1,11 @@
-function pg-k8s --argument secretname
+function pg-k8s --description "Setup connection to RDS instance"
 
-    set -l secretdata (kubectl get secret -n processing $secretname -o json | ksd)
+    kubectl get secrets -A | awk '/db/ {print $1 " " $2}' \
+        | SHELL=/usr/bin/bash fzf -n1 --header="Choose k8s secret for credentials" \
+            --preview 'kubectl get secrets -n {1} {2} -o yaml | ksd' \
+        | read --delimiter ' ' secretnamespace secretname
+    or return
+    set -l secretdata (kubectl get secret -n $secretnamespace $secretname -o json | ksd)
 
     #    echo $secretdata
 
@@ -9,15 +14,25 @@ function pg-k8s --argument secretname
     set -gx PGUSER (echo $secretdata | jq -r '.stringData["postgres-username"]')
     set -gx PGPASSWORD (echo $secretdata | jq -r '.stringData["postgres-password"]')
 
+    # Default PGDATABASE
+    test -z PGDATABASE; or set -x PGDATABASE odc
+
+
     echo connecting to $PGUSER
 
-    kubectl port-forward -n service deployment/pg-proxy :5432 > /tmp/pgforward &
-    sleep 2
-    echo Port forward Up
-    string match -qr '127.0.0.1:(?<PGPORT>\d+)' < /tmp/pgforward
-    set -gx PGPORT $PGPORT
+    set local_port 5444
 
-    set -g K8S_PF_PID (jobs -lp)
+    set -gx DATACUBE_DB_URL postgresql://$PGUSER:$PGPASSWORD@$PGHOST:$local_port/$PGDATABASE
+
+    AWS_PROFILE= npx basti connect --rds-cluster db-aurora-dea-sandbox-eks --local-port $local_port &
+    npx wait-on --timeout 120000 --interval 1000 tcp:127.0.0.1:$local_port
+
+    #    kubectl port-forward -n service deployment/pg-proxy :5432 > /tmp/pgforward &
+    echo Port forward Up
+
+    set -gx PGPORT $local_port
+
+    set -g BASTI_PID (jobs -lp)
 
     echo 
     echo Host: localhost
@@ -30,7 +45,7 @@ function pg-k8s --argument secretname
 
 
     function pg-k8s-down
-        kill $K8S_PF_PID
+        kill $BASTI_PID
         functions -e pg-k8s-down
         set -e PGHOST PGDATABASE PGUSER PGPASSWORD PGPORT PGHOST
     end
