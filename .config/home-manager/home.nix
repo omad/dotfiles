@@ -15,6 +15,9 @@
   #
   #  };
 
+  # TUI File Manager
+  programs.xplr.enable = true;
+
   programs.jujutsu = {
     enable = true;
     settings = {
@@ -28,6 +31,13 @@
   programs.helix.enable = true;
 
   programs.granted.enable = true;
+
+  programs.taskwarrior = {
+    enable = true;
+  };
+
+  # Rust TLDR client
+  programs.tealdeer.enable = true;
 
   xsession.enable = false;
 
@@ -99,6 +109,9 @@
 
     jira-cli-go
 
+    # Log Highlighter
+    ccze
+
     hyperfine
 
     jsonnet-bundler
@@ -110,6 +123,9 @@
 
     #    granted
 
+    grafana-loki
+
+    pandoc 
     duckdb
 
     sops
@@ -177,6 +193,7 @@
 
     awscli2
     aws-sso-cli
+    aws-sam-cli
     ssm-session-manager-plugin
     #    packer
 
@@ -184,7 +201,6 @@
     mdcat
     prettyping
     # spotify-tui # rust spotify client
-    tealdeer # rust tldr client
     fd # fast find alternative
     fzf
     ripgrep
@@ -205,6 +221,7 @@
     docker-compose-language-service
     #    python-language-server
 
+    krew
     kubectl
     kubectl-convert
     kubectx
@@ -284,6 +301,7 @@
     navi # interactive cli cheat sheets
 
     #    _1password
+
 
     nodePackages.prettier
     nodePackages.pyright

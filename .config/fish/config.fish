@@ -5,6 +5,10 @@ set fish_greeting
 if status --is-login
     echo (date) config.fish TERM_PROGRAM = $TERM_PROGRAM >> ~/.profile_log
 end
+
+set -gx PATH $HOME/bin $PATH
+set -gx PATH $HOME/.cargo/bin $PATH
+
 #if test "$TERM_PROGRAM" = "vscode"
   # ~/.profile is run by the login shell (this is what ssh uses)
   # ~/.bashrc is run by the interactive shell (this is what vscode uses)
