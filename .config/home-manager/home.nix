@@ -95,9 +95,12 @@
     (callPackage ./fastgron.nix { })
     morph
 
-    nushellFull
+    nushell
     usql
 
+
+    xh
+    numbat
     #    scrcpy
 
     # I tried git from here because the pop-os deb install was crashing due to the envsubst version
@@ -125,8 +128,10 @@
 
     grafana-loki
 
-    pandoc 
+    pandoc
     duckdb
+
+    miller # Like awk, sed, cut, join, and sort (or jq, csvkit, xsv) for data formats such as CSV, TSV, JSON, JSON Lines, and positionally-indexed
 
     sops
     age
@@ -302,10 +307,10 @@
 
     #    _1password
 
+    pyright
 
     nodePackages.prettier
-    nodePackages.pyright
-    nodePackages.yaml-language-server
+    yaml-language-server
     #    nodePackages.aws-azure-login
   ];
 

@@ -21,7 +21,7 @@
         inherit pkgs;
         modules = [
           ./home.nix
-          nixvim.homeManagerModules.nixvim
+          #          nixvim.homeManagerModules.nixvim
 
           ./k9s.nix
 
@@ -34,7 +34,7 @@
             };
           })
 
-#          ({ ... }: { })
+          #          ({ ... }: { })
         ];
       };
 
