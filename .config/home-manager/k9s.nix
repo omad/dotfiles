@@ -3,10 +3,11 @@ let
   yamllib = import ./yaml.nix { inherit pkgs; };
   k9s-plugins = pkgs.fetchgit {
       url = "https://github.com/derailed/k9s";
+      rev = "350439b98553f23672f7ce0b650637d0afdd4104";
       sparseCheckout = [
         "plugins"
       ];
-      hash = "sha256-sqcVBNPTi9tk2tQFf+xzgFbB81o+r+qZKPdrwgO1iSc=";
+      hash = "sha256-R14kvDAPKZOBLsFsnC9kAklJKYpdF1dNsl3YpCzQPrI=";
   };
   wanted-plugins = [ "flux" "debug-container" "get-all" "helm-values" "watch-events" ];
   load-k9s-plugins = map (

@@ -15,6 +15,14 @@
   #
   #  };
 
+
+  # This conflicts with the pop-os installed glib and mime type associations
+  # creating and infinite loop and crash. Something with
+  # ecmascript and x-perl types. 
+  # Debugged with:
+  #   $ DEBUGINFOD_URLS="https://debuginfod.ubuntu.com" gdb nautilus
+  xdg.mime.enable = false;
+
   # TUI File Manager
   programs.xplr.enable = true;
 
@@ -99,6 +107,8 @@
     usql
 
 
+    fastfetch
+
     xh
     numbat
     #    scrcpy
@@ -141,10 +151,9 @@
     lazygit
     lazydocker
 
-    kubeconform
+    just # command runner
+
     #    envsubst  # The a8m go implementation, not the gnu gettext one
-    minikube
-    kubeswitch
     prometheus # For promtool
 
     glow # tui markdown reader
@@ -161,8 +170,6 @@
     nix-init
 
     gitui
-
-    qpwgraph
 
     asciinema
 
@@ -200,19 +207,20 @@
     aws-sso-cli
     aws-sam-cli
     ssm-session-manager-plugin
-    #    packer
+    eksctl
 
     difftastic
     mdcat
     prettyping
     # spotify-tui # rust spotify client
     fd # fast find alternative
-    fzf
+    fzf  # fuzzyfinder
     ripgrep
     starship # minimal blazing fast prompt
     gitAndTools.delta
     jq
-    fx
+    fx  # interactive jq
+    jiq # interactive jq
     htop
     bat
 
@@ -226,6 +234,7 @@
     docker-compose-language-service
     #    python-language-server
 
+    # Kubernetes tools
     krew
     kubectl
     kubectl-convert
@@ -233,6 +242,9 @@
     kubecolor
     kubeseal
     kustomize
+    kubeconform
+    minikube
+    kubeswitch
 
     # The latest versions of flux aren't backwards compatible
     # So I've downlaoded a binary from GitHub Releases
@@ -263,12 +275,10 @@
     pspg
     pgmetrics
     dive
-    jiq
     pup
     docker-credential-helpers
     docker-compose
     docker-slim
-    eksctl
     yt-dlp
     onefetch
 
@@ -288,15 +298,15 @@
     goaccess # Web Access Log Analyser
 
 
-    hurl # Rust wrapper for programmatic curl
+        #    hurl # Rust wrapper for programmatic curl
 
-    yq-go
+    yq-go  # Like jq, but for yaml
 
     #    hadolint  # Dockerfile linter
 
     ghq # git repo manager
 
-    #    kakoune  # experimental better code editor
+    #    kakoune  # experimental modal code editor
     #    helix
 
     #    oil  # a new shell
@@ -332,7 +342,7 @@
 
         for f in *.torrent
            echo Adding $f
-           ${pkgs.transmission}/bin/transmission-remote nixos --add "$f"
+           ${pkgs.transmission_4}/bin/transmission-remote nixos --add "$f"
            and rm "$f"
         end
       '';
