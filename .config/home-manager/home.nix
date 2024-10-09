@@ -22,6 +22,14 @@
         withFish = true;
       };
     })
+    (final: prev: {
+      s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
+        ldflags = [
+          "-X github.com/peak/s5cmd/v2/version.Version=${previousAttrs.version}"
+          "-X github.com/peak/s5cmd/v2/version.GitCommit=${previousAttrs.version}"
+        ];
+      });
+    })
   ];
 
   # Better ls
@@ -65,6 +73,7 @@
   programs.granted.enable = true;
   programs.fish.shellAliases = {
     assume = "source ${pkgs.granted}/share/assume.fish";
+    hm = "home-manager";
   };
 
   # Rust TLDR client
