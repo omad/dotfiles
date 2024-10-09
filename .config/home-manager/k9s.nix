@@ -2,18 +2,18 @@
 let
   yamllib = import ./yaml.nix { inherit pkgs; };
   k9s-plugins = pkgs.fetchgit {
-      url = "https://github.com/derailed/k9s";
-      rev = "350439b98553f23672f7ce0b650637d0afdd4104";
-      sparseCheckout = [
-        "plugins"
-      ];
-      hash = "sha256-R14kvDAPKZOBLsFsnC9kAklJKYpdF1dNsl3YpCzQPrI=";
+    url = "https://github.com/derailed/k9s";
+    rev = "350439b98553f23672f7ce0b650637d0afdd4104";
+    sparseCheckout = [
+      "plugins"
+    ];
+    hash = "sha256-R14kvDAPKZOBLsFsnC9kAklJKYpdF1dNsl3YpCzQPrI=";
   };
   wanted-plugins = [ "flux" "debug-container" "get-all" "helm-values" "watch-events" ];
   load-k9s-plugins = map (
-        plugin-file: 
-            (yamllib.readYAML "${k9s-plugins}/plugins/${plugin-file}.yaml").plugins
-        );
+    plugin-file:
+    (yamllib.readYAML "${k9s-plugins}/plugins/${plugin-file}.yaml").plugins
+  );
 
 in
 {
@@ -38,10 +38,11 @@ in
             ''
             ];
           };
-        }] ++ (load-k9s-plugins wanted-plugins));
-#        { dive = (yamllib.readYAML ./dive.yaml).plugins.dive; }
-#       
+        }
+      ] ++ (load-k9s-plugins wanted-plugins));
+      #        { dive = (yamllib.readYAML ./dive.yaml).plugins.dive; }
+      #       
+    };
   };
-};
 
 }

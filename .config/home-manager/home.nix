@@ -8,13 +8,37 @@
     nix-direnv.enable = true;
   };
 
-  #  programs.neovim = {
-  #    enable = true;
-  #    vimAlias = true;
-  #    vimdiffAlias = true;
-  #
-  #  };
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    defaultEditor = true;
 
+  };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      granted = prev.granted.override {
+        withFish = true;
+      };
+    })
+  ];
+
+  # Better ls
+  programs.lsd.enable = true;
+
+  # Advanced Shell History + Syncing
+  programs.atuin.enable = true;
+
+  programs.fish.enable = true;
+  programs.fish.shellInit = ''
+    # >>> mamba initialize >>>
+    # !! Contents within this block are managed by 'mamba init' !!
+    set -gx MAMBA_EXE "/home/omad/.local/bin/micromamba"
+    set -gx MAMBA_ROOT_PREFIX "/home/omad/micromamba"
+    $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+    # <<< mamba initialize <<<
+  '';
 
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
@@ -39,9 +63,8 @@
   programs.helix.enable = true;
 
   programs.granted.enable = true;
-
-  programs.taskwarrior = {
-    enable = true;
+  programs.fish.shellAliases = {
+    assume = "source ${pkgs.granted}/share/assume.fish";
   };
 
   # Rust TLDR client
@@ -64,6 +87,14 @@
 
   home.username = "omad";
   home.homeDirectory = "/home/omad/";
+
+  # Extra Paths to always set
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/bin"
+    "$HOME/.pixi/bin"
+    "$HOME/.cargo/bin"
+  ];
 
   #  services.flameshot.enable = true;
   #  services.sxhkd = {
@@ -139,14 +170,13 @@
     grafana-loki
 
     pandoc
-    duckdb
+    #    duckdb
 
-    miller # Like awk, sed, cut, join, and sort (or jq, csvkit, xsv) for data formats such as CSV, TSV, JSON, JSON Lines, and positionally-indexed
+    #    miller # Like awk, sed, cut, join, and sort (or jq, csvkit, xsv) for data formats such as CSV, TSV, JSON, JSON Lines, and positionally-indexed
 
     sops
     age
 
-    atuin
 
     lazygit
     lazydocker
@@ -214,12 +244,12 @@
     prettyping
     # spotify-tui # rust spotify client
     fd # fast find alternative
-    fzf  # fuzzyfinder
+    fzf # fuzzyfinder
     ripgrep
     starship # minimal blazing fast prompt
     gitAndTools.delta
     jq
-    fx  # interactive jq
+    fx # interactive jq
     jiq # interactive jq
     htop
     bat
@@ -298,16 +328,15 @@
     goaccess # Web Access Log Analyser
 
 
-        #    hurl # Rust wrapper for programmatic curl
+    #    hurl # Rust wrapper for programmatic curl
 
-    yq-go  # Like jq, but for yaml
+    yq-go # Like jq, but for yaml
 
     #    hadolint  # Dockerfile linter
 
     ghq # git repo manager
 
     #    kakoune  # experimental modal code editor
-    #    helix
 
     #    oil  # a new shell
     #    elvish  # another new shell
