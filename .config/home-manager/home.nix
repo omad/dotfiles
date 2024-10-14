@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.direnv = {
@@ -31,6 +35,11 @@
       });
     })
   ];
+
+  # Fish Completions for `nix` and `home-manager`
+  # Why isn't this setup automatically? Doing it this way is awfully hacky.
+  xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
+  xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
 
   # Better ls
   programs.lsd.enable = true;
@@ -73,7 +82,12 @@
   programs.granted.enable = true;
   programs.fish.shellAliases = {
     assume = "source ${pkgs.granted}/share/assume.fish";
+  };
+  programs.fish.shellAbbrs = {
     hm = "home-manager";
+    mm = "micromamba";
+    g = "git";
+    k = "kubectl";
   };
 
   # Rust TLDR client
@@ -134,6 +148,11 @@
   #      Install.WantedBy = [ "graphical-session.target" ];
   #    };
 
+  programs.git.lfs = {
+    enable = true;
+  };
+
+
   #  services.lorri.enable = true;
   manual.manpages.enable = true;
 
@@ -172,10 +191,6 @@
 
     hey
 
-    hugo
-
-    #    granted
-
     grafana-loki
 
     pandoc
@@ -185,6 +200,8 @@
 
     sops
     age
+
+    atac # HTTP/Rest TUI (rust)
 
 
     lazygit
@@ -271,7 +288,7 @@
     nodePackages.dockerfile-language-server-nodejs
     cmake-language-server
     docker-compose-language-service
-    #    python-language-server
+    python3Packages.python-lsp-server
 
     # Kubernetes tools
     krew
