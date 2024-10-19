@@ -12,6 +12,9 @@
     nix-direnv.enable = true;
   };
 
+  # golang terminal file manager
+  programs.lf.enable = true;
+
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -91,7 +94,14 @@
   };
 
   # Rust TLDR client
-  programs.tealdeer.enable = true;
+  programs.tealdeer = {
+    enable = true;
+    settings = {
+      updates = {
+        auto_update = true;
+      };
+    };
+  };
 
   xsession.enable = false;
 
