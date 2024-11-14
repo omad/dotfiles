@@ -10,3 +10,9 @@ tags
 .DS_Store
 
 .envrc
+
+.idea
+.mypy_cache
+.env
+.envrc
+.DS_Store
