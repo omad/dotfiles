@@ -38,20 +38,33 @@
 	# Change the sort order of git tag to sort tags numerically and respect version numbers. This way, v10 comes after v9 instead of v1.
 	sort = version:refname
 [alias]
-	lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-    # Last branches
-    lb = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+  l = "!. ~/.githelpers && pretty_git_log"
+  la = "!git l --all"
+  lr = "!git l -30"
+  lra = "!git lr --all"
+  lg = "!git l -G $1 -- $2"
+  feature = !sh -c 'git checkout --no-track -b $0 origin/main'
+  ruf = "!. ~/.githelpers && remove_untracked_files"
+  tree = log --oneline --decorate --graph
+
+  # Taken from here: https://aaronbonner.io/post/80766268890/git-alias-to-simplify-setting-upstream-branch
+  sup = "!git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`"
+
+#	lg = log --color --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+#	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	# Last branches
+	lb = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+
 	lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
 	dl = "!git ll -1"
 	dlc = diff --cached HEAD^
-	st = status -s
-    hist = log --color --pretty=format:\"%C(yellow)%h%C(reset) %s%C(bold red)%d%C(reset) %C(green)%ad%C(reset) %C(blue)[%an]%C(reset)\" --relative-date --decorate
-    graph = log --color --graph --pretty=format:\"%h | %ad | %an | %s%d\" --date=short
+	hist = log --color --pretty=format:\"%C(yellow)%h%C(reset) %s%C(bold red)%d%C(reset) %C(green)%ad%C(reset) %C(blue)[%an]%C(reset)\" --relative-date --decorate
+	graph = log --color --graph --pretty=format:\"%h | %ad | %an | %s%d\" --date=short
 
 	recent = ! git branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\" | head -10
 	smartlog = log --graph --pretty=format:'commit: %C(bold red)%h%Creset %C(red)[%H]%Creset %C(bold magenta)%d %Creset%ndate: %C(bold yellow)%cd %Creset%C(yellow)%cr%Creset%nauthor: %C(bold blue)%an%Creset %C(blue)[%ae]%Creset%n%C(cyan)%s%n%Creset'
 	sl = smartlog
+
 
 	# reset commands {{{
 	r1 = reset HEAD^
@@ -128,3 +141,7 @@
   root = ~/go/src
 [rerere]
 	enabled = true
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+[credential "https://dev.azure.com"]
+	useHttpPath = true

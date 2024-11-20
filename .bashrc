@@ -1,39 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-
-#  Source global definitions to get the module command defined.
-#  If you remove this from your file and/or you reset the BASH_ENV (or
-#  ENV) variables,  you risk getting "module command not found"
-#  errors from batch jobs.
-
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
-
-system_type=$(uname -s)
-if [ "$system_type" = "Darwin" ]; then
-    export PATH="$PATH:$HOME/android-sdk/platform-tools"
-    export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
-
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-      . $(brew --prefix)/etc/bash_completion
-    fi
-    WIFI_SSID=`/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'`
-
-    # If I'm at work
-    if [ "$WIFI_SSID" = 'GA Staff' ]; then
-        export http_proxy=proxy.inno.lan:3128
-        export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
-    fi
-
-    # scutil --proxy
-    # ...
-    #  ProxyAutoConfigURLString : http://win-dhcp-prod03.inno.lan/wpad.dat
-    # curl http://win-dhcp-prod03.inno.lan/wpad.dat
-    #
-    #  return "PROXY proxy.inno.lan:3128";
-    #
-
-fi
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
 # If not running interactively, don't do anything
 case $- in
@@ -41,83 +8,93 @@ case $- in
       *) return;;
 esac
 
-#  Avoid going through here more than once in a shell
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
-[ -n "$nf_bashrc_sourced" ] && return
-nf_bashrc_sourced=YES
+# append to the history file, don't overwrite it
+shopt -s histappend
 
-system_type=$(uname -s)
-
-[[ $TERM == "dumb" ]] && PS1="$ " && return
-
-HISTCONTROL=ignoredups:erasedups  # no duplicate entries
-HISTSIZE=10000                   # big big history
-HISTFILESIZE=10000               # big big history
-shopt -s histappend               # append to history, don't overwrite it
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# Save and reload the history after each command finishes
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
 
+# make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-command_exists () {
-    type "$1" &> /dev/null ;
-}
-
-if command_exists module; then
-    module use /g/data/v10/public/modules/modulefiles --append
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-if command_exists direnv; then
-    eval "$(direnv hook bash)"
-fi
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
 
-if [[ $system_type =~ MINGW || $system_type =~ MSYS ]]; then
-    # ssh-pageant
-    # Not able to use file sockets in windows...
-    #eval $(ssh-pageant.exe -r -a "/c/Temp/.ssh-pageant-$USERNAME")
-    # eval $(ssh-pageant)
-    if command_exists ssh-pageant; then
-        eval $(ssh-pageant -r -a "/tmp/.ssh-pageant-$USERNAME")
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
     fi
-
-    export PATH=$PATH:/c/msys64/mingw64/bin
-    export GIT_GUI_LIB_DIR=/c/msys64/usr/share/git-gui/lib
 fi
 
-# For install ruby gems into user home
-if command_exists ruby; then
-    gems_path=$(ruby -rubygems -e "puts Gem.user_dir" 2> /dev/null)
-    export PATH=$PATH:${gems_path:+:${gems_path}/bin}
-fi
- 
-
-if [ -n "$TMUX" ]; then
-    function refresh-tmux-env-vars {
-        eval $(tmux showenv -s DISPLAY)
-        eval $(tmux showenv -s SSH_AUTH_SOCK)
-    }
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    function refresh-tmux-env-vars { true; }
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-function preexec {
-    refresh-tmux-env-vars
-}
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
-###########################################
-# Setup Prompt
-
-. ~/.bash/git-prompt.sh
-export GIT_PS1_SHOWDIRTYSTATE=1
-export PS1='\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\] $(__git_ps1 "(%s) ")\$ '
-
-
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -128,10 +105,9 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-#########################################
-# Add a bunch of programmable completions
-
-export BASH_COMPLETION_USER_DIR=$HOME/share
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -139,112 +115,46 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+export PATH=$HOME/.local/bin:$PATH
 
-if [ -f $HOME/.bash/hub.bash_completion ]; then
-  . $HOME/.bash/hub.bash_completion
-fi
-if [ -f $HOME/.bash/fd.bash_completion ]; then
-  . $HOME/.bash/fd.bash_completion
-fi
-[[ $PS1 && -f $HOME/share/bash-completion/bash_completion ]] && \
-        . $HOME/share/bash-completion/bash_completion
+. "$HOME/.cargo/env"
+eval "$(direnv hook bash)"
 
- [[ $PS1 && -f ~/share/bash-completion/bash_completion ]] && \
-         . ~/share/bash-completion/bash_completion
+alias fd=fdfind
 
-[[ $PS1 && -f $HOME/share/tmux.completion.bash ]] && \
-    source $HOME/share/tmux.completion.bash
-
-
-. ~/.bash/git-completion.bash
-complete -C aws_completer aws
-
-if command_exists kubectl; then
-    source <(kubectl completion bash)
-fi
-
-
-
-function lb() {
-    # thanks https://routley.io/tech/2017/11/23/logbook.html
-    mkdir -p ~/logbook
-    vim ~/logbook/$(date '+%Y-%m-%d').md
-}
-alias qsub_interactive="qsub -I -q express -l wd,walltime=5:00:00,mem=20GB,ncpus=1 -P u46"
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-
-
-############################
-# ODC Administration Aliases
-
-alias datacube_activity="psql -h 130.56.244.105 datacube -c 'select datname, usename, state, application_name, current_timestamp-query_start as duration from pg_stat_activity';"
-alias datacube_sizes="psql -h 130.56.244.105 datacube -c \"SELECT nspname || '.' || relname AS relation, pg_size_pretty(pg_relation_size(C.oid)) AS size FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN ('pg_catalog', 'information_schema') ORDER BY pg_relation_size(C.oid) DESC;\""
-alias datacube_pgbouncer_activity="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show clients;'"
-alias datacube_pgbouncer_pools="psql -h 130.56.244.105 -p 6432 pgbouncer -U cube_admin -c 'show pools;'"
-
-dc-dump-ds () {
-   local uuid=${1}
-   local dbname=${2:-"datacube"}
-   local host=${3:-"130.56.244.105"}
-   local port=${4:-6432}
-   if [[ -z $uuid ]]; then
-       echo "Usage: dc-dump-ds UUID [DBNAME:$dbname] [HOST:$host] [PORT:$port]"
-       return
-    fi
-
-   cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
-        select metadata
-        from agdc.dataset
-        where id = '${uuid}';
-EOF
-}
-
-dc-dump-product () {
-   local name=${1}
-   local dbname=${2:-"datacube"}
-   local host=${3:-"130.56.244.105"}
-   local port=${4:-6432}
-
-   cat <<EOF | psql --no-psqlrc --quiet -t -h "${host}" -p "${port}" "${dbname}"
-        select definition
-        from agdc.dataset_type
-        where name = '${name}';
-EOF
-}
-
-dc-index-eo3 () {
-    fd odc-metadata.yaml $1 | tar cvf - --files-from=-  | dc-index-from-tar -E dra547 --eo3 --ignore-lineage --protocol file -
-}
-
-# Fast Node version Manager (FNM)
-if command_exists fnm; then
-    export PATH=/home/547/dra547/.fnm:$PATH
-    eval "`fnm env --multi`"
-fi
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/omad/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/omad/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "/home/omad/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/omad/miniforge3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-
-if [ -f "/home/omad/miniforge3/etc/profile.d/mamba.sh" ]; then
-    . "/home/omad/miniforge3/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-
+. "$HOME/.atuin/bin/env"
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"
-export OP_DEVICE="dogy2etmd35kcfnek6qurujj7i"
-. "$HOME/.cargo/env"
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'micromamba shell init' !!
+export MAMBA_EXE='/home/omad/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/omad/micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+alias mm=micromamba
+
+function git_main_author_percentage() {
+    if [ -z "$1" ]; then
+        echo "Usage: git_main_author_percentage <file-path>"
+        return 1
+    fi
+
+    local file_path="$1"
+
+    git blame --line-porcelain "$file_path" | \
+    sed -n -e 's/^author //p' -e 's/^author-mail <//p' -e 's/^author-time //p' | \
+    paste - - - | \
+    awk '{print $1, $2}' | \
+    sort | \
+    uniq -c | \
+    awk '{printf "%s %s %.2f%%\n", $2, $3, $1/total*100}' total=$(wc -l < "$file_path") | \
+    sort -k3 -nr
+}

@@ -16,3 +16,7 @@ tags
 .env
 .envrc
 .DS_Store
+
+__pycache__
+.terraform
+.terraform.lock.hcl

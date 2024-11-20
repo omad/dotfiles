@@ -158,6 +158,7 @@
   #      Install.WantedBy = [ "graphical-session.target" ];
   #    };
 
+  programs.git.enable = true;
   programs.git.lfs = {
     enable = true;
   };
@@ -184,7 +185,7 @@
 
     # I tried git from here because the pop-os deb install was crashing due to the envsubst version
     # being differet
-    git
+    # git
 
     # Convert lots of standard command output to JSON
     jc
@@ -202,6 +203,8 @@
     hey
 
     grafana-loki
+
+    git-filter-repo
 
     pandoc
     #    duckdb
@@ -296,6 +299,10 @@
     tflint
     taplo
     nodePackages.dockerfile-language-server-nodejs
+    lua-language-server
+    nodePackages.vscode-json-languageserver
+    typescript-language-server
+    yaml-language-server
     cmake-language-server
     docker-compose-language-service
     python3Packages.python-lsp-server
@@ -354,7 +361,7 @@
 
     s5cmd
     niv
-    mitmproxy
+#    mitmproxy
     rustscan
 
     btop
@@ -385,7 +392,6 @@
     pyright
 
     nodePackages.prettier
-    yaml-language-server
     #    nodePackages.aws-azure-login
   ];
 

@@ -1,4 +1,9 @@
 [misc]
+
+pre_sudo = true
+
+
+disable = ["nix"]
 # Don't ask for confirmations
 #assume_yes = true
 
@@ -42,6 +47,9 @@ cleanup = true
 #    "~/src/*/",
 #    "~/.config/something"
 #]
+repos = [
+    "~/dev/*/"
+]
 
 # Don't pull the predefined git repos
 #predefined_repos = false
@@ -58,8 +66,13 @@ cleanup = true
 
 # Custom commands
 [commands]
-"Base Conda Environment" = "~/miniconda3/bin/mamba upgrade --all"
+#"Base Conda Environment" = "~/miniconda3/bin/mamba upgrade --all"
 #"Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 
 "Cleanup Nix Store" = "nix-collect-garbage -d"
-"Cleanup Conda detritus" = "conda clean --all --yes"
+"Cleanup Conda detritus" = "micromamba clean --all --yes"
+
+"Upgrade uv" = "uv self update"
+"Upgrade uv installed tools" = "uv tool upgrade --all"
+
+
