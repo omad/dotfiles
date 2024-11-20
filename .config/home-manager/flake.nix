@@ -13,11 +13,12 @@
 
   outputs = { nixpkgs, home-manager, nixvim, ... }:
     let
-      system = "x86_64-linux";
+#      system = "x86_64-linux";
+      system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      homeConfigurations."omad" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."aye011" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home.nix

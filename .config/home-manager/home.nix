@@ -54,8 +54,8 @@
   programs.fish.shellInit = ''
     # >>> mamba initialize >>>
     # !! Contents within this block are managed by 'mamba init' !!
-    set -gx MAMBA_EXE "/home/omad/.local/bin/micromamba"
-    set -gx MAMBA_ROOT_PREFIX "/home/omad/micromamba"
+    set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
+    set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
     $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
     # <<< mamba initialize <<<
   '';
@@ -118,8 +118,8 @@
   # changes in each release.
   home.stateVersion = "21.11";
 
-  home.username = "omad";
-  home.homeDirectory = "/home/omad/";
+  home.username = "aye011";
+  home.homeDirectory = "/Users/aye011/";
 
   # Extra Paths to always set
   home.sessionPath = [
@@ -127,6 +127,7 @@
     "$HOME/bin"
     "$HOME/.pixi/bin"
     "$HOME/.cargo/bin"
+    "/opt/homebrew/bin"
   ];
 
   #  services.flameshot.enable = true;
@@ -180,7 +181,7 @@
     fastfetch
 
     xh
-    numbat
+#    numbat
     #    scrcpy
 
     # I tried git from here because the pop-os deb install was crashing due to the envsubst version
@@ -193,7 +194,7 @@
     jira-cli-go
 
     # Log Highlighter
-    ccze
+#    ccze # No aarch64, 2024-11-20
 
     hyperfine
 
@@ -232,6 +233,8 @@
 
     bfs # Breadth first find alternative
 
+    # LanguageTool LSP server
+    # Supports markdown, rst, grammar/spelling/syntax checking
     ltex-ls
 
     mqttui
@@ -262,7 +265,8 @@
 
     vale # Syntax aware prose linter
 
-    comby # Structural code search and replace
+    # Broken on aarch64 2024-11-20, ocaml-mirage-rng
+    # comby # Structural code search and replace 
 
     cloudflared
 
@@ -398,8 +402,8 @@
   systemd.user.paths.watch-download-torrents = {
     Unit = { Description = "Watch Downloads"; };
     Path = {
-      PathChanged = "/home/omad/Downloads/";
-      #           PathExistsGlob = "/home/omad/Downloads/*.torrent";
+      PathChanged = "/Users/aye011/Downloads/";
+      #           PathExistsGlob = "/home/aye011/Downloads/*.torrent";
       Unit = "watch-download-torrents.service";
     };
     Install = { WantedBy = [ "paths.target" ]; };
@@ -421,7 +425,7 @@
     {
       Unit = { Description = "Act on Downloaded File"; };
       Service = {
-        WorkingDirectory = "/home/omad/Downloads/";
+        WorkingDirectory = "/Users/aye011/Downloads/";
         ExecStart = "${script}";
         #          ExecStart = "";
       };
