@@ -1,0 +1,30 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["sh"]
+# ///
+
+from sh import jj, open, fzf
+
+remotes_raw = jj.git.remote.list().strip()
+
+from dataclasses import dataclass
+
+@dataclass
+class GitRemote:
+    name: str
+    url: str
+
+remotes = []
+
+for line in remotes_raw.split('\n'):
+    name, url = line.split(' ')
+    remotes.append(GitRemote(name, url))
+
+if len(remotes) == 1:
+    open(remotes[0].url)
+else:
+    remote = fzf(_in=remotes_raw)
+    name, url = remote.split()
+    open(url)
+    

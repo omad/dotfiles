@@ -1,0 +1,18 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = [
+#   "pillow",
+# ]
+# ///
+from PIL import ImageGrab
+import os
+import sys
+
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} <FILENAME>")
+
+img = ImageGrab.grabclipboard()
+if img:
+  img.save(os.path.expanduser(sys.argv[1]), "PNG")
+else:
+  print("No image found on the clipboard.")

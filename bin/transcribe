@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# set -euf
+# set -o pipefail
+
+# Define the output file name
+output_file="recording.mp3"
+
+# Function to handle the recording process
+record_audio() {
+  rm "$output_file"
+  echo "Starting audio recording..."
+  ffmpeg -f avfoundation -i ":2" -acodec libmp3lame -ab 128k "$output_file" &
+  ffmpeg_pid=$!  # Get the PID of the ffmpeg process
+
+  echo "Press any key to stop recording..."
+  read -n 1 -s -r  # Wait for a single key press
+
+  echo "Stopping audio recording..."
+  kill "$ffmpeg_pid"  # Kill the ffmpeg process
+  wait "$ffmpeg_pid" 2>/dev/null  # Wait for the process to exit, ignoring errors (might already be gone)
+  echo "Audio recording stopped."
+}
+
+# Function to transcribe the audio
+transcribe_audio() {
+  if [ -f "$output_file" ]; then
+    echo "Transcribing audio..."
+    uv tool run --from mlx-whisper mlx_whisper --model mlx-community/whisper-turbo --language en "$output_file"
+    echo "Transcription complete."
+  else
+    echo "Error: Audio file '$output_file' not found."
+  fi
+}
+
+# Main script execution
+record_audio
+transcribe_audio
+
+echo "Script completed."
+exit 0
+
+# ffmpeg -f avfoundation -i ":0" -acodec libmp3lame -ab 128k -ar 44100 /tmp/tmptranscribe.mp3
+
+
+# uv tool run mlx-whisper /tmp/tmptranscribe.mp3

@@ -1,2 +1,18 @@
+function _llm_completion;
+    set -l response (env _LLM_COMPLETE=fish_complete COMP_WORDS=(commandline -cp) COMP_CWORD=(commandline -t) llm);
 
-complete -c llm -s m -l model --require-parameter --no-files -a "csiro-gpt4o csiro-gpt4o-mini gemini-exp-1206"
+    for completion in $response;
+        set -l metadata (string split "," $completion);
+
+        if test $metadata[1] = "dir";
+            __fish_complete_directories $metadata[2];
+        else if test $metadata[1] = "file";
+            __fish_complete_path $metadata[2];
+        else if test $metadata[1] = "plain";
+            echo $metadata[2];
+        end;
+    end;
+end;
+
+complete --no-files --command llm --arguments "(_llm_completion)";
+

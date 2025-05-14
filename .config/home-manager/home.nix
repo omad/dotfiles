@@ -15,6 +15,11 @@
   # golang terminal file manager
   programs.lf.enable = true;
 
+  programs.bat = {
+    enable = true;
+    config.theme = "Dracula";
+  };
+
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -24,11 +29,11 @@
   };
 
   nixpkgs.overlays = [
-    (final: prev: {
-      granted = prev.granted.override {
-        withFish = true;
-      };
-    })
+#    (final: prev: {
+#      granted = prev.granted.override {
+#        withFish = true;
+#      };
+#    })
     (final: prev: {
       s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
         ldflags = [
@@ -58,6 +63,14 @@
     set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
     $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
     # <<< mamba initialize <<<
+
+    # Set up the granted/assume alias
+    # See https://docs.commonfate.io/granted/internals/shell-alias
+    alias assume="source (brew --prefix)/bin/assume.fish"
+
+    # Set up the bun js tool
+#    set --export BUN_INSTALL "$HOME/.bun"
+#    set --export PATH $BUN_INSTALL/bin $PA1H
   '';
 
   # This conflicts with the pop-os installed glib and mime type associations
@@ -71,7 +84,8 @@
   programs.xplr.enable = true;
 
   programs.jujutsu = {
-    enable = true;
+    # disabling because I want version 0.24
+    enable = false;
     settings = {
       user = {
         name = "Damien Ayers";
@@ -82,10 +96,10 @@
 
   programs.helix.enable = true;
 
-  programs.granted.enable = true;
-  programs.fish.shellAliases = {
-    assume = "source ${pkgs.granted}/share/assume.fish";
-  };
+#  programs.granted.enable = true;
+#  programs.fish.shellAliases = {
+#    assume = "source ${pkgs.granted}/share/assume.fish";
+#  };
   programs.fish.shellAbbrs = {
     hm = "home-manager";
     mm = "micromamba";
@@ -125,6 +139,7 @@
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/bin"
+    "$HOME/go/bin"
     "$HOME/.pixi/bin"
     "$HOME/.cargo/bin"
     "/opt/homebrew/bin"
@@ -180,6 +195,7 @@
 
     fastfetch
 
+    nix-tree
     xh
 #    numbat
     #    scrcpy
@@ -207,7 +223,7 @@
 
     git-filter-repo
 
-    pandoc
+    #pandoc
     #    duckdb
 
     #    miller # Like awk, sed, cut, join, and sort (or jq, csvkit, xsv) for data formats such as CSV, TSV, JSON, JSON Lines, and positionally-indexed
@@ -257,7 +273,7 @@
 
     driftctl
 
-    ruff
+    # ruff # Installed via uvx
 
     skopeo # container registry sync tool
 
@@ -295,8 +311,6 @@
     fx # interactive jq
     jiq # interactive jq
     htop
-    bat
-
 
     # Language Servers
     terraform-ls
@@ -309,7 +323,10 @@
     yaml-language-server
     cmake-language-server
     docker-compose-language-service
-    python3Packages.python-lsp-server
+    bash-language-server
+    nil
+    nixd
+#    python3Packages.python-lsp-server
 
     # Kubernetes tools
     krew
@@ -351,7 +368,7 @@
     gh
     pspg
     pgmetrics
-    dive
+    # dive
     pup
     docker-credential-helpers
     docker-compose
@@ -393,7 +410,8 @@
 
     #    _1password
 
-    pyright
+    # Disable 2025-02-15 to get Zed to work again
+    # pyright
 
     nodePackages.prettier
     #    nodePackages.aws-azure-login
