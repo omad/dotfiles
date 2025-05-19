@@ -9,3 +9,29 @@ args = ["--stdio"]
 
 [language-server.basedpyright.config]
 basedpyright.analysis.diagnosticMode = "openFilesOnly"
+
+[language-server.yaml-language-server.config.yaml]
+format = { enable = true }
+validation = true
+completion = true
+hover = true
+
+[language-server.yaml-language-server.config.yaml.schemas]
+"https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
+"https://json.schemastore.org/github-action.json" = ["action.yml", "action.yaml"]
+kubernetes = [ "*deployment*.yaml",
+ "*service*.yaml",
+ "*configmap*.yaml",
+ "*secret*.yaml",
+ "*pod*.yaml",
+ "*namespace*.yaml",
+ "*ingress*.yaml" 
+]
+"https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
+  "*kustomization.yaml",
+  "*kustomize.yaml"
+]
+"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
+  "*workflow*.yaml",
+  "*template*.yaml"
+]

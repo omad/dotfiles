@@ -27,6 +27,7 @@ brew "lilypond"
 brew "lld"
 brew "lsd"
 brew "lynx"
+brew "mas"
 brew "nmap"
 brew "numbat"
 brew "oils-for-unix"
@@ -63,3 +64,15 @@ cask "obs"
 cask "stats"
 cask "vlc"
 cask "wireshark"
+mas "1Password for Safari", id: 1569813296
+mas "Amperfy", id: 1530145038
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
+mas "Kagi for Safari", id: 1622835804
+mas "Keynote", id: 409183694
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Voice Type", id: 6736525125
+mas "Xcode", id: 497799835
+brew "rga"
+brew "poppler"
