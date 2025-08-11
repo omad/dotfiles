@@ -1,0 +1,375 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = [
+#   "requests<3",
+#   "click>=8.0",
+#   "packaging",
+#   "rich",
+# ]
+# ///
+
+from pathlib import Path
+import os
+import shutil
+import subprocess
+import sys
+from functools import lru_cache
+
+import click
+import requests
+from packaging.version import Version
+from packaging.version import parse as parse_version
+from rich import print
+from rich.prompt import Confirm
+
+# --- Constants ---
+PYPI_JSON_URL = "https://pypi.org/pypi/{}/json"
+
+# --- Helper Functions ---
+
+
+def check_fzf_available():
+    """Check if fzf is available in the system's PATH."""
+    if shutil.which("fzf") is None:
+        print("[bold red]Error:[/bold red] 'fzf' command not found in your system's PATH.", file=sys.stderr)
+        print("[bold red]Please install fzf (https://github.com/junegunn/fzf#installation) to use this feature.[/bold red]", file=sys.stderr)
+        sys.exit(1)
+
+@lru_cache(maxsize=1)
+def get_all_pypi_versions(package_name: str) -> list[Version]:
+    """
+    Fetch all package versions from PyPI and sorts them.
+
+    Returns a list of packaging.version.Version objects.
+    Caches the result for efficiency.
+    """
+    print(f"Fetching all available versions for '[bold green]{package_name}[/bold green]' from PyPI...")
+    try:
+        response = requests.get(PYPI_JSON_URL.format(package_name), timeout=10)
+        response.raise_for_status()  # Raise an exception for bad status codes
+        package_data = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"[bold red]Error:[/bold red] Fetching package data from PyPI: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    versions = []
+    for version_str in package_data["releases"]:
+        try:
+            version = parse_version(version_str)
+            if not version.is_prerelease and not version.is_devrelease:  # Filter out pre-releases and dev releases by default
+                versions.append(version)
+        except Exception:
+            # Ignore invalid version strings that packaging cannot parse
+            pass
+
+    if not versions:
+        print(f"[bold red]Error:[/bold red] No stable versions found for '[bold green]{package_name}[/bold green]'. "
+                      "Please check the package name or try manually finding a version.", file=sys.stderr)
+        sys.exit(1)
+
+    versions.sort()
+    print(f"Found [bold yellow]{len(versions)}[/bold yellow] stable versions.")
+    return versions
+
+
+def select_initial_version_with_fzf(package_name: str, all_versions: list[Version]) -> Version:
+    """
+    Prompt the user to select an initial known-good version using fzf.
+
+    :return: selected version
+    """
+    print("\n[bold yellow]Please select the last known GOOD version from the list below.[/bold yellow]")
+    print("[dim]Use arrow keys to navigate, type to filter, Enter to select, or Esc to quit.[/dim]")
+
+    version_strings = [str(v) for v in all_versions]
+    fzf_input = "\n".join(version_strings)
+
+    try:
+        process = subprocess.run(
+            ["fzf", "--prompt", f"Select good version for {package_name}: ", "--exact"],
+            input=fzf_input,
+            capture_output=True,
+            text=True,
+            check=False,  # Do not raise CalledProcessError if fzf exits with non-zero (e.g., user hits Esc)
+            encoding='utf-8',
+        )
+
+        if process.returncode != 0:
+            print("[bold red]Selection cancelled or fzf error. Exiting.[/bold red]", file=sys.stderr)
+            sys.exit(1)
+
+        selected_version_str = process.stdout.strip()
+        if not selected_version_str:
+            print("[bold red]No version selected. Exiting.[/bold red]", file=sys.stderr)
+            sys.exit(1)
+
+        selected_version = parse_version(selected_version_str)
+        print(f"\nYou selected: [bold green]{selected_version}[/bold green] as the last known GOOD version.")
+        
+        # Confirm with user
+        if not Confirm.ask(f"Is '{selected_version}' indeed the last known GOOD version for {package_name}?"):
+            print("[bold red]Selection cancelled. Exiting.[/bold red]", file=sys.stderr)
+            sys.exit(1)
+
+        return selected_version
+
+    except FileNotFoundError:
+        print("[bold red]Error:[/bold red] 'fzf' command not found. This should have been caught earlier. Exiting.", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"[bold red]An unexpected error occurred during fzf selection:[/bold red] {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+def run_test(
+    version: Version,
+    venv_path: Path,
+    package_name: str,
+    test_command: tuple[str, ...], # Click passes nargs=-1 as tuple
+) -> bool:
+    """
+    Install the specified package version and runs the test command.
+
+    Returns True if the test passes (exit code 0), False otherwise.
+    Assumes uv is in PATH and the current shell environment is active.
+    """
+    version_str = str(version)
+    print(f"\n[bold magenta]--- Testing {package_name}=={version_str} ---[/bold magenta]")
+
+    current_env = os.environ.copy()
+    current_env['VIRTUAL_ENV'] = str(venv_path.absolute())
+
+    # # 1. Uninstall existing package if any
+    # try:
+    #     print(f"Uninstalling [bold cyan]{package_name}[/bold cyan]...")
+    #     subprocess.run(
+    #         ["uv", "pip", "uninstall", "-y", package_name],
+    #         check=False,  # Don't fail if package isn't installed
+    #         capture_output=True,
+    #         env=current_env
+    #     )
+    # except FileNotFoundError:
+    #     print("[bold red]Error:[/bold red] 'uv' command not found. Please ensure uv is in your system's PATH.", file=sys.stderr)
+    #     sys.exit(1)
+    # except Exception as e:
+    #     print(f"[bold red]Warning:[/bold red] Failed to uninstall previous package version: {e}", file=sys.stderr)
+
+    # 2. Install the target version
+    try:
+        print(f"Installing [bold cyan]{package_name}=={version_str}[/bold cyan] using uv...")
+        install_cmd = [
+            "uv",
+            "pip",
+            "install",
+            f"{package_name}=={version_str}"
+        ]
+        install_result = subprocess.run(
+            install_cmd,
+            check=True,  # This *must* pass for the test to be valid
+            capture_output=True,
+            env=current_env
+        )
+        print("[bold green]Installation successful.[/bold green]")
+        if install_result.stdout:
+            print(f"[dim]Install stdout:[/dim]\n[dim]{install_result.stdout.decode()}[/dim]")
+        if install_result.stderr:
+            print(f"[dim]Install stderr:[/dim]\n[dim]{install_result.stderr.decode()}[/dim]")
+
+    except subprocess.CalledProcessError as e:
+        print(f"[bold red]Error:[/bold red] Installing [bold cyan]{package_name}=={version_str}[/bold cyan]: {e}", file=sys.stderr)
+        print(f"[dim]Install stdout:[/dim]\n[dim]{e.stdout.decode()}[/dim]", file=sys.stderr)
+        print(f"[dim]Install stderr:[/dim]\n[dim]{e.stderr.decode()}[/dim]", file=sys.stderr)
+        print(f"[bold red]Treating {version_str} as FAILING due to installation error.[/bold red]")
+        return False
+    except FileNotFoundError:
+        print("[bold red]Error:[/bold red] 'uv' command not found. Please ensure uv is in your system's PATH.", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"[bold red]An unexpected error occurred during installation:[/bold red] {e}", file=sys.stderr)
+        print(f"[bold red]Treating {version_str} as FAILING due to unexpected installation error.[/bold red]")
+        return False
+
+    # 3. Run the test command
+    print(f"Running test command: '[bold white]{' '.join(test_command)}[/bold white]'")
+    try:
+        test_result = subprocess.run(
+            list(test_command), # Convert tuple from click to list for subprocess.run
+            check=False, # We want to capture the exit code, not raise an error on non-zero
+            capture_output=True,
+            env=current_env
+        )
+        if test_result.stdout:
+            print(f"[dim]Test stdout:[/dim]\n[dim]{test_result.stdout.decode()}[/dim]")
+        if test_result.stderr:
+            print(f"[dim]Test stderr:[/dim]\n[dim]{test_result.stderr.decode()}[/dim]")
+        
+        if test_result.returncode == 0:
+            print(f"Test for [bold green]{version_str}[/bold green] [bold green]PASSED[/bold green].")
+            return True
+        else:
+            print(f"Test for [bold red]{version_str}[/bold red] [bold red]FAILED[/bold red] (exit code {test_result.returncode}).")
+            return False
+    except FileNotFoundError:
+        print(f"[bold red]Error:[/bold red] Test command '{test_command[0]}' not found.", file=sys.stderr)
+        print("Please ensure the test command is correct and available in your current environment's PATH.", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"[bold red]An unexpected error occurred while running test command:[/bold red] {e}", file=sys.stderr)
+        print(f"[bold red]Treating {version_str} as FAILING due to unexpected test error.[/bold red]")
+        return False
+
+
+def bisect_versions(
+    all_versions: list[Version], # Now takes all versions (parsed)
+    initial_good_version: Version, # The version selected by fzf
+    package_name: str,
+    virtual_env: Path,
+    test_command: tuple[str, ...],
+) -> Version | None:
+    """
+    Performs a bisection search to find the first failing version.
+    Assumes initial_good_version is 'good' and a later version is 'bad'.
+    """
+    # Find the index of the initial good version
+    try:
+        low_idx = all_versions.index(initial_good_version)
+    except ValueError:
+        print(f"[bold red]Error:[/bold red] Initial good version '{initial_good_version}' not found in the list of available versions.", file=sys.stderr)
+        sys.exit(1)
+
+    high_idx = len(all_versions) - 1
+
+    # Filter versions to only include those from the initial good one upwards
+    # This creates the working range for bisection
+    versions_to_bisect = all_versions[low_idx:]
+
+    if not versions_to_bisect:
+        print("[bold red]No versions found to bisect in the specified range. Exiting.[/bold red]", file=sys.stderr)
+        sys.exit(0)
+
+    # Edge case: If only one version from selected initial to latest
+    if len(versions_to_bisect) == 1:
+        only_version = versions_to_bisect[0]
+        print(f"Only one version ([bold blue]{only_version}[/bold blue]) in range from selected good to latest. Testing it now...")
+        if run_test(only_version, virtual_env, package_name, test_command):
+            print(f"Version [bold green]{only_version}[/bold green] [bold green]PASSED[/bold green]. No breaking version found in the range.")
+            return None
+        else:
+            print(f"Version [bold red]{only_version}[/bold red] [bold red]FAILED[/bold red]. This is the first failing version.")
+            return only_version
+
+    # Pre-check the initial (assumed good) version
+    print(f"\n[bold yellow]--- Initial check: {package_name}=={initial_good_version} ---[/bold yellow]")
+    if not run_test(initial_good_version, virtual_env, package_name, test_command):
+        # This should ideally not happen if user selected it as "good"
+        print(f"\n[bold red]Error:[/bold red] Initial version '[bold blue]{initial_good_version}[/bold blue]' selected as good, but it is already failing. "
+              "Please restart and select a version that is known to pass.", file=sys.stderr)
+        sys.exit(1)
+    print(f"Initial version '[bold green]{initial_good_version}[/bold green]' is confirmed to be [bold green]GOOD[/bold green].")
+
+    # Pre-check the latest (assumed bad or potentially bad) version in the bisect range
+    latest_version = versions_to_bisect[-1]
+    print(f"\n[bold yellow]--- Latest version check: {package_name}=={latest_version} ---[/bold yellow]")
+    if run_test(latest_version, virtual_env, package_name, test_command):
+        print(f"\n[bold green]All versions from '[bold blue]{initial_good_version}[/bold blue]' to '[bold blue]{latest_version}[/bold blue]' [bold green]PASSED[/bold green]. "
+              "No breaking change found in this range.[/bold green]")
+        return None
+    print(f"Latest version '[bold red]{latest_version}[/bold red]' is confirmed to be [bold red]BAD[/bold red]. Starting bisection...")
+
+    # Adjust indices for the new `versions_to_bisect` list
+    # Invariant: versions_to_bisect[current_low_idx] is GOOD, versions_to_bisect[current_high_idx] is BAD
+    current_low_idx = 0
+    current_high_idx = len(versions_to_bisect) - 1
+
+    # Bisection loop
+    while current_high_idx - current_low_idx > 1:
+        mid_idx = (current_low_idx + current_high_idx) // 2
+        mid_version = versions_to_bisect[mid_idx]
+        print(f"\n[bold purple]Bisecting range:[/bold purple] GOOD [bold green]{versions_to_bisect[current_low_idx]}[/bold green] ({current_low_idx}) - BAD [bold red]{versions_to_bisect[current_high_idx]}[/bold red] ({current_high_idx})")
+        print(f"Testing middle version: [bold blue]{mid_version}[/bold blue] ({mid_idx})")
+
+        if run_test(mid_version, virtual_env, package_name, test_command):
+            current_low_idx = mid_idx
+            print(f"Version [bold green]{mid_version}[/bold green] is [bold green]GOOD[/bold green].")
+        else:
+            current_high_idx = mid_idx
+            print(f"Version [bold red]{mid_version}[/bold red] is [bold red]BAD[/bold red].")
+
+    # Loop ends when current_high_idx - current_low_idx == 1
+    # At this point, versions_to_bisect[current_low_idx] is the last known good,
+    # and versions_to_bisect[current_high_idx] is the first known bad.
+    first_bad_version = versions_to_bisect[current_high_idx]
+    last_good_version = versions_to_bisect[current_low_idx]
+
+    print(f"\n[bold underline]Bisection complete![/bold underline]")
+    print(f"The last known good version is: [bold green]{last_good_version}[/bold green]")
+    print(f"The first breaking version is: [bold red]{first_bad_version}[/bold red]")
+    
+    return first_bad_version
+
+# --- Main CLI Logic ---
+
+@click.command()
+@click.argument("package_name", type=str)
+@click.argument("virtual_env", type=click.Path(file_okay=False, dir_okay=True, path_type=Path))
+@click.argument("test_command", nargs=-1, type=str)
+def bisect_package(package_name: str, virtual_env: Path, test_command: tuple[str, ...]):
+    """
+    Bisect package versions to find the one causing tests to break.
+
+    It is assumed that 'uv' is available in your PATH and you are running this
+    script within a uv-managed virtual environment or a shell where `uv pip install`
+    affects the environment you intend to test.
+
+    You will be prompted to select the last known GOOD version using 'fzf'.
+
+    Arguments:
+
+    PACKAGE_NAME: The name of the Python package (e.g., 'requests').
+
+    VIRTUAL_ENV: Path to the virtual env to use for package installs and test executions.
+
+    TEST_COMMAND: The CLI command to run (e.g., 'pytest' or 'python my_test_script.py').
+                  The command's exit code determines pass/fail (0 for pass, non-zero for fail).
+                  Example: 'python bisect_package.py requests pytest -k "my_feature"'
+    """
+    if not test_command:
+        print("[bold red]Error:[/bold red] A test command is required.", file=sys.stderr)
+        sys.exit(1)
+
+    check_fzf_available()
+
+    print(f"Starting bisection for package: [bold green]{package_name}[/bold green]")
+    print(f"Test command: [bold white]{' '.join(test_command)}[/bold white]")
+    print("[bold yellow]Please ensure 'uv' is in your PATH and your current shell environment is prepared for testing.[/bold yellow]")
+
+    all_versions_parsed = get_all_pypi_versions(package_name)
+    
+    if not all_versions_parsed:
+        print("[bold red]No versions found to bisect. Exiting.[/bold red]", file=sys.stderr)
+        sys.exit(0)
+
+    # Prompt user to select initial good version using fzf
+    initial_good_version = select_initial_version_with_fzf(package_name, all_versions_parsed)
+
+    breaking_version = bisect_versions(
+        all_versions_parsed, # Pass the full list of parsed versions
+        initial_good_version,
+        package_name,
+        virtual_env,
+        test_command,
+    )
+
+    if breaking_version:
+        print(f"\n[bold green]✨ Found breaking version:[/bold green] [bold red]{breaking_version}[/bold red] ✨")
+    else:
+        print("\n[bold green]🎉 No breaking version found in the specified range. All tests passed! 🎉[/bold green]")
+
+
+if __name__ == "__main__":
+    # import os
+    # print(os.environ)
+    # breakpoint()
+    bisect_package()
+

@@ -24,8 +24,12 @@
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
-    defaultEditor = true;
+  };
 
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+    options = ["--cmd" "cd"];
   };
 
   nixpkgs.overlays = [
@@ -55,24 +59,55 @@
   # Advanced Shell History + Syncing
   programs.atuin.enable = true;
 
-  programs.fish.enable = true;
-  programs.fish.shellInit = ''
-    # >>> mamba initialize >>>
-    # !! Contents within this block are managed by 'mamba init' !!
-    set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
-    set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
-    $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
-    # <<< mamba initialize <<<
+  programs.fish = {
+    enable = true;
+    shellAbbrs = {
+      hm = "home-manager";
+      mm = "micromamba";
+      g = "git";
+      k = "kubectl";
+    };
 
-    # Set up the granted/assume alias
-    # See https://docs.commonfate.io/granted/internals/shell-alias
-    alias assume="source (brew --prefix)/bin/assume.fish"
+    shellInit = ''
+        # >>> mamba initialize >>>
+        # !! Contents within this block are managed by 'mamba init' !!
+        set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
+        set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
+        $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+        # <<< mamba initialize <<<
 
-    # Set up the bun js tool
-#    set --export BUN_INSTALL "$HOME/.bun"
-#    set --export PATH $BUN_INSTALL/bin $PA1H
-  '';
+        # Set up the bun js tool
+    #    set --export BUN_INSTALL "$HOME/.bun"
+    #    set --export PATH $BUN_INSTALL/bin $PA1H
+      '';
+      interactiveShellInit = ''
+        # Set up the granted/assume alias
+        # See https://docs.commonfate.io/granted/internals/shell-alias
+        alias assume="source (brew --prefix)/bin/assume.fish"
 
+
+        # WTF is this not managed by home-manager!?
+        # https://github.com/nix-community/home-manager/issues/5119
+        # Closed PR: https://github.com/nix-community/home-manager/pull/5199
+        # [fish: let plugin read vendor_* dirs which is used in nixpkgs fishPlugins by Vonfry · Pull Request #5237 · nix-community/home-manager](https://github.com/nix-community/home-manager/pull/5237)
+        set nix_profile_fish ~/.nix-profile/share/fish
+
+        if test -d $nix_profile_fish/vendor_functions.d
+          set fish_function_path $fish_function_path[1] $nix_profile_fish/vendor_functions.d $fish_function_path[2..-1]
+        end
+        if test -d $nix_profile_fish/vendor_completions.d
+          set fish_complete_path $fish_complete_path[1] $nix_profile_fish/vendor_completions.d $fish_complete_path[2..-1]
+        end
+
+        # Source initialization code if it exists.
+        if test -d $nix_profile_fish/vendor_conf.d
+          for f in $nix_profile_fish/vendor_conf.d/*.fish
+            source $f
+          end
+        end
+
+      '';
+  };
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
   # ecmascript and x-perl types. 
@@ -94,18 +129,15 @@
     };
   };
 
-  programs.helix.enable = true;
+  programs.helix = {
+    enable = true;
+    defaultEditor = true;
+  };
 
 #  programs.granted.enable = true;
 #  programs.fish.shellAliases = {
 #    assume = "source ${pkgs.granted}/share/assume.fish";
 #  };
-  programs.fish.shellAbbrs = {
-    hm = "home-manager";
-    mm = "micromamba";
-    g = "git";
-    k = "kubectl";
-  };
 
   # Rust TLDR client
   programs.tealdeer = {
@@ -193,6 +225,8 @@
     usql
 
 
+    ast-grep
+
     fastfetch
 
     nix-tree
@@ -207,6 +241,9 @@
     # Convert lots of standard command output to JSON
     jc
 
+    # Go tool to pin GitHub Actions shas
+    pinact
+
     jira-cli-go
 
     # Log Highlighter
@@ -217,7 +254,9 @@
     jsonnet-bundler
     ijq
 
+    # Benchmarking utilities
     hey
+    k6
 
     grafana-loki
 
@@ -249,9 +288,6 @@
 
     bfs # Breadth first find alternative
 
-    # LanguageTool LSP server
-    # Supports markdown, rst, grammar/spelling/syntax checking
-    ltex-ls
 
     mqttui
 
@@ -266,8 +302,6 @@
     trivy
 
     upterm
-    #    wine
-    #    winetricks
 
     mosquitto
 
@@ -313,6 +347,9 @@
     htop
 
     # Language Servers
+    # LanguageTool LSP server
+    # Supports markdown, rst, grammar/spelling/syntax checking
+    ltex-ls
     terraform-ls
     tflint
     taplo
@@ -324,8 +361,14 @@
     cmake-language-server
     docker-compose-language-service
     bash-language-server
+
+    # Broken as of August 2025
+    # autotools-language-server  # Also include make-language-server
+     
     nil
     nixd
+    marksman
+    harper # Grammar checking language server
 #    python3Packages.python-lsp-server
 
     # Kubernetes tools
@@ -359,7 +402,7 @@
     scc
     kube3d
 
-    #    exa No longer supported apparently
+    # eza
     lsd
 
     git-secrets

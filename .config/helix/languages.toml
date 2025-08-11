@@ -1,7 +1,39 @@
 
+[language-server.harper-ls]
+command = "harper-ls"
+args = ["--stdio"]
+
+[language-server.harper-ls.config.harper-ls]
+# userDictPath = ""
+# fileDictPath = ""
+# diagnosticSeverity = "hint"
+# isolateEnglish = false
+dialect = "Australian"
+# maxFileLength = 120000
+# 
+ [[language]]
+name = "markdown"
+language-servers = ["marksman", "harper-ls"]
+formatter = { command = 'prettier', args = [
+  "--parser",
+  "markdown",
+  "--prose-wrap",
+  "never", # <always|never|preserve>
+] }
+
 [[language]]
 name = "python"
-language-servers = [ "basedpyright" ]
+language-servers = [ "ruff", "basedpyright" ]
+# formatter = { command = "ruff" , args = ["format", "-"] }
+#  formatter = { command = "uvx", args = ["sh", "-c", "ruff check --fix - | ruff format -"] }
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.ruff.config.settings.lint]
+select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
+preview = true
 
 [language-server.basedpyright]
 command = "basedpyright-langserver"
@@ -15,6 +47,7 @@ format = { enable = true }
 validation = true
 completion = true
 hover = true
+schemaStore.enable = true
 
 [language-server.yaml-language-server.config.yaml.schemas]
 "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
@@ -35,3 +68,26 @@ kubernetes = [ "*deployment*.yaml",
   "*workflow*.yaml",
   "*template*.yaml"
 ]
+
+[[ language ]]
+name = "rst"
+language-servers = [ "esbonio", "harper-ls" ]
+
+[language-server.esbonio]
+command = "esbonio"
+
+# [[language]]
+# name = "autoconf"
+# scope = "source.autoconf"
+# language-servers = [ "autoconf-language-server",]
+
+[[language]]
+name = "make"
+scope = "source.makefile"
+language-servers = [ "make-language-server" ]
+
+[language-server.autoconf-language-server]
+command = "autoconf-language-server"
+
+[language-server.make-language-server]
+command = "make-language-server"

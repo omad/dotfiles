@@ -21,28 +21,24 @@ in
   programs.k9s = {
     enable = true;
 
-    plugin = {
-      plugins = pkgs.lib.attrsets.mergeAttrsList ([
-        {
-          damien = {
-            description = "Shell to Node with AWS SSM";
-            shortCut = "Ctrl-X";
-            scopes = [ "nodes" ];
-            command = "sh";
-            background = false;
-            args = [
-              "-c"
-              '' 
-            INSTANCE_ID=$(kubectl get node $NAME -o=jsonpath='{.metadata.labels.instance-id}')
-            aws ssm start-session --target $INSTANCE_ID
-            ''
-            ];
-          };
-        }
-      ] ++ (load-k9s-plugins wanted-plugins));
-      #        { dive = (yamllib.readYAML ./dive.yaml).plugins.dive; }
-      #       
-    };
+    plugins = pkgs.lib.attrsets.mergeAttrsList ([
+      {
+        damien = {
+          description = "Shell to Node with AWS SSM";
+          shortCut = "Ctrl-X";
+          scopes = [ "nodes" ];
+          command = "sh";
+          background = false;
+          args = [
+            "-c"
+            '' 
+          INSTANCE_ID=$(kubectl get node $NAME -o=jsonpath='{.metadata.labels.instance-id}')
+          aws ssm start-session --target $INSTANCE_ID
+          ''
+          ];
+        };
+      }
+    ] ++ (load-k9s-plugins wanted-plugins));
   };
 
 }

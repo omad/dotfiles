@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+llm logs list --count 0 --json \
+| jq --raw-output0 '.[] | [.id, .conversation_id, .datetime_utc[:10] + " " + .datetime_utc[11:16], .conversation_name, .response] | join("ZZZBZZZ")' \
+| fzf --read0 \
+      --tac --delimiter ZZZBZZZ \
+      --with-nth '{3} {2} {4}' --accept-nth 2 \
+      --preview 'echo {5} | mdcat --paginate --columns 100' \
+      --header "Ctrl-S to save an embedded file, Ctrl-L to continue the conversation, SOMETHING to copy the CID" # \
+      # --bind "ctrl-s"
+      # --preview 'echo {5} | pandoc -t ansi -'  
