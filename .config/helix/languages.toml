@@ -31,9 +31,9 @@ language-servers = [ "ruff", "basedpyright" ]
 command = "ruff"
 args = ["server"]
 
-[language-server.ruff.config.settings.lint]
-select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
-preview = true
+# [language-server.ruff.config.settings.lint]
+# select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
+# preview = true
 
 [language-server.basedpyright]
 command = "basedpyright-langserver"
@@ -91,3 +91,32 @@ command = "autoconf-language-server"
 
 [language-server.make-language-server]
 command = "make-language-server"
+
+[[language]]
+name = "javascript"
+formatter = { command = 'deno', args = ["fmt", "-", "--ext", "js" ] }
+auto-format = true
+
+[[language]]
+name = "typescript"
+formatter = { command = 'deno', args = ["fmt", "-", "--ext", "ts" ] }
+auto-format = true
+
+[[language]]
+name = "jsx"
+formatter = { command = 'deno', args = ["fmt", "-", "--ext", "jsx" ] }
+auto-format = true
+
+[[language]]
+name = "tsx"
+formatter = { command = 'deno', args = ["fmt", "-", "--ext", "tsx" ] }
+auto-format = true
+
+
+[[language]]
+name = "html"
+formatter = { command = 'prettier', args = ["--parser", "html"] }
+
+[[language]]
+name = "css"
+formatter = { command = 'prettier', args = ["--parser", "css"] }

@@ -15,7 +15,7 @@
 
 \set PROMPT2 '... > '
 
--- \timing on
+\timing on
 
 \x auto
 \set VERBOSITY verbose
