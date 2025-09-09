@@ -32,21 +32,21 @@
     options = ["--cmd" "cd"];
   };
 
-  nixpkgs.overlays = [
-#    (final: prev: {
-#      granted = prev.granted.override {
-#        withFish = true;
-#      };
-#    })
-    (final: prev: {
-      s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
-        ldflags = [
-          "-X github.com/peak/s5cmd/v2/version.Version=${previousAttrs.version}"
-          "-X github.com/peak/s5cmd/v2/version.GitCommit=${previousAttrs.version}"
-        ];
-      });
-    })
-  ];
+#   nixpkgs.overlays = [
+# #    (final: prev: {
+# #      granted = prev.granted.override {
+# #        withFish = true;
+# #      };
+# #    })
+#     (final: prev: {
+#       s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
+#         ldflags = [
+#           "-X github.com/peak/s5cmd/v2/version.Version=${previousAttrs.version}"
+#           "-X github.com/peak/s5cmd/v2/version.GitCommit=${previousAttrs.version}"
+#         ];
+#       });
+#     })
+#   ];
 
   # Fish Completions for `nix` and `home-manager`
   # Why isn't this setup automatically? Doing it this way is awfully hacky.
@@ -244,7 +244,7 @@
     # Go tool to pin GitHub Actions shas
     pinact
 
-    jira-cli-go
+    # jira-cli-go
 
     # Log Highlighter
 #    ccze # No aarch64, 2024-11-20
@@ -318,7 +318,7 @@
     # Broken on aarch64 2024-11-20, ocaml-mirage-rng
     # comby # Structural code search and replace 
 
-    cloudflared
+    # cloudflared
 
     # nasc  # TODO uncomment not building 2022-09-14 # Another GUI calculator
 
@@ -328,9 +328,9 @@
 
     awscli2
     aws-sso-cli
-    aws-sam-cli
+    # aws-sam-cli
     ssm-session-manager-plugin
-    eksctl
+    # eksctl
 
     difftastic
     mdcat
@@ -416,14 +416,14 @@
     docker-credential-helpers
     docker-compose
     docker-slim
-    yt-dlp
+    # yt-dlp # Installed via brew now
     onefetch
 
     jless
 
     watchexec
 
-    s5cmd
+    # s5cmd
     niv
 #    mitmproxy
     rustscan
