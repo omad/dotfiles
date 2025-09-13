@@ -1,2 +1,5 @@
 set ideajoin
 set surround
+Plug 'tpope/vim-surround'
+set incsearch
+set hlsearch

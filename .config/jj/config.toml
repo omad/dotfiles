@@ -1,0 +1,32 @@
+## ------------------------------------------------------------------------------------------------
+#
+# Lots of useful: https://gist.github.com/thoughtpolice/8f2fd36ae17cd11b8e7bd93a70e31ad6#file-jjconfig-toml
+
+"$schema" = "https://jj-vcs.github.io/jj/prerelease/config-schema.json"
+
+
+[user]
+email = "damien@omad.net"
+name = "Damien Ayers"
+
+[ui]
+color = "auto"
+#diff-editor = "diffedit3"
+merge-editor = "kdiff3"
+diff-editor = ":builtin"
+
+[git]
+colocate = true
+
+[templates]
+git_push_bookmark = "\"dra/push-\" ++ change_id.short()"
+
+
+[aliases]
+# Find the closest ancestor with a bookmark pointing at it, and move it to the
+# parent of the working copy.
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+
+# Run pre-commit check before pushing to remote git repos
+# https://github.com/acarapetis/jj-pre-push
+push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]
