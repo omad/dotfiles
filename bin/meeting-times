@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+
+# A list of IANA timezone names to be processed.
+# You can add or remove timezones from this list.
+TARGET_TIMEZONES = [
+    'UTC',
+    'Europe/Stockholm',
+    'America/Chicago',
+    'Australia/Canberra',
+]
+
+# Maps timezone abbreviations to a full, descriptive name.
+# The script uses the datetime's tzname() method to get the correct
+# abbreviation (e.g., CST vs CDT) and looks it up here.
+FULL_NAME_MAP = {
+    'UTC': 'Coordinated Universal Time',
+    'CET': 'Central European Time',
+    'CEST': 'Central European Summer Time',
+    'CST': 'Central Standard Time',
+    'CDT': 'Central Daylight Time',
+    'AEST': 'Australian Eastern Standard Time',
+    'AEDT': 'Australian Eastern Daylight Time',
+}
+
+def get_ordinal_suffix(day: int) -> str:
+    """Returns the ordinal suffix (st, nd, rd, th) for a given day."""
+    if 11 <= (day % 100) <= 13:
+        return 'th'
+    return {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
+
+def format_utc_offset(offset: timedelta | None) -> str:
+    """Formats a timedelta offset into a string like 'UTC+10:00'."""
+    if offset is None:
+        return ""
+    if offset.total_seconds() == 0:
+        return "UTC"
+        
+    total_seconds = int(offset.total_seconds())
+    sign = '+' if total_seconds >= 0 else '-'
+    total_seconds = abs(total_seconds)
+    hours, remainder = divmod(total_seconds, 3600)
+    minutes, _ = divmod(remainder, 60)
+    return f"UTC{sign}{hours:02}:{minutes:02}"
+
+def main():
+    """
+    Parses a command-line timestamp and converts it to several timezones.
+    """
+    parser = argparse.ArgumentParser(
+        description="Convert a local timestamp to various timezones."
+    )
+    parser.add_argument(
+        "timestamp",
+        type=str,
+        help="The timestamp to convert, in 'YYYY-MM-DD HH:MM' format. "
+             "This is assumed to be in your system's local timezone.",
+    )
+    args = parser.parse_args()
+
+    # 1. Parse the input string into a naive datetime object.
+    try:
+        naive_dt = datetime.strptime(args.timestamp, '%Y-%m-%d %H:%M')
+    except ValueError:
+        sys.exit(
+            f"Error: Timestamp '{args.timestamp}' is not in the correct "
+            "'YYYY-MM-DD HH:MM' format."
+        )
+
+    # 2. Assume the naive datetime is local and make it timezone-aware.
+    local_dt = naive_dt.astimezone()
+
+    # 3. Iterate through the target timezones and print the converted times.
+    for tz_key in TARGET_TIMEZONES:
+        try:
+            target_tz = ZoneInfo(tz_key)
+            dt_in_tz = local_dt.astimezone(target_tz)
+
+            # Get the correct timezone abbreviation (e.g., AEST or AEDT)
+            tz_abbreviation = dt_in_tz.tzname()
+
+            # Look up the full name, falling back to the abbreviation if not found
+            display_name = FULL_NAME_MAP.get(tz_abbreviation, tz_abbreviation)
+
+            # Format the time part (e.g., "4am", "12pm")
+            time_str = dt_in_tz.strftime('%-I%p').lower()
+            if time_str == "0am":
+                time_str = "12am"
+            elif time_str == "0pm":
+                 time_str = "12pm"
+
+            # Format the date part (e.g., "Tuesday 12th August")
+            day_with_suffix = f"{dt_in_tz.day}{get_ordinal_suffix(dt_in_tz.day)}"
+            date_full_str = dt_in_tz.strftime(f'%A {day_with_suffix} %B')
+
+            # Get the UTC offset string (e.g., "UTC+10:00")
+            offset_str = format_utc_offset(dt_in_tz.utcoffset())
+            
+            # Combine all parts into the final output string
+            print(
+                f"- {time_str} {date_full_str} ({display_name}: {offset_str})"
+            )
+
+        except ZoneInfoNotFoundError:
+            print(
+                f"Error: Timezone '{tz_key}' not found. Please check system "
+                "timezone database or spelling.",
+                file=sys.stderr
+            )
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
