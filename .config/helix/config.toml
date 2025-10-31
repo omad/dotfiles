@@ -1,7 +1,30 @@
 
+
+[editor]
+auto-completion=true
+# auto-save=true
+auto-format=false
+# inlay-diagnostic.editor-line = true
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[editor.auto-save]
+focus-lost = true
+after-delay.enable = true
+after-delay.timeout = 300000
+
 [editor.file-picker]
-hidden = false
+hidden = false # Show dot files
 
 [editor.lsp]
 display-messages = true
 # display-inlay-hints = true
+auto-signature-help=true
+
+[keys.normal]
+g = { a = "code_action" } # Maps `ga` to show possible code actions
+
+
+# Resources
+# https://guara.tech/posts/helix_editor_rs_setup/
+# https://rushter.com/blog/helix-editor/

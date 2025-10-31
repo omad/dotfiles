@@ -10,14 +10,24 @@
 
 local hyper = {"cmd", "ctrl"}
 
-hs.loadSpoon("SpoonInstall")
--- hs.loadSpoon("WindowHalfsAndThirds")
-hs.loadSpoon("WindowScreenLeftAndRight")
 
-spoon.WindowScreenLeftAndRight:bindHotkeys({
-    screen_left = { hyper, "Left" },
-    screen_right = { hyper, "Right" }
-})
+-----------------------------------------------
+-- Reload config on write
+-----------------------------------------------
+
+hs.loadSpoon("ReloadConfiguration")
+spoon.ReloadConfiguration:start()
+-- hs.alert.show("Config loaded")
+hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+
+-- hs.loadSpoon("SpoonInstall")
+-- -- hs.loadSpoon("WindowHalfsAndThirds")
+-- hs.loadSpoon("WindowScreenLeftAndRight")
+
+-- spoon.WindowScreenLeftAndRight:bindHotkeys({
+--     screen_left = { hyper, "Left" },
+--     screen_right = { hyper, "Right" }
+-- })
 
 -- See https://github.com/AaronLasseigne/dotfiles/blob/50d2325c1ad7552ea95a313fbf022004e2932ce9/.hammerspoon/init.lua
 -- on branch 'master' it has been significantly updated
@@ -29,17 +39,17 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 end)
 
 -- Copy URL + Title
-hs.hotkey.bind({"cmd", "shift"}, "Space", function ()
-    hs.application.frontmostApplication():focusedWindow()
-    local title = hs.window.focusedWindow():title()
-    hs.notify.new({title="Page Title", informativeText=title}):send()
-    hs.eventtap.keyStroke({"cmd"}, "l")
-    hs.eventtap.keyStroke({"cmd"}, "c")
-    hs.eventtap.keyStroke({}, "escape")
-    local url = hs.pasteboard.readString()
-    hs.notify.new({title="Page URL", informativeText=url}):send()
-    hs.pasteboard.setContents("[[" .. url .. "][" .. title .. "]]")
-end)
+-- hs.hotkey.bind({"cmd", "shift"}, "Space", function ()
+--     hs.application.frontmostApplication():focusedWindow()
+--     local title = hs.window.focusedWindow():title()
+--     hs.notify.new({title="Page Title", informativeText=title}):send()
+--     hs.eventtap.keyStroke({"cmd"}, "l")
+--     hs.eventtap.keyStroke({"cmd"}, "c")
+--     hs.eventtap.keyStroke({}, "escape")
+--     local url = hs.pasteboard.readString()
+--     hs.notify.new({title="Page URL", informativeText=url}):send()
+--     hs.pasteboard.setContents("[[" .. url .. "][" .. title .. "]]")
+-- end)
 
 -- Toggle a window between its normal size, and being maximized
 local frameCache = {}
@@ -148,14 +158,6 @@ local downloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Downloads/", h
 downloadWatcher:start()
 
 
------------------------------------------------
--- Reload config on write
------------------------------------------------
-
-hs.loadSpoon("ReloadConfiguration")
-spoon.ReloadConfiguration:start()
--- hs.alert.show("Config loaded")
-hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 
 -----------------------------------------------
 -- Hyper i to show window hints
@@ -166,22 +168,22 @@ hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 -- end)
 
 
-hs.loadSpoon("RoundedCorners")
-spoon.RoundedCorners:start()
+-- hs.loadSpoon("RoundedCorners")
+-- spoon.RoundedCorners:start()
 
 
 -- Activate with hammerspoon://test?somParam=hello
 -- For example, from Alfred
 hs.urlevent.bind("test1", function(eventName, params)
   if params["someParam"] then
-    hs.alret.show(params["someParam"])
+    hs.alert.show(params["someParam"])
   end
 end)
 
 -- https://github.com/
 -- https://travis-ci.org/
 
-require('wifi')
+-- require('wifi')
 -- $ osascript -e 'id of app "Firefox"'
 -- This are not regexps, they are lua patterns. See https://www.lua.org/pil/20.2.html
 -- Be careful of - hyphens
@@ -199,3 +201,90 @@ require('wifi')
 --                             start = true
 --                           }
 -- )
+
+
+--[[
+Hammerspoon script for CONTEXT-AWARE hotkeys in Microsoft Outlook.
+- Only remaps keys when not focused on a text input field.
+--]]
+
+-- 1. Define the target application
+outlookBundleID = "com.microsoft.Outlook"
+
+-- 2. Helper function to check if the user is in a text input field
+-- When composing an email, the body is a web view (AXWebArea).
+-- This function checks the focused element and its parents for text-editing roles.
+function isTypingMode()
+    local element = hs.axui.focusedElement()
+    if not element then return false end
+
+    -- List of roles indicating a text input area
+    local textInputRoles = {
+        ["AXTextArea"] = true,
+        ["AXTextField"] = true,
+        ["AXWebArea"] = true, -- This is the main one for the Outlook composer
+    }
+
+    -- Check the element and its parents (up to 5 levels)
+    -- Sometimes the focus is on a paragraph inside the main text area.
+    local current = element
+    for i = 1, 5 do
+        if not current then break end
+        if textInputRoles[current:role()] then
+            return true -- We found a text input area
+        end
+        current = current:parent()
+    end
+
+    return false -- No text input area was found
+end
+
+log = hs.logger.new('keycodes', 'info')
+log.i('Initializing')
+
+
+-- -- Refer to https://github.com/teddy-ma/dotfiles/blob/475c70d4c7dbc081fab7b7dc6ca59456a157281e/dotfiles.org#key
+
+-- -- 3. Create the hotkey objects with conditional logic
+-- local outlookRemaps = hs.eventtap.new(
+--   {hs.eventtap.event.types.keyUp},
+--   function(event)
+--     local character = hs.keycodes.map[event:getKeyCode()]
+--     log.i(character)
+--     -- log.i(isTypingMode())
+--     if isTypingMode() then
+--       if character == '#' then
+--         return hs.eventtap.keyString({'cmd'}, 'backspace')
+--       elseif character == 'e' then
+--         return hs.eventtap.keyStrong({'ctrl'}, 'e')
+--       end
+--     end
+--   end
+-- )
+
+-- outlookRemaps:stop()
+
+-- -- 4. Application watcher to enable/disable the hotkeys globally
+-- -- This ensures the logic only runs when Outlook is the active app.
+-- appWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
+--     if eventType == hs.application.watcher.activated then
+--         if appObject:bundleID() == outlookBundleID then
+--             outlookRemaps:start()
+--             hs.alert.show("In Outlook")
+--         else
+--             outlookRemaps:stop()
+--             -- hs.alert.show("Out Outlook")
+--         end
+--     end
+-- end)
+
+-- -- 5. Start the watcher
+-- appWatcher:start()
+
+-- -- Optional: Initial check for when the config is first loaded
+-- local frontmostApp = hs.application.frontmostApplication()
+-- if frontmostApp and frontmostApp:bundleID() == outlookBundleID then
+--     outlookRemaps:start()
+-- end
+
+-- hs.alert.show("Context-Aware Outlook Config Loaded")

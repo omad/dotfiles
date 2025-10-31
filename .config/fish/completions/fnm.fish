@@ -1,1 +1,1 @@
-fnm completions --shell fish
+fnm completions --shell fish | source

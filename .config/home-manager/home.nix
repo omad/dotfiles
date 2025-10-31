@@ -76,6 +76,7 @@
         $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
         # <<< mamba initialize <<<
 
+        fnm env --shell fish | source
         # Set up the bun js tool
     #    set --export BUN_INSTALL "$HOME/.bun"
     #    set --export PATH $BUN_INSTALL/bin $PA1H
@@ -140,14 +141,14 @@
 #  };
 
   # Rust TLDR client
-  programs.tealdeer = {
-    enable = true;
-    settings = {
-      updates = {
-        auto_update = true;
-      };
-    };
-  };
+  # programs.tealdeer = {
+  #   enable = true;
+  #   settings = {
+  #     updates = {
+  #       auto_update = true;
+  #     };
+  #   };
+  # };
 
   xsession.enable = false;
 
@@ -293,7 +294,7 @@
 
     nix-init
 
-    gitui
+    # gitui #build fails
 
     asciinema
 
@@ -324,7 +325,7 @@
 
     dasel
 
-    gitui # fast cli git client https://github.com/extrawurst/gitui
+    # gitui # fast cli git client https://github.com/extrawurst/gitui
 
     awscli2
     aws-sso-cli
@@ -353,13 +354,13 @@
     terraform-ls
     tflint
     taplo
-    nodePackages.dockerfile-language-server-nodejs
+    # nodePackages.dockerfile-language-server-nodejs
     lua-language-server
     nodePackages.vscode-json-languageserver
     typescript-language-server
     yaml-language-server
     cmake-language-server
-    docker-compose-language-service
+    # docker-compose-language-service
     bash-language-server
 
     # Broken as of August 2025

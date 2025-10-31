@@ -1,17 +1,5 @@
 
-[language-server.harper-ls]
-command = "harper-ls"
-args = ["--stdio"]
-
-[language-server.harper-ls.config.harper-ls]
-# userDictPath = ""
-# fileDictPath = ""
-# diagnosticSeverity = "hint"
-# isolateEnglish = false
-dialect = "Australian"
-# maxFileLength = 120000
-# 
- [[language]]
+[[language]]
 name = "markdown"
 language-servers = ["marksman", "harper-ls"]
 formatter = { command = 'prettier', args = [
@@ -27,54 +15,12 @@ language-servers = [ "ruff", "basedpyright" ]
 # formatter = { command = "ruff" , args = ["format", "-"] }
 #  formatter = { command = "uvx", args = ["sh", "-c", "ruff check --fix - | ruff format -"] }
 
-[language-server.ruff]
-command = "ruff"
-args = ["server"]
 
-# [language-server.ruff.config.settings.lint]
-# select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
-# preview = true
-
-[language-server.basedpyright]
-command = "basedpyright-langserver"
-args = ["--stdio"]
-
-[language-server.basedpyright.config]
-basedpyright.analysis.diagnosticMode = "openFilesOnly"
-
-[language-server.yaml-language-server.config.yaml]
-format = { enable = true }
-validation = true
-completion = true
-hover = true
-schemaStore.enable = true
-
-[language-server.yaml-language-server.config.yaml.schemas]
-"https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
-"https://json.schemastore.org/github-action.json" = ["action.yml", "action.yaml"]
-kubernetes = [ "*deployment*.yaml",
- "*service*.yaml",
- "*configmap*.yaml",
- "*secret*.yaml",
- "*pod*.yaml",
- "*namespace*.yaml",
- "*ingress*.yaml" 
-]
-"https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
-  "*kustomization.yaml",
-  "*kustomize.yaml"
-]
-"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
-  "*workflow*.yaml",
-  "*template*.yaml"
-]
 
 [[ language ]]
 name = "rst"
 language-servers = [ "esbonio", "harper-ls" ]
 
-[language-server.esbonio]
-command = "esbonio"
 
 # [[language]]
 # name = "autoconf"
@@ -86,11 +32,6 @@ name = "make"
 scope = "source.makefile"
 language-servers = [ "make-language-server" ]
 
-[language-server.autoconf-language-server]
-command = "autoconf-language-server"
-
-[language-server.make-language-server]
-command = "make-language-server"
 
 [[language]]
 name = "javascript"
@@ -120,3 +61,99 @@ formatter = { command = 'prettier', args = ["--parser", "html"] }
 [[language]]
 name = "css"
 formatter = { command = 'prettier', args = ["--parser", "css"] }
+
+[[language]]
+name = "rust"
+auto-format = true
+
+roots = [
+  "Cargo.toml",
+  "Cargo.lock"
+]
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+'`' = '`'
+
+[language-server.harper-ls]
+command = "harper-ls"
+args = ["--stdio"]
+
+[language-server.harper-ls.config.harper-ls]
+# userDictPath = ""
+# fileDictPath = ""
+# diagnosticSeverity = "hint"
+# isolateEnglish = false
+dialect = "Australian"
+# maxFileLength = 120000
+
+[language-server.vale-ls]
+command = "vale-ls"
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+# [language-server.ruff.config.settings.lint]
+# select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
+# preview = true
+
+[language-server.basedpyright]
+command = "basedpyright-langserver"
+args = ["--stdio"]
+
+[language-server.basedpyright.config]
+basedpyright.analysis.diagnosticMode = "openFilesOnly"
+basedpyright.typeCheckingMode = "standard"
+
+[language-server.yaml-language-server.config.yaml]
+format = { enable = true }
+validation = true
+completion = true
+hover = true
+schemaStore.enable = true
+
+[language-server.yaml-language-server.config.yaml.schemas]
+
+"https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
+
+"https://json.schemastore.org/github-action.json" = ["action.yml", "action.yaml"]
+
+kubernetes = [ "*deployment*.yaml",
+ "*service*.yaml",
+ "*configmap*.yaml",
+ "*secret*.yaml",
+ "*pod*.yaml",
+ "*namespace*.yaml",
+ "*ingress*.yaml" 
+]
+"https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
+  "*kustomization.yaml",
+  "*kustomize.yaml"
+]
+"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
+  "*workflow*.yaml",
+  "*template*.yaml"
+]
+"https://raw.githubusercontent.com/readthedocs/readthedocs.org/master/readthedocs/rtd_tests/fixtures/spec/v2/schema.json" = [
+  '.readthedocs.yaml'
+]
+[language-server.esbonio]
+command = "esbonio"
+[language-server.autoconf-language-server]
+command = "autoconf-language-server"
+
+[language-server.make-language-server]
+command = "make-language-server"
+[language-server.rust-analyzer]
+command = "rust-analyzer"
+
+[language-server.rust-analyzer.config]
+inlayHints.bindingModeHints.enable = false
+inlayHints.closingBraceHints.minLines = 10
+inlayHints.closureReturnTypeHints.enable = "with_block"
+inlayHints.discriminantHints.enable = "fieldless"
+inlayHints.lifetimeElisionHints.enable = "skip_trivial"
+inlayHints.typeHints.hideClosureInitialization = false

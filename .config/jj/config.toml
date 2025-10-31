@@ -30,3 +30,8 @@ tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
 # Run pre-commit check before pushing to remote git repos
 # https://github.com/acarapetis/jj-pre-push
 push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]
+
+[[--scope]]
+--when.repositories = ["~/dev/easi/", "~/dev/csiro/"]
+[--scope.user]
+email = "Damien.Ayers@csiro.au"
