@@ -158,3 +158,4 @@ function git_main_author_percentage() {
     awk '{printf "%s %s %.2f%%\n", $2, $3, $1/total*100}' total=$(wc -l < "$file_path") | \
     sort -k3 -nr
 }
+

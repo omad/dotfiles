@@ -50,6 +50,8 @@
 
   # Fish Completions for `nix` and `home-manager`
   # Why isn't this setup automatically? Doing it this way is awfully hacky.
+  #
+  # Okay, so, this *is* hacky. It actually looks more like nix and home-manager should be including themselves in XDG_DATA_DIRS.
   xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
   xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
 
@@ -77,9 +79,10 @@
         # <<< mamba initialize <<<
 
         fnm env --shell fish | source
+
         # Set up the bun js tool
-    #    set --export BUN_INSTALL "$HOME/.bun"
-    #    set --export PATH $BUN_INSTALL/bin $PA1H
+        #    set --export BUN_INSTALL "$HOME/.bun"
+        #    set --export PATH $BUN_INSTALL/bin $PA1H
       '';
       interactiveShellInit = ''
         # Set up the granted/assume alias
@@ -106,6 +109,12 @@
             source $f
           end
         end
+
+        # Kubectl krew
+        set -q KREW_ROOT; and set -gx PATH $PATH $KREW_ROOT/.krew/bin; or set -gx PATH $PATH $HOME/.krew/bin
+
+        # Don't initialise x-cmd
+        # test ! -e "$HOME/.x-cmd.root/local/data/fish/rc.fish" || source "$HOME/.x-cmd.root/local/data/fish/rc.fish" # boot up x-cmd.
 
       '';
   };
@@ -166,7 +175,7 @@
   home.stateVersion = "21.11";
 
   home.username = "aye011";
-  home.homeDirectory = "/Users/aye011/";
+  home.homeDirectory = "/Users/aye011";
 
   # Extra Paths to always set
   home.sessionPath = [
@@ -341,7 +350,7 @@
     fzf # fuzzyfinder
     ripgrep
     starship # minimal blazing fast prompt
-    gitAndTools.delta
+    delta
     jq
     fx # interactive jq
     jiq # interactive jq
@@ -387,7 +396,7 @@
     # The latest versions of flux aren't backwards compatible
     # So I've downlaoded a binary from GitHub Releases
     #    fluxcd
-    argo
+    argo-workflows
     kubernetes-helm
 
     #    terraform
@@ -397,11 +406,13 @@
 
     nixfmt-classic
     bottom
-    du-dust
+    # du-dust
+    dust
     duf
 
     scc
-    kube3d
+    # kube3d
+    k3d
 
     # eza
     lsd

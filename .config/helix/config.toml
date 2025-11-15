@@ -1,5 +1,7 @@
 
 
+theme = "catppuccin_mocha"
+
 [editor]
 auto-completion=true
 # auto-save=true

@@ -3,7 +3,7 @@
 pre_sudo = true
 
 
-disable = ["nix"]
+disable = ["nix", "containers"]
 # Disable specific steps - same options as the command line flag
 #disable = ["system", "emacs"]
 
@@ -36,7 +36,7 @@ repos = [
 
 # Commands to run before anything
 [pre_commands]
-"Update Home Manager Flake" = "nix flake update --flake ~/.config/home-manager/"
+"Update Home Manager Flake" = "nix flake update --flake ~/.config/home-manager/ && yadm commit -m 'Update Home Manager Flake' -- ~/.config/home-manager/flake.lock || true"
 
 # Custom commands
 [commands]
