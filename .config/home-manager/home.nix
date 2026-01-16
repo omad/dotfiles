@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
 
@@ -18,6 +18,19 @@
   programs.bat = {
     enable = true;
     config.theme = "Dracula";
+    # extraPackages = with pkgs.bat-extras; [
+    #   batdiff
+    #   batman
+    #   prettybat
+    # ];
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep 5 --keep-since 3d";
+    homeFlake = "${config.home.homeDirectory}/.config/home-manager/";
+
   };
 
   programs.neovim = {
@@ -89,18 +102,26 @@
         # See https://docs.commonfate.io/granted/internals/shell-alias
         alias assume="source (brew --prefix)/bin/assume.fish"
 
-
         # WTF is this not managed by home-manager!?
         # https://github.com/nix-community/home-manager/issues/5119
         # Closed PR: https://github.com/nix-community/home-manager/pull/5199
         # [fish: let plugin read vendor_* dirs which is used in nixpkgs fishPlugins by Vonfry · Pull Request #5237 · nix-community/home-manager](https://github.com/nix-community/home-manager/pull/5237)
         set nix_profile_fish ~/.nix-profile/share/fish
 
+        # Add nix profile completions
+        for dir in completions generated_completions vendor_completions.d
+          if test -d "$nix_profile_fish/$dir"
+            set --append fish_complete_path "$nix_profile_fish/$dir"
+          end
+        end
+
         if test -d $nix_profile_fish/vendor_functions.d
-          set fish_function_path $fish_function_path[1] $nix_profile_fish/vendor_functions.d $fish_function_path[2..-1]
+          # set fish_function_path $fish_function_path[1] $nix_profile_fish/vendor_functions.d $fish_function_path[2..-1]
+          set --append fish_function_path "$nix_profile_fish/vendor_functions.d"
         end
         if test -d $nix_profile_fish/vendor_completions.d
-          set fish_complete_path $fish_complete_path[1] $nix_profile_fish/vendor_completions.d $fish_complete_path[2..-1]
+          # set fish_complete_path $fish_complete_path[1] $nix_profile_fish/vendor_completions.d $fish_complete_path[2..-1]
+          set --append fish_complete_path "$nix_profile_fish/vendor_completions.d"
         end
 
         # Source initialization code if it exists.
@@ -113,14 +134,12 @@
         # Kubectl krew
         set -q KREW_ROOT; and set -gx PATH $PATH $KREW_ROOT/.krew/bin; or set -gx PATH $PATH $HOME/.krew/bin
 
-        # Don't initialise x-cmd
-        # test ! -e "$HOME/.x-cmd.root/local/data/fish/rc.fish" || source "$HOME/.x-cmd.root/local/data/fish/rc.fish" # boot up x-cmd.
 
       '';
   };
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
-  # ecmascript and x-perl types. 
+  # ecmascript and x-perl types.
   # Debugged with:
   #   $ DEBUGINFOD_URLS="https://debuginfod.ubuntu.com" gdb nautilus
   xdg.mime.enable = false;
@@ -129,7 +148,7 @@
   programs.xplr.enable = true;
 
   programs.jujutsu = {
-    # disabling because I want version 0.24
+    # disabling because I want latest versions
     enable = false;
     settings = {
       user = {
@@ -161,7 +180,7 @@
 
   xsession.enable = false;
 
-  # Not sure what this fixes, but it probably breaks thigns too
+  # Not sure what this fixes, but it probably breaks things too
   targets.genericLinux.enable = false;
 
   # This value determines the Home Manager release that your
@@ -326,7 +345,7 @@
     vale # Syntax aware prose linter
 
     # Broken on aarch64 2024-11-20, ocaml-mirage-rng
-    # comby # Structural code search and replace 
+    # comby # Structural code search and replace
 
     # cloudflared
 
@@ -374,7 +393,7 @@
 
     # Broken as of August 2025
     # autotools-language-server  # Also include make-language-server
-     
+
     nil
     nixd
     marksman
@@ -404,7 +423,7 @@
 
     zola # Rust Static Site Generator
 
-    nixfmt-classic
+    nixfmt
     bottom
     # du-dust
     dust
