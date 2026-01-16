@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Read prompt from command-line arg.
+PROMPT="$1"
+
+# Add implicit context for the prompt.
+PROMPT+=' Assume a Linux OS.'
+PROMPT+=' Prefer command-line tools.'
+PROMPT+=' Optimize for the simplest possible response.'
+PROMPT+=' If there are multiple methods, show me the simplest one.'
+PROMPT+=' If possible, show me just a code snippet with no additional explanation.'
+
+# Use a default LLM model but allow the user to override it.
+MODEL="${MODEL:-llama3.2:1b}"
+
+ollama run $MODEL "$PROMPT"
