@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# Thanks https://mtlynch.io/retrospectives/2025/11/
 
 # Read prompt from command-line arg.
 PROMPT="$1"
@@ -11,6 +13,6 @@ PROMPT+=' If there are multiple methods, show me the simplest one.'
 PROMPT+=' If possible, show me just a code snippet with no additional explanation.'
 
 # Use a default LLM model but allow the user to override it.
-MODEL="${MODEL:-llama3.2:1b}"
+MODEL="${MODEL:-llama3.2:latest}"
 
 ollama run $MODEL "$PROMPT"

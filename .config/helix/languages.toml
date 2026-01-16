@@ -17,7 +17,7 @@ language-servers = [ "ruff", "basedpyright" ]
 
 
 
-[[ language ]]
+[[language]]
 name = "rst"
 language-servers = [ "esbonio", "harper-ls" ]
 
@@ -127,18 +127,14 @@ kubernetes = [ "*deployment*.yaml",
  "*secret*.yaml",
  "*pod*.yaml",
  "*namespace*.yaml",
- "*ingress*.yaml" 
-]
-"https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
-  "*kustomization.yaml",
-  "*kustomize.yaml"
+ "*ingress*.yaml"
 ]
 "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
   "*workflow*.yaml",
   "*template*.yaml"
 ]
 "https://raw.githubusercontent.com/readthedocs/readthedocs.org/master/readthedocs/rtd_tests/fixtures/spec/v2/schema.json" = [
-  '.readthedocs.yaml'
+  '/.readthedocs.yaml'
 ]
 [language-server.esbonio]
 command = "esbonio"
@@ -157,3 +153,13 @@ inlayHints.closureReturnTypeHints.enable = "with_block"
 inlayHints.discriminantHints.enable = "fieldless"
 inlayHints.lifetimeElisionHints.enable = "skip_trivial"
 inlayHints.typeHints.hideClosureInitialization = false
+
+[language-server.nixd.config.nixpkgs]
+expr = "import (builtins.getFlake \"/Users/aye011/dev/nixos\").inputs.nixpkgs { }"
+
+[language-server.nixd.config.options.nixos]
+expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixos.options"
+
+
+[language-server.nixd.config.options.home-manager]
+expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"

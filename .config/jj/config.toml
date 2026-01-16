@@ -35,3 +35,6 @@ push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]
 --when.repositories = ["~/dev/easi/", "~/dev/csiro/"]
 [--scope.user]
 email = "Damien.Ayers@csiro.au"
+
+[gg.ui]
+recent-workspaces = ["/Users/aye011/dev/easi-gh/csa-easi-flux-dev-admin", "/Users/aye011/dev/easi-gh/csa-easi-observability-proxy"]

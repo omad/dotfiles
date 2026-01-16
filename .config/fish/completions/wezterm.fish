@@ -1,1 +1,1 @@
-wezterm shell-completion --shell fish | source
+/Applications/WezTerm.app/Contents/Resources/shell-completion/fish
