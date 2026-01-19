@@ -1,7 +1,7 @@
 
 -- Making the Runtime, Funtime with Hammerspoon
 -- https://blog.theodo.fr/2018/03/making-runtime-funtime-hammerspoon/
--- 
+--
 -- Just Enough Lua to Be Productive in Hammerspoon, Part 1
 -- http://zzamboni.org/post/just-enough-lua-to-be-productive-in-hammerspoon-part-1/
 --
@@ -28,6 +28,9 @@ hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 --     screen_left = { hyper, "Left" },
 --     screen_right = { hyper, "Right" }
 -- })
+
+-- Enable IPC for using the `hs` CLI
+require("hs.ipc")
 
 -- See https://github.com/AaronLasseigne/dotfiles/blob/50d2325c1ad7552ea95a313fbf022004e2932ce9/.hammerspoon/init.lua
 -- on branch 'master' it has been significantly updated
