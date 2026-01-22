@@ -140,24 +140,77 @@ end)
 -----------------------------------------------
 local downloadLog = hs.logger.new('DLMonitor','debug')
 
-function handle_download(paths, flagstable)
-  -- uhm
-  local hello = "hello"
-  hs.notify.new({title="Hammerspoon Download Monitor", informativeText="changed!"}):send()
-  for k,v in pairs(paths) do
-    hs.notify.new({title="Hammerspoon Download Monitor", informativeText=k .. ": " .. v}):send()
-    downloadLog.i("Altered " .. k .. " " .. v)
-  end
-  for k,v in pairs(flagstable) do
---    hs.notify.new({title="Hammerspoon Download Monitor", informativeText=k .. ": " .. v}):send()
-    downloadLog.i("Foo " .. k .. #v) -- .. ": " .. v)
-    for k2,v2 in pairs(v) do
-      downloadLog.i("Bar " .. k2) -- .. v2) -- .. ": " .. v)
-    end
-  end
+local trash = os.getenv("HOME") .. "/.Trash"
+local downloadFolder = os.getenv("HOME") .. "/Downloads/"
+
+local function moveToTrash(path)
+	local _displayName = hs.fs.displayName(path)
+	os.rename(path, trash .. _displayName)
 end
 
-local downloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Downloads/", handle_download)
+function handle_download(paths, flagstable)
+  -- paths: a table containing a list of file paths that have changed
+  -- flagTables: a table containing a list of tables denoting how each corresponding file in paths has changed,
+  -- each containing boolean values indicating which types of events occurred;
+  -- The possible keys are:
+  --  * mustScanSubDirs
+  --  * userDropped
+  --  * kernelDropped
+  --  * eventIdsWrapped
+  --  * historyDone
+  --  * rootChanged
+  --  * mount
+  --  * unmount
+  --  * itemCreated
+  --  * itemRemoved
+  --  * itemInodeMetaMod
+  --  * itemRenamed
+  --  * itemModified
+  --  * itemFinderInfoMod
+  --  * itemChangeOwner
+  --  * itemXattrMod
+  --  * itemIsFile
+  --  * itemIsDir
+  --  * itemIsSymlink
+  --  * ownEvent (OS X 10.9+)
+  --  * itemIsHardlink (OS X 10.10+)
+  --  * itemIsLastHardlink (OS X 10.10+)
+  -- uhm
+  local transmissionRemote = "/opt/homebrew/bin/transmission-remote"
+
+   for file in hs.fs.dir(os.getenv("HOME") .. "/Downloads/") do
+     local fullPath = downloadFolder .. file
+     if file:match("%.torrent$") ~= nil then
+       hs.task.new(transmissionRemote, function(exitCode, stdOut, stdErr)
+         if exitCode == 0 then
+            local msg = "[torrent-watch] added + trashed: " .. file
+            hs.notify.new({title="Hammerspoon Download Monitor", informativeText=msg}):send()
+            hs.print(msg)
+            moveToTrash(fullPath)
+          else
+            hs.notify.new({title="Download Monitor", informativeText="Failed to send " .. file})
+            hs.printf("[torrent-watch] FAILED (%d): %s\nstdout: %s\nstderr: %s", exitCode, file, stdOut or "", stdErr or "")
+          end
+        end, { "nixos", "--add", fullPath}):start()
+     end
+   end
+
+--   local hello = "hello"
+--   hs.notify.new({title="Hammerspoon Download Monitor", informativeText="changed!"}):send()
+--   for k,v in pairs(paths) do
+--     hs.notify.new({title="Hammerspoon Download Monitor", informativeText=k .. ": " .. v}):send()
+--     downloadLog.i("Altered " .. k .. " " .. v)
+--   end
+--   for k,v in pairs(flagstable) do
+-- --    hs.notify.new({title="Hammerspoon Download Monitor", informativeText=k .. ": " .. v}):send()
+--     downloadLog.i("Foo " .. k .. #v) -- .. ": " .. v)
+--     for k2,v2 in pairs(v) do
+--       downloadLog.i("Bar " .. k2) -- .. v2) -- .. ": " .. v)
+--     end
+--   end
+end
+
+local downloadWatcher = hs.pathwatcher.new(downloadFolder, handle_download)
 downloadWatcher:start()
 
 
