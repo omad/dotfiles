@@ -94,8 +94,10 @@
         fnm env --shell fish | source
 
         # Set up the bun js tool
-        #    set --export BUN_INSTALL "$HOME/.bun"
-        #    set --export PATH $BUN_INSTALL/bin $PA1H
+        if test -d "$HOME/.bun"
+          set --export BUN_INSTALL "$HOME/.bun"
+          set --append PATH "$BUN_INSTALL/bin"
+        end
       '';
       interactiveShellInit = ''
         # Set up the granted/assume alias
@@ -132,7 +134,13 @@
         end
 
         # Kubectl krew
-        set -q KREW_ROOT; and set -gx PATH $PATH $KREW_ROOT/.krew/bin; or set -gx PATH $PATH $HOME/.krew/bin
+        if set -q KREW_ROOT; and test -d "$KREW_ROOT/.krew/bin"
+
+          set --append PATH "$KREW_ROOT/.krew/bin"
+        else if test -d $HOME/.krew/bin
+          set --append PATH "$HOME/.krew/bin"
+        end
+        # set -q KREW_ROOT; and ; or set -gx PATH $PATH $HOME/.krew/bin
 
 
       '';
