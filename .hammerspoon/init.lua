@@ -144,8 +144,15 @@ local trash = os.getenv("HOME") .. "/.Trash"
 local downloadFolder = os.getenv("HOME") .. "/Downloads/"
 
 local function moveToTrash(path)
-	local _displayName = hs.fs.displayName(path)
-	os.rename(path, trash .. _displayName)
+	-- local _displayName = hs.fs.displayName(path)
+	-- os.rename(path, trash .. _displayName)
+	hs.task.new("/usr/bin/trash", function(exitCode, stdOut, stdErr)
+	  if exitCode == 0 then
+	    downloadLog.i("Success moving ", path, " to the Trash.")
+    else
+      downloadLog.e("Error moving ", path, " to the Trash.", stdOut, stdErr)
+    end
+	end, {"--stopOnError", "--verbose", path}):start()
 end
 
 function handle_download(paths, flagstable)
@@ -184,14 +191,18 @@ function handle_download(paths, flagstable)
        hs.task.new(transmissionRemote, function(exitCode, stdOut, stdErr)
          if exitCode == 0 then
             local msg = "[torrent-watch] added + trashed: " .. file
-            hs.notify.new({title="Hammerspoon Download Monitor", informativeText=msg}):send()
-            hs.print(msg)
+            --hs.notify.new({title="Hammerspoon Download Monitor", informativeText=msg}):send()
+            hs.notify.show("HS Download Monitor", "Success sending to Transmission", msg)
+            print(msg)
             moveToTrash(fullPath)
           else
-            hs.notify.new({title="Download Monitor", informativeText="Failed to send " .. file})
-            hs.printf("[torrent-watch] FAILED (%d): %s\nstdout: %s\nstderr: %s", exitCode, file, stdOut or "", stdErr or "")
+            local msg = string.format("[torrent-watch] FAILED (%d): %s\nstdout: %s\nstderr: %s", exitCode, file, stdOut or "", stdErr or "")
+
+            --hs.notify.new({title="Download Monitor", informativeText="Failed to send " .. file})
+            hs.notify.show("HS Download Monitor", "Failed sending to Transmission", msg)
+            print(msg)
           end
-        end, { "nixos", "--add", fullPath}):start()
+        end, {"nixos", "--add", fullPath}):start()
      end
    end
 
