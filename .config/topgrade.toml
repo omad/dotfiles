@@ -43,10 +43,19 @@ repos = [
 #"Base Conda Environment" = "~/miniconda3/bin/mamba upgrade --all"
 #"Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 
-"Cleanup Nix Store" = "nix-collect-garbage -d"
-"Cleanup Conda detritus" = "micromamba clean --all --yes"
 
 "Upgrade uv" = "uv self update"
 "Upgrade uv installed tools" = "uv tool upgrade --all"
 
 
+[post_commands]
+
+
+"Cleanup Nix Store" = "nix-collect-garbage -d"
+"Cleanup Conda detritus" = "micromamba clean --all --yes"
+
+"Docker cleanup" = "docker system prune --force"
+
+"Homebrew cleanup" = "brew cleanup --prune 14"
+
+"uv cleanup" = "uv clean"
