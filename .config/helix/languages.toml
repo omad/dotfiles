@@ -78,6 +78,26 @@ roots = [
 '"' = '"'
 '`' = '`'
 
+[[language]]
+name = "d2"
+scope = "source.git"
+file-types = ["d2"]
+comment-token = "#"
+roots = [""]
+indent = { tab-width = 2, unit = "  " }
+
+[[language]]
+name = "kitty"
+file-types = [{ glob = "kitty.conf"}, { glob = ".config/kitty" }]
+
+[[grammar]]
+source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
+name = "kitty"
+
+[[grammar]]
+source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
+name = "d2"
+
 [language-server.harper-ls]
 command = "harper-ls"
 args = ["--stdio"]
@@ -163,3 +183,5 @@ expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixo
 
 [language-server.nixd.config.options.home-manager]
 expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"
+
+
