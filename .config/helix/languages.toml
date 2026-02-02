@@ -86,13 +86,20 @@ comment-token = "#"
 roots = [""]
 indent = { tab-width = 2, unit = "  " }
 
+
 [[language]]
 name = "kitty"
+scope = "src.git"
 file-types = [{ glob = "kitty.conf"}, { glob = ".config/kitty" }]
+comment-token = "#"
 
 [[grammar]]
 source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
 name = "kitty"
+
+# [[grammar]]
+# name = "kitty"
+# source = { git="https://github.com/clo4/tree-sitter-kitty-conf", rev = "main" }
 
 [[grammar]]
 source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
@@ -140,6 +147,7 @@ schemaStore.enable = true
 "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
 
 "https://json.schemastore.org/github-action.json" = ["action.yml", "action.yaml"]
+"https://raw.githubusercontent.com/chri11g6/sops-schema/refs/heads/master/sops.schema.json" = [".sops.yaml"]
 
 kubernetes = [ "*deployment*.yaml",
  "*service*.yaml",
@@ -185,3 +193,7 @@ expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixo
 expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"
 
 
+[language-server.taplo.config]
+# Workaround for nonsense of being nonfunctional outside git directories
+# (https://github.com/helix-editor/helix/issues/3897#issuecomment-2361674437)
+config = {}

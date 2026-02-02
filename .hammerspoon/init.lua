@@ -111,7 +111,8 @@ grid = {
   {key="l", units={positions.right50, positions.right66, positions.right34}},
 
   {key="m", units={positions.lower50Left50}},
-  {key=",", units={positions.lower50}},
+  -- Comment out comma, it conflicts with reload kitty config
+  -- {key=",", units={positions.lower50}},
   {key=".", units={positions.lower50Right50}}
 }
 

@@ -3,3 +3,31 @@ set surround
 Plug 'tpope/vim-surround'
 set incsearch
 set hlsearch
+
+
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
+Plug 'easymotion/vim-easymotion'
+
+let mapleader= ","
+set hlsearch
+
+""" Common settings -------------------------
+set showmode
+set so=5
+set incsearch
+set nu
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+
+
+
+" Use ctrl-c as an ide shortcut in normal and visual modes
+sethandler <C-C> n-v:ide i:vim
+
+
+nnoremap \e :e ~\.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>

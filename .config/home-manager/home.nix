@@ -33,11 +33,11 @@
 
   };
 
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
+  # programs.neovim = {
+  #   enable = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  # };
 
   programs.zoxide = {
     enable = true;
@@ -65,8 +65,8 @@
   # Why isn't this setup automatically? Doing it this way is awfully hacky.
   #
   # Okay, so, this *is* hacky. It actually looks more like nix and home-manager should be including themselves in XDG_DATA_DIRS.
-  xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
-  xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
+  # xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
+  # xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
 
   # Better ls
   programs.lsd.enable = true;
@@ -144,6 +144,17 @@
 
 
       '';
+    plugins = [
+      {
+        name = "fzf.fish";
+        src = pkgs.fetchFromGitHub {
+          owner = "PatrickF1";
+          repo = "fzf.fish";
+          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
+          sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM=";
+        };
+      }
+    ];
   };
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
@@ -255,10 +266,9 @@
   home.packages = with pkgs; [
     #    (callPackage (fetchTarball https://github.com/DavHau/mach-nix/tarball/3.4.0) {}).mach-nix
     #    nixos-generators
-    (callPackage ./fastgron.nix { })
     morph
 
-    nushell
+    # nushell
     usql
 
 
@@ -366,7 +376,9 @@
     awscli2
     aws-sso-cli
     # aws-sam-cli
-    ssm-session-manager-plugin
+
+    # Ugh, this failed compiling on 2026-02-02
+    # ssm-session-manager-plugin
     # eksctl
 
     difftastic
@@ -387,7 +399,7 @@
     # LanguageTool LSP server
     # Supports markdown, rst, grammar/spelling/syntax checking
     ltex-ls
-    terraform-ls
+    # terraform-ls
     tflint
     taplo
     # nodePackages.dockerfile-language-server-nodejs
@@ -404,8 +416,8 @@
 
     nil
     nixd
-    marksman
-    harper # Grammar checking language server
+    # marksman
+    # harper # Grammar checking language server
 #    python3Packages.python-lsp-server
 
     # Kubernetes tools

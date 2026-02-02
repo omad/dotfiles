@@ -11,6 +11,7 @@
     optnix.inputs.nixpkgs.follows = "nixpkgs";
     # nixvim.url = "github:nix-community/nixvim";
     # nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
     nixosFlake.url = "path:/Users/aye011/dev/nixos";
 
   };
