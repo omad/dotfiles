@@ -80,30 +80,26 @@ roots = [
 
 [[language]]
 name = "d2"
-scope = "source.git"
+scope = "source.d2"
 file-types = ["d2"]
-comment-token = "#"
+comment-tokens = "#"
 roots = [""]
 indent = { tab-width = 2, unit = "  " }
 
+[[grammar]]
+source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
+name = "d2"
 
 [[language]]
 name = "kitty"
-scope = "src.git"
-file-types = [{ glob = "kitty.conf"}, { glob = ".config/kitty" }]
-comment-token = "#"
+scope = "source.kitty"
+file-types = [{ glob = "kitty.conf"}, { glob = ".config/kitty/*.conf" }]
+comment-tokens = "#"
 
 [[grammar]]
 source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
 name = "kitty"
 
-# [[grammar]]
-# name = "kitty"
-# source = { git="https://github.com/clo4/tree-sitter-kitty-conf", rev = "main" }
-
-[[grammar]]
-source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
-name = "d2"
 
 [language-server.harper-ls]
 command = "harper-ls"

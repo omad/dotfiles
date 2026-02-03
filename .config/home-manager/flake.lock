@@ -234,7 +234,7 @@
         "udp514-journal": "udp514-journal"
       },
       "locked": {
-        "lastModified": 1769467010,
+        "lastModified": 1770085334,
         "narHash": "sha256-RL10RWbv2Uy4HTNhSbxCIjkCR5UXLFSFoOefkW9si1U=",
         "path": "/Users/aye011/dev/nixos",
         "type": "path"

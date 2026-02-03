@@ -65,8 +65,10 @@
   # Why isn't this setup automatically? Doing it this way is awfully hacky.
   #
   # Okay, so, this *is* hacky. It actually looks more like nix and home-manager should be including themselves in XDG_DATA_DIRS.
-  # xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
-  # xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
+  # From there, fish populates $__fish_vendor_completionsdirs
+  # And it also looks for completions in $fish_complete_path
+  xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
+  xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
 
   # Better ls
   programs.lsd.enable = true;
