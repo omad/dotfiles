@@ -1,105 +1,4 @@
-
-[[language]]
-name = "markdown"
-language-servers = ["marksman", "harper-ls"]
-formatter = { command = 'prettier', args = [
-  "--parser",
-  "markdown",
-  "--prose-wrap",
-  "never", # <always|never|preserve>
-] }
-
-[[language]]
-name = "python"
-language-servers = [ "ruff", "basedpyright" ]
-# formatter = { command = "ruff" , args = ["format", "-"] }
-#  formatter = { command = "uvx", args = ["sh", "-c", "ruff check --fix - | ruff format -"] }
-
-
-
-[[language]]
-name = "rst"
-language-servers = [ "esbonio", "harper-ls" ]
-
-
-# [[language]]
-# name = "autoconf"
-# scope = "source.autoconf"
-# language-servers = [ "autoconf-language-server",]
-
-[[language]]
-name = "make"
-scope = "source.makefile"
-language-servers = [ "make-language-server" ]
-
-
-[[language]]
-name = "javascript"
-formatter = { command = 'deno', args = ["fmt", "-", "--ext", "js" ] }
-auto-format = true
-
-[[language]]
-name = "typescript"
-formatter = { command = 'deno', args = ["fmt", "-", "--ext", "ts" ] }
-auto-format = true
-
-[[language]]
-name = "jsx"
-formatter = { command = 'deno', args = ["fmt", "-", "--ext", "jsx" ] }
-auto-format = true
-
-[[language]]
-name = "tsx"
-formatter = { command = 'deno', args = ["fmt", "-", "--ext", "tsx" ] }
-auto-format = true
-
-
-[[language]]
-name = "html"
-formatter = { command = 'prettier', args = ["--parser", "html"] }
-
-[[language]]
-name = "css"
-formatter = { command = 'prettier', args = ["--parser", "css"] }
-
-[[language]]
-name = "rust"
-auto-format = true
-
-roots = [
-  "Cargo.toml",
-  "Cargo.lock"
-]
-
-[language.auto-pairs]
-'(' = ')'
-'{' = '}'
-'[' = ']'
-'"' = '"'
-'`' = '`'
-
-[[language]]
-name = "d2"
-scope = "source.d2"
-file-types = ["d2"]
-comment-tokens = "#"
-roots = [""]
-indent = { tab-width = 2, unit = "  " }
-
-[[grammar]]
-source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
-name = "d2"
-
-[[language]]
-name = "kitty"
-scope = "source.kitty"
-file-types = [{ glob = "kitty.conf"}, { glob = ".config/kitty/*.conf" }]
-comment-tokens = "#"
-
-[[grammar]]
-source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
-name = "kitty"
-
+#:tombi:
 
 [language-server.harper-ls]
 command = "harper-ls"
@@ -123,6 +22,11 @@ args = ["server"]
 # select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
 # preview = true
 
+[language-server.terraform-ls]
+command = "/Users/aye011/.vscode/extensions/hashicorp.terraform-2.37.7-darwin-arm64/bin/terraform-ls"
+args = ["serve", "-log-file", "/Users/aye011/.cache/helix/terraform-ls.log"]
+config = { terraform = { logFilePath = "/Users/aye011/.cache/helix/terraform-cli.log" } }
+
 [language-server.basedpyright]
 command = "basedpyright-langserver"
 args = ["--stdio"]
@@ -139,29 +43,40 @@ hover = true
 schemaStore.enable = true
 
 [language-server.yaml-language-server.config.yaml.schemas]
-
 "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
 
-"https://json.schemastore.org/github-action.json" = ["action.yml", "action.yaml"]
-"https://raw.githubusercontent.com/chri11g6/sops-schema/refs/heads/master/sops.schema.json" = [".sops.yaml"]
+"https://json.schemastore.org/github-action.json" = [
+  "action.yml",
+  "action.yaml",
+]
+"https://raw.githubusercontent.com/chri11g6/sops-schema/refs/heads/master/sops.schema.json" = [
+  ".sops.yaml",
+]
 
-kubernetes = [ "*deployment*.yaml",
- "*service*.yaml",
- "*configmap*.yaml",
- "*secret*.yaml",
- "*pod*.yaml",
- "*namespace*.yaml",
- "*ingress*.yaml"
+kubernetes = [
+  "*deployment*.yaml",
+  "*service*.yaml",
+  "*configmap*.yaml",
+  "*secret*.yaml",
+  "*pod*.yaml",
+  "*namespace*.yaml",
+  "*ingress*.yaml",
 ]
 "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
   "*workflow*.yaml",
-  "*template*.yaml"
+  "*template*.yaml",
+]
+"https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
+  "*kustomization.yaml",
+  "*kustomize.yaml"
 ]
 "https://raw.githubusercontent.com/readthedocs/readthedocs.org/master/readthedocs/rtd_tests/fixtures/spec/v2/schema.json" = [
-  '/.readthedocs.yaml'
+  '/.readthedocs.yaml',
 ]
+
 [language-server.esbonio]
 command = "esbonio"
+
 [language-server.autoconf-language-server]
 command = "autoconf-language-server"
 
@@ -178,18 +93,128 @@ inlayHints.discriminantHints.enable = "fieldless"
 inlayHints.lifetimeElisionHints.enable = "skip_trivial"
 inlayHints.typeHints.hideClosureInitialization = false
 
-[language-server.nixd.config.nixpkgs]
-expr = "import (builtins.getFlake \"/Users/aye011/dev/nixos\").inputs.nixpkgs { }"
-
-[language-server.nixd.config.options.nixos]
-expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixos.options"
-
-
-[language-server.nixd.config.options.home-manager]
-expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"
+[language-server.nixd.config]
+nixpkgs.expr = "import (builtins.getFlake \"/Users/aye011/dev/nixos\").inputs.nixpkgs { }"
+nixos.expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixos.options"
+home-manager.expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"
 
 
 [language-server.taplo.config]
 # Workaround for nonsense of being nonfunctional outside git directories
 # (https://github.com/helix-editor/helix/issues/3897#issuecomment-2361674437)
 config = {}
+
+[[language]]
+formatter = { args = [
+  "--parser",
+  "markdown",
+  "--prose-wrap",
+  "never",        # <always|never|preserve>
+], command = 'prettier' }
+language-servers = ["marksman", "harper-ls"]
+name = "markdown"
+
+[[language]]
+name = "python"
+language-servers = ["ruff", "basedpyright"]
+# formatter = { command = "ruff" , args = ["format", "-"] }
+#  formatter = { command = "uvx", args = ["sh", "-c", "ruff check --fix - | ruff format -"] }
+
+
+[[language]]
+name = "rst"
+language-servers = ["esbonio", "harper-ls"]
+
+
+[[language]]
+name = "make"
+scope = "source.makefile"
+language-servers = ["make-language-server"]
+
+[[language]]
+name = "yaml"
+file-types = [
+  "yml",
+  "yaml",
+  { glob = ".prettierrc" },
+  { glob = ".clangd" },
+  { glob = ".clang-format" },
+  { glob = ".clang-tidy" },
+  { glob = ".gem/credentials" },
+  { glob = ".kube/config" },
+  { glob = ".kube/kuberc" },
+  { glob = "yarn.lock" },
+  "sublime-syntax",
+  "bu",
+  { glob = ".stylelintrc" },  # https://stylelint.io/user-guide/configure/
+  { glob = ".puppeteerrc" },  # https://pptr.dev/guides/configuration
+   {glob = "*datacube.conf"}
+]
+
+
+# [[language]]
+# name = "javascript"
+# formatter = { command = 'deno', args = ["fmt", "-", "--ext", "js" ] }
+# auto-format = true
+
+# [[language]]
+# name = "typescript"
+# formatter = { command = 'deno', args = ["fmt", "-", "--ext", "ts" ] }
+# auto-format = true
+
+# [[language]]
+# name = "jsx"
+# formatter = { command = 'deno', args = ["fmt", "-", "--ext", "jsx" ] }
+# auto-format = true
+
+# [[language]]
+# name = "tsx"
+# formatter = { command = 'deno', args = ["fmt", "-", "--ext", "tsx" ] }
+# auto-format = true
+
+
+# [[language]]
+# name = "html"
+# formatter = { command = 'prettier', args = ["--parser", "html"] }
+
+# [[language]]
+# name = "css"
+# formatter = { command = 'prettier', args = ["--parser", "css"] }
+
+# [[language]]
+# name = "rust"
+# auto-format = true
+
+# roots = [
+#   "Cargo.toml",
+#   "Cargo.lock"
+# ]
+
+# [language.auto-pairs]
+# '(' = ')'
+# '{' = '}'
+# '[' = ']'
+# '"' = '"'
+# '`' = '`'
+
+[[language]]
+name = "d2"
+scope = "source.d2"
+file-types = ["d2"]
+comment-tokens = "#"
+roots = [""]
+indent = { tab-width = 2, unit = "  " }
+
+[[grammar]]
+source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
+name = "d2"
+
+[[language]]
+name = "kitty"
+scope = "source.kitty"
+file-types = [{ glob = "kitty.conf" }, { glob = ".config/kitty/*.conf" }]
+comment-tokens = "#"
+
+[[grammar]]
+source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
+name = "kitty"

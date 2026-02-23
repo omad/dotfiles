@@ -24,13 +24,14 @@ hidden = false # Show dot files
 [editor.lsp]
 display-messages = true
 # display-inlay-hints = true
-auto-signature-help=true
+auto-signature-help = true
+display-progress-messages = true
 
 [keys.select]
 "S-x" = ["extend_line_up", "extend_to_line_bounds"]
 
-[keys.normal]
-g = { a = "code_action" } # Maps `ga` to show possible code actions
+# [keys.normal]
+# g = { a = "code_action" } # Maps `ga` to show possible code actions
 
 
 # Resources

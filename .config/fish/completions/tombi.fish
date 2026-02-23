@@ -1,0 +1,2 @@
+
+tombi completion fish | source

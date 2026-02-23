@@ -35,9 +35,9 @@ function qv
     end
 
     # Define the system prompt
+# Reply concisely, in a few sentences or dot points.
     set system "
 You are a helpful assistant that can answer questions about YouTube videos.
-Reply concisely, in a few sentences or dot points.
 
 Include the title of the video which is:
 $video_title

@@ -403,7 +403,7 @@
     ltex-ls
     # terraform-ls
     tflint
-    taplo
+    # taplo
     # nodePackages.dockerfile-language-server-nodejs
     lua-language-server
     nodePackages.vscode-json-languageserver

@@ -22,7 +22,7 @@ fi
 
 . "$HOME/.cargo/env"
 
-. "$HOME/.atuin/bin/env"
+# . "$HOME/.atuin/bin/env"
 ||||||| Stash base
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
