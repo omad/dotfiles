@@ -1,5 +1,7 @@
 #:tombi:
+[language-server]
 
+actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
 [language-server.harper-ls]
 command = "harper-ls"
 args = ["--stdio"]
@@ -18,12 +20,15 @@ command = "vale-ls"
 command = "ruff"
 args = ["server"]
 
+[language-server.colours-lsp]
+command = "colours-lsp"
+
 # [language-server.ruff.config.settings.lint]
 # select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
 # preview = true
 
 [language-server.terraform-ls]
-command = "/Users/aye011/.vscode/extensions/hashicorp.terraform-2.37.7-darwin-arm64/bin/terraform-ls"
+# command = "/Users/aye011/.vscode/extensions/hashicorp.terraform-2.37.7-darwin-arm64/bin/terraform-ls"
 args = ["serve", "-log-file", "/Users/aye011/.cache/helix/terraform-ls.log"]
 config = { terraform = { logFilePath = "/Users/aye011/.cache/helix/terraform-cli.log" } }
 
@@ -37,18 +42,16 @@ basedpyright.typeCheckingMode = "standard"
 
 [language-server.yaml-language-server.config.yaml]
 format = { enable = true }
-validation = true
+validate = true
 completion = true
 hover = true
 schemaStore.enable = true
+kubernetesCRDStore.enable = true
+
 
 [language-server.yaml-language-server.config.yaml.schemas]
 "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
 
-"https://json.schemastore.org/github-action.json" = [
-  "action.yml",
-  "action.yaml",
-]
 "https://raw.githubusercontent.com/chri11g6/sops-schema/refs/heads/master/sops.schema.json" = [
   ".sops.yaml",
 ]
@@ -62,10 +65,10 @@ kubernetes = [
   "*namespace*.yaml",
   "*ingress*.yaml",
 ]
-"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
-  "*workflow*.yaml",
-  "*template*.yaml",
-]
+# "https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json" = [
+#   "*workflow*.yaml",
+#   "*template*.yaml",
+# ]
 "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json" = [
   "*kustomization.yaml",
   "*kustomize.yaml"
@@ -103,6 +106,17 @@ home-manager.expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").
 # Workaround for nonsense of being nonfunctional outside git directories
 # (https://github.com/helix-editor/helix/issues/3897#issuecomment-2361674437)
 config = {}
+
+[language-server.yaml-schema-router]
+command = "yaml-schema-router"
+args = [
+  "--log-file", "/tmp/yaml-router.log",
+  "--lsp-path", "/usr/bin/yaml-language-server"
+]
+
+[[language]]
+auto-format = true
+name = "nix"
 
 [[language]]
 formatter = { args = [
@@ -150,6 +164,7 @@ file-types = [
   { glob = ".puppeteerrc" },  # https://pptr.dev/guides/configuration
    {glob = "*datacube.conf"}
 ]
+language-servers = [ "yaml-schema-router" ]
 
 
 # [[language]]
@@ -198,6 +213,15 @@ file-types = [
 # '`' = '`'
 
 [[language]]
+name = "github-action"
+scope = "source.yaml.github-action"
+language-servers = [ "actions-language-server", "yaml-language-server" ]
+file-types = [{ glob = ".github/workflows/*.yaml" }, { glob = ".github/workflows/*.yml" }]
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
+grammar = "yaml"
+
+[[language]]
 name = "d2"
 scope = "source.d2"
 file-types = ["d2"]
@@ -205,15 +229,17 @@ comment-tokens = "#"
 roots = [""]
 indent = { tab-width = 2, unit = "  " }
 
-[[grammar]]
-source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
-name = "d2"
 
 [[language]]
 name = "kitty"
 scope = "source.kitty"
 file-types = [{ glob = "kitty.conf" }, { glob = ".config/kitty/*.conf" }]
 comment-tokens = "#"
+language-servers = ["colours-lsp"]
+
+[[grammar]]
+source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
+name = "d2"
 
 [[grammar]]
 source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
