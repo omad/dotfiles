@@ -1,1 +1,0 @@
-/nix/store/9w7ni69j9df81h0585bsyx22arj28nfc-home-manager-files/.config/fish/conf.d/plugin-fzf.fish.fish

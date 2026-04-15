@@ -30,6 +30,7 @@
     clean.enable = true;
     clean.extraArgs = "--keep 5 --keep-since 3d";
     homeFlake = "${config.home.homeDirectory}/.config/home-manager/";
+    flake = "${config.home.homeDirectory}/.config/home-manager/";
 
   };
 
@@ -74,10 +75,11 @@
   programs.lsd.enable = true;
 
   # Advanced Shell History + Syncing
-  programs.atuin.enable = true;
+  # programs.atuin.enable = true;
 
   programs.fish = {
     enable = true;
+    generateCompletions = false; # Doesn't work with HM 26.05, with by default no 'man' installed
     shellAbbrs = {
       hm = "home-manager";
       mm = "micromamba";
@@ -146,17 +148,6 @@
 
 
       '';
-    plugins = [
-      {
-        name = "fzf.fish";
-        src = pkgs.fetchFromGitHub {
-          owner = "PatrickF1";
-          repo = "fzf.fish";
-          rev = "8920367cf85eee5218cc25a11e209d46e2591e7a";
-          sha256 = "sha256-T8KYLA/r/gOKvAivKRoeqIwE2pINlxFQtZJHpOy9GMM=";
-        };
-      }
-    ];
   };
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
@@ -212,7 +203,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.11";
+  home.stateVersion = "25.11";
 
   home.username = "aye011";
   home.homeDirectory = "/Users/aye011";
@@ -226,6 +217,10 @@
     "$HOME/.cargo/bin"
     "/opt/homebrew/bin"
   ];
+
+  # Default from HM 26.05.
+  # The GNU man version this used to install doesn't do man -k or man -f properly.
+  programs.man.package = null;
 
   #  services.flameshot.enable = true;
   #  services.sxhkd = {
@@ -274,7 +269,7 @@
     usql
 
 
-    ast-grep
+    # ast-grep
 
     fastfetch
 
@@ -404,11 +399,9 @@
     # terraform-ls
     tflint
     # taplo
-    # nodePackages.dockerfile-language-server-nodejs
     lua-language-server
-    nodePackages.vscode-json-languageserver
     typescript-language-server
-    yaml-language-server
+    # yaml-language-server
     cmake-language-server
     # docker-compose-language-service
     bash-language-server
@@ -437,8 +430,8 @@
     # The latest versions of flux aren't backwards compatible
     # So I've downlaoded a binary from GitHub Releases
     #    fluxcd
-    argo-workflows
-    kubernetes-helm
+    # argo-workflows
+    # kubernetes-helm
 
     #    terraform
     terraform-docs
@@ -504,13 +497,8 @@
 
     navi # interactive cli cheat sheets
 
-    #    _1password
 
-    # Disable 2025-02-15 to get Zed to work again
-    # pyright
 
-    nodePackages.prettier
-    #    nodePackages.aws-azure-login
   ];
 
   systemd.user.paths.watch-download-torrents = {

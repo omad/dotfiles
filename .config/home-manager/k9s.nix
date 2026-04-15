@@ -1,18 +1,32 @@
-{ pkgs, stdenv, lib, ... }:
+{
+  pkgs,
+  ...
+}:
 let
   yamllib = import ./yaml.nix { inherit pkgs; };
   k9s-plugins = pkgs.fetchgit {
     url = "https://github.com/derailed/k9s";
-    rev = "350439b98553f23672f7ce0b650637d0afdd4104";
+    rev = "v0.50.18";
     sparseCheckout = [
       "plugins"
     ];
-    hash = "sha256-R14kvDAPKZOBLsFsnC9kAklJKYpdF1dNsl3YpCzQPrI=";
+    hash = "sha256-zL1B7jgXCgNbB7k4B5vRMQLzrLZ+/36XEYm0uNtoefE=";
   };
-  wanted-plugins = [ "flux" "debug-container" "get-all" "helm-values" "watch-events" ];
+  wanted-plugins = [
+    "debug-container"
+    "flux"
+    "get-all"
+    "helm-values"
+    "watch-events"
+    "resource-recommendations"
+    "crd-wizard"
+    "argo-workflows"
+    "helm-diff"
+    "log-stern"
+    "dup"
+  ];
   load-k9s-plugins = map (
-    plugin-file:
-    (yamllib.readYAML "${k9s-plugins}/plugins/${plugin-file}.yaml").plugins
+    plugin-file: (yamllib.readYAML "${k9s-plugins}/plugins/${plugin-file}.yaml").plugins
   );
 
 in
@@ -21,24 +35,29 @@ in
   programs.k9s = {
     enable = true;
 
-    plugins = pkgs.lib.attrsets.mergeAttrsList ([
-      {
-        damien = {
-          description = "Shell to Node with AWS SSM";
-          shortCut = "Ctrl-X";
-          scopes = [ "nodes" ];
-          command = "sh";
-          background = false;
-          args = [
-            "-c"
-            '' 
-          INSTANCE_ID=$(kubectl get node $NAME -o=jsonpath='{.metadata.labels.instance-id}')
-          aws ssm start-session --target $INSTANCE_ID
-          ''
-          ];
-        };
-      }
-    ] ++ (load-k9s-plugins wanted-plugins));
+    plugins = pkgs.lib.attrsets.mergeAttrsList (
+      [
+        {
+          damien = {
+            description = "Debug shell";
+            shortCut = "Ctrl-X";
+            scopes = [ "nodes" ];
+            command = "sh";
+            background = false;
+            args = [
+              "-c"
+              ''
+                INSTANCE_ID=$(kubectl get node $NAME -o=jsonpath='{.metadata.labels.instance-id}')
+                kubectl debug node/$INSTANCE_ID -it --image=-amazonlinux:2
+
+                # aws ssm start-session --target $INSTANCE_ID
+              ''
+            ];
+          };
+        }
+      ]
+      ++ (load-k9s-plugins wanted-plugins)
+    );
   };
 
 }

@@ -15,7 +15,7 @@ log = "present(@) | ancestors(immutable_heads().., 4) | trunk()"
 [ui]
 color = "auto"
 #diff-editor = "diffedit3"
-merge-editor = "kdiff3"
+# merge-editor = "kdiff3"
 diff-editor = ":builtin"
 
 [git]
@@ -40,4 +40,4 @@ push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]
 email = "Damien.Ayers@csiro.au"
 
 [gg.ui]
-recent-workspaces = ["/Users/aye011/dev/easi/flux-v2-easi-platform-admin", "/Users/aye011/dev/easi-gh/csa-easi-docs-server", "/Users/aye011/dev/easi-gh/csa-easi-flux-dev-admin", "/Users/aye011/dev/easi-gh/csa-easi-observability-proxy"]
+recent-workspaces = ["/Users/aye011/dev/easi-gh/csa-easi-tf-modules", "/Users/aye011/dev/easi-gh/csa-easi-aws-sub-apse2", "/Users/aye011/dev/easi-gh/csa-easi-flux-dev-admin", "/Users/aye011/dev/easi-gh/csa-easi-flux-platform-admin", "/Users/aye011/dev/easi/flux-v2-easi-platform-admin", "/Users/aye011/dev/damien-neets-finances/lazy-beancount", "/Users/aye011/dev/odc/datacube-core-pgstac-index", "/Users/aye011/dev/odc/datacube-core-stack-index", "/Users/aye011/dev/easi-gh/csa-easi-docs-server", "/Users/aye011/dev/easi-gh/csa-easi-observability-proxy"]

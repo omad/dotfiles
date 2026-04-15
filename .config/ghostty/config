@@ -4,3 +4,12 @@ macos-option-as-alt = true
 
 #ttheme = Atom
 # theme = UltraDark
+
+# Using Quick Terminal causes ‘Automatically hide and show the Dock’ to be enabled #8739
+# https://github.com/ghostty-org/ghostty/discussions/8739
+quick-terminal-position = center
+
+
+keybind = global:option+backquote=toggle_quick_terminal
+
+keybind = super+,=unbind

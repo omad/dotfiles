@@ -2,26 +2,27 @@
 [language-server]
 
 actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
+tilt = { command = "tilt", args = ["lsp", "start"] }
+
+vale-ls = {command = "vale-ls"}
+ruff = {command="ruff", args=["server"]}
+colours-lsp = {command="colours-lsp"}
+esbonio =  {command = "esbonio"}
+autoconf-language-server =  {command = "autoconf-language-server"}
+make-language-server =  {command = "make-language-server"}
+
 [language-server.harper-ls]
 command = "harper-ls"
 args = ["--stdio"]
+config.harper-ls = {dialect = "Australian"}
 
-[language-server.harper-ls.config.harper-ls]
-# userDictPath = ""
-# fileDictPath = ""
-# diagnosticSeverity = "hint"
-# isolateEnglish = false
-dialect = "Australian"
-# maxFileLength = 120000
-
-[language-server.vale-ls]
-command = "vale-ls"
-[language-server.ruff]
-command = "ruff"
-args = ["server"]
-
-[language-server.colours-lsp]
-command = "colours-lsp"
+# [language-server.harper-ls.config.harper-ls]
+# # userDictPath = ""
+# # fileDictPath = ""
+# # diagnosticSeverity = "hint"
+# # isolateEnglish = false
+# dialect = "Australian"
+# # maxFileLength = 120000
 
 # [language-server.ruff.config.settings.lint]
 # select = ["E", "F", "W", "B", "I", "RUF", "N", "LOG", "ERA", "W", "D", "UP", "ANN", "ASYNC", "S", "RET", "TCH", "ARG", "PTH", "DOC"]
@@ -77,14 +78,6 @@ kubernetes = [
   '/.readthedocs.yaml',
 ]
 
-[language-server.esbonio]
-command = "esbonio"
-
-[language-server.autoconf-language-server]
-command = "autoconf-language-server"
-
-[language-server.make-language-server]
-command = "make-language-server"
 [language-server.rust-analyzer]
 command = "rust-analyzer"
 
@@ -110,8 +103,9 @@ config = {}
 [language-server.yaml-schema-router]
 command = "yaml-schema-router"
 args = [
-  "--log-file", "/tmp/yaml-router.log",
-  "--lsp-path", "/usr/bin/yaml-language-server"
+  # "--log-file", "/tmp/yaml-router.log",
+  # "--lsp-path", "/usr/bin/yaml-language-server"
+  "--lsp-path", "/Users/aye011/.local/state/fnm_multishells/28415_1774934309616/bin/yaml-language-server"
 ]
 
 [[language]]
@@ -164,7 +158,7 @@ file-types = [
   { glob = ".puppeteerrc" },  # https://pptr.dev/guides/configuration
    {glob = "*datacube.conf"}
 ]
-language-servers = [ "yaml-schema-router" ]
+# language-servers = [ "yaml-schema-router" ]
 
 
 # [[language]]

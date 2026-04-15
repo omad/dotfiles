@@ -46,8 +46,8 @@ function livepipe --description 'Interactive live command runner using fzf; auto
                 --print-query \
                 --bind "start:$reload_cmd" \
                 --bind "change:$reload_cmd" \
-                --bind "transform-query($transform_query)" \
                 --query "$default_query"
+                # --bind "transform-query($transform_query)" \
 
     # Cleanup
     if test -n "$tmp_in"

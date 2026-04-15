@@ -18,9 +18,20 @@
                         ]
                     },
                     {
-                        "description": "Mouse back/forward to Cmd+[ and Cmd+]",
+                        "description": "Mouse back/forward fixes",
+                        "enabled": false,
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^dev\\.zed\\.Zed$",
+                                            "^org\\.mozilla\\.firefox$",
+                                            "^net\\.kovidgoyal\\.kitty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": { "pointing_button": "button4" },
                                 "to": [
                                     {
@@ -31,6 +42,16 @@
                                 "type": "basic"
                             },
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^dev\\.zed\\.Zed$",
+                                            "^org\\.mozilla\\.firefox$",
+                                            "^net\\.kovidgoyal\\.kitty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": { "pointing_button": "button5" },
                                 "to": [
                                     {
@@ -76,14 +97,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f1",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f1" }],
                                 "type": "basic"
@@ -119,14 +143,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f2",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f2" }],
                                 "type": "basic"
@@ -162,14 +189,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f3",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f3" }],
                                 "type": "basic"
@@ -205,14 +235,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f4",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f4" }],
                                 "type": "basic"
@@ -248,14 +281,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f5",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f5" }],
                                 "type": "basic"
@@ -291,14 +327,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f6",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f6" }],
                                 "type": "basic"
@@ -334,14 +373,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f7",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f7" }],
                                 "type": "basic"
@@ -377,14 +419,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f8",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f8" }],
                                 "type": "basic"
@@ -420,14 +465,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f9",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f9" }],
                                 "type": "basic"
@@ -463,14 +511,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f10",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f10" }],
                                 "type": "basic"
@@ -506,14 +557,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f11",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f11" }],
                                 "type": "basic"
@@ -549,14 +603,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f12",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f12" }],
                                 "type": "basic"
@@ -592,14 +649,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f1",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "display_brightness_decrement" }],
                                 "type": "basic"
@@ -635,14 +695,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f2",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "display_brightness_increment" }],
                                 "type": "basic"
@@ -678,14 +741,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f3",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "apple_vendor_keyboard_key_code": "mission_control" }],
                                 "type": "basic"
@@ -721,14 +787,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f4",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "apple_vendor_keyboard_key_code": "spotlight" }],
                                 "type": "basic"
@@ -764,14 +833,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f5",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "dictation" }],
                                 "type": "basic"
@@ -807,14 +879,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f6",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "key_code": "f6" }],
                                 "type": "basic"
@@ -850,14 +925,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f7",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "rewind" }],
                                 "type": "basic"
@@ -893,14 +971,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f8",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "play_or_pause" }],
                                 "type": "basic"
@@ -936,14 +1017,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f9",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "fastforward" }],
                                 "type": "basic"
@@ -979,14 +1063,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f10",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "mute" }],
                                 "type": "basic"
@@ -1022,14 +1109,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f11",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "volume_decrement" }],
                                 "type": "basic"
@@ -1065,14 +1155,17 @@
                                             "^com\\.adobe\\.Audition$",
                                             "^com\\.adobe\\.AfterEffects$",
                                             "^com\\.blackmagic-design\\.DaVinciResolve$",
-                                            "^com\\.macromates\\.TextMate$"
+                                            "^com\\.macromates\\.TextMate$",
+                                            "^dev\\.zed\\.Zed$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^com\\.mitchellh\\.ghostty$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "f12",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": { "optional": ["command", "control", "option", "shift"] }
                                 },
                                 "to": [{ "consumer_key_code": "volume_increment" }],
                                 "type": "basic"
@@ -1153,12 +1246,12 @@
                     },
                     "simple_modifications": [
                         {
-                            "from": { "key_code": "left_option" },
-                            "to": [{ "key_code": "left_command" }]
-                        },
-                        {
                             "from": { "key_code": "left_command" },
                             "to": [{ "key_code": "left_option" }]
+                        },
+                        {
+                            "from": { "key_code": "left_option" },
+                            "to": [{ "key_code": "left_command" }]
                         }
                     ]
                 },

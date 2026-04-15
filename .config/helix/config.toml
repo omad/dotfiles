@@ -34,6 +34,15 @@ display-progress-messages = true
 # g = { a = "code_action" } # Maps `ga` to show possible code actions
 
 
+[keys.normal." "]
+o = ":sh hx-gh-link.sh \"%{current_working_directory}\" \"%{buffer_name}\" \"%{cursor_line}\" \"%{selection_line_start}\" \"%{selection_line_end}\" open"
+O = ":sh hx-gh-link.sh \"%{current_working_directory}\" \"%{buffer_name}\" \"%{cursor_line}\" \"%{selection_line_start}\" \"%{selection_line_end}\" osc52"
+# [keys.normal.","]
+# o = ":run-shell-command gh browse %{buffer_name}:%{cursor_line}"
+# Print the current line's git blame information to the statusline.
+# b = ":echo %sh{git blame -L %{cursor_line},+1 %{buffer_name}}"
+# insert-output fish -c "path dirname (realpath %{buffer_name})"
 # Resources
 # https://guara.tech/posts/helix_editor_rs_setup/
 # https://rushter.com/blog/helix-editor/
+

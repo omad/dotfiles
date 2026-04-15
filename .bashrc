@@ -155,3 +155,5 @@ function git_main_author_percentage() {
     sort -k3 -nr
 }
 
+
+. "$HOME/.atuin/bin/env"

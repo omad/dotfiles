@@ -7,21 +7,23 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    optnix.url = "github:water-sucks/optnix";
-    optnix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    # optnix.url = "github:water-sucks/optnix";
+    # optnix.inputs.nixpkgs.follows = "nixpkgs";
     # nixvim.url = "github:nix-community/nixvim";
     # nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixosFlake.url = "path:/Users/aye011/dev/nixos";
+    # nixosFlake.url = "path:/Users/aye011/dev/nixos";
 
   };
 
   outputs =
-    {
+    inputs@{
+      self,
       nixpkgs,
       home-manager,
-      optnix,
-      nixosFlake,
+      nix-darwin,
       ...
     }:
     let
@@ -37,51 +39,51 @@
           #          nixvim.homeManagerModules.nixvim
 
           ./k9s.nix
-          {
-            imports = [
-              optnix.homeModules.optnix
-            ];
-          }
-          (
-            { options, config, ... }:
-            let
-              optnixLib = optnix.mkLib pkgs;
-            in
-            {
-              programs.optnix = {
-                enable = true;
-                settings = {
-                  scopes = let
-                    # nixosConfigs = (builtins.getFlake "/Users/aye011/dev/nixos").nixosConfigurations;
+          # {
+          #   imports = [
+          #     optnix.homeModules.optnix
+          #   ];
+          # }
+          # (
+          #   { options, config, ... }:
+          #   let
+          #     optnixLib = optnix.mkLib pkgs;
+          #   in
+          #   {
+          #     programs.optnix = {
+          #       enable = true;
+          #       settings = {
+          #         scopes = let
+          #           # nixosConfigs = (builtins.getFlake "/Users/aye011/dev/nixos").nixosConfigurations;
 
-                  in {
+          #         in {
 
-                    nixos = {
-                      description = "nixos options";
-                      options-list-file = optnixLib.mkOptionsList { inherit (nixosFlake.nixosConfigurations.nixos) options; };
-                      # options-list-file = optnixLib.mkOptionsList { inherit (nixpkgs) options; };
-                      evaluator = "nix eval \"/Users/aye011/dev/nixos/\"#nixosConfigurations.nixos.config.{{ .Option }}";
-                    };
+          #           nixos = {
+          #             description = "nixos options";
+          #             options-list-file = optnixLib.mkOptionsList { inherit (nixosFlake.nixosConfigurations.nixos) options; };
+          #             # options-list-file = optnixLib.mkOptionsList { inherit (nixpkgs) options; };
+          #             evaluator = "nix eval \"/Users/aye011/dev/nixos/\"#nixosConfigurations.nixos.config.{{ .Option }}";
+          #           };
 
-                    home-manager = {
-                      description = "home-manager configuration for all systems";
-                      options-list-file = optnixLib.mkOptionsList {
-                        inherit options;
-                        transform =
-                          o:
-                          o
-                          // {
-                            name = pkgs.lib.removePrefix "home-manager.users.${config.home.username}." o.name;
-                          };
-                      };
-                      evaluator = "";
-                    };
-                  };
-                };
-              };
+          #           home-manager = {
+          #             description = "home-manager configuration for all systems";
+          #             options-list-file = optnixLib.mkOptionsList {
+          #               inherit options;
+          #               transform =
+          #                 o:
+          #                 o
+          #                 // {
+          #                   name = pkgs.lib.removePrefix "home-manager.users.${config.home.username}." o.name;
+          #                 };
+          #             };
+          #             evaluator = "";
+          #           };
+          #         };
+          #       };
+          #     };
 
-            }
-          )
+          #   }
+          # )
 
           # Set up nix registry with nixpkgs flakes.
           {
@@ -94,6 +96,12 @@
         ];
       };
 
+      darwinConfigurations."SANDPOINT-BM" = nix-darwin.lib.darwinSystem {
+        inherit system;
+        modules = [ ./darwin.nix ];
+        specialArgs = { inherit inputs; };
+      };
+      darwinPackages = self.darwinConfigurations."SANDPOINT-BM".pkgs;
       # Format with `nix fmt`
       formatter.${system} = pkgs.nixpkgs-fmt;
     };

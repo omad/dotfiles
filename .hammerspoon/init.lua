@@ -57,6 +57,35 @@ for _, _spoon in pairs(spoons_list) do
   hs.loadSpoon(_spoon)
 end
 
+hs.loadSpoon("AClock")
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function()
+  spoon.AClock:toggleShow()
+end)
+
+
+-- Edit Ghostty config using helix inside Ghostty
+
+local modal = hs.hotkey.modal.new()
+modal:bind({"command"}, ",", function()
+-- Inside ghostty, if you set command, it implies "wait after command = true"
+-- So work around by just running a command. It's slower, but exits cleanly
+        hs.osascript.applescript([[
+tell application "Ghostty"
+	set cfg to new surface configuration
+	set initial input of cfg to "/usr/bin/env hx /Users/aye011/.config/ghostty/config; exit" & linefeed
+	set wait after command of cfg to false
+	set win to new window with configuration cfg
+end tell
+          ]])
+      end)
+hs.window.filter.new('Ghostty')
+  :subscribe(hs.window.filter.windowFocused,function()
+    modal:enter()
+  end)
+  :unsubscribe(hs.window.filter.windowUnfocused,function()
+    modal:exit()
+  end)
+
 
 -- How to serialise things between launches/restarts.
 --
