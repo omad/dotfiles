@@ -256,8 +256,8 @@ language-servers = [ "starpls" ]
 grammar = "python"
 
 [[language]]
-name = "prometheus"
-scope = "source.prometheus"
+name = "prom"
+scope = "source.prom"
 file-types = [{ glob = "*.prom" }]
 comment-tokens = "#"
 
@@ -273,4 +273,4 @@ name = "kitty"
 
 [[grammar]]
 source = { git = "https://github.com/omad/tree-sitter-prom", rev = "main" }
-name = "prometheus"
+name = "prom"
