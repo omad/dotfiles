@@ -2,7 +2,7 @@
 [language-server]
 
 actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
-tilt = { command = "tilt", args = ["lsp", "start"] }
+tilt = { command = "tilt", args = ["lsp", "start"]} #, "--debug"] }
 
 vale-ls = {command = "vale-ls"}
 ruff = {command="ruff", args=["server"]}
@@ -231,6 +231,37 @@ file-types = [{ glob = "kitty.conf" }, { glob = ".config/kitty/*.conf" }]
 comment-tokens = "#"
 language-servers = ["colours-lsp"]
 
+# https://docs.tilt.dev/editor.html
+[[language]]
+name = "tilt"
+scope = "source.tilt"
+injection-regex = "[Tt]ilt(file)?"
+file-types = [{ glob = "Tiltfile" }, "tiltfile"]
+comment-token = "#"
+grammar = "python" # Uses starlark as grammar
+indent = { tab-width = 4, unit = "    " }
+language-servers = ["tilt"]
+formatter = {command = "buildifier"} # Official formatter tool for starlark/bazel
+auto-format = true
+
+# Replace to hopefully make tilt work
+[[language]]
+name = "starlark"
+scope = "source.starlark"
+injection-regex = "(starlark|bzl|bazel|buck)"
+file-types = ["bzl", "bazel", "star", { glob = "BUILD" }, { glob = "BUCK" }, { glob = "BUILD.*" }, { glob = "WORKSPACE" }, { glob = "WORKSPACE.bzlmod" }, { glob = "PACKAGE" }]
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+language-servers = [ "starpls" ]
+grammar = "python"
+
+[[language]]
+name = "prometheus"
+scope = "source.prometheus"
+file-types = [{ glob = "*.prom" }]
+comment-tokens = "#"
+
+
 [[grammar]]
 source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
 name = "d2"
@@ -238,3 +269,8 @@ name = "d2"
 [[grammar]]
 source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
 name = "kitty"
+
+
+[[grammar]]
+source = { git = "https://github.com/omad/tree-sitter-prom", rev = "main" }
+name = "prometheus"
