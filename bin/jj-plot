@@ -1,0 +1,32 @@
+#!/usr/bin/env fish
+#
+#
+#
+
+
+function print_date_changes
+    # Print how many changes per date
+    jj log -r 'zz::@' --no-graph --template \
+     'concat(committer.timestamp().local().format("%Y-%m-%d"), " ", self.diff().stat().total_added() + self.diff().stat().total_removed(), "\n", )' \
+    | awk '
+    { dates[$1] += $2; }
+    END {
+      for (date in dates)
+        if (dates[date] > 0)
+          printf "%s\\t%d\\n", date, dates[date]
+    }' | sort
+end
+
+
+begin
+    echo '
+    set terminal kittycairo
+    set xdata time
+    set timefmt "%Y-%m-%d"
+    set style fill solid
+    plot "-" using 1:2 with boxes title "Changed lines"
+    '
+
+    print_date_changes
+
+end  | gnuplot
