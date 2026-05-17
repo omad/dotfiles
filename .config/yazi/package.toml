@@ -15,13 +15,23 @@ hash = "87b9233a74325e95011670ed20bbd0d4"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "4ffa48f"
+rev = "1db18bb"
 hash = "384464b6df8cb807425c521f8cd790f3"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "4ffa48f"
+rev = "1db18bb"
 hash = "f0c8c378184d5f8abd1b095a443d336d"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mactag"
+rev = "1db18bb"
+hash = "235256b396f4da77ff8f5b8eacd7c113"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "1db18bb"
+hash = "c8d30a70659f1b880407e61c564ab4e8"
 
 [flavor]
 deps = []

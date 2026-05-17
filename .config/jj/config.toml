@@ -1,9 +1,8 @@
-#:schema  https://jj-vcs.github.io/jj/prerelease/config-schema.json
+#:schema https://jj-vcs.github.io/jj/prerelease/config-schema.json
 ## ------------------------------------------------------------------------------------------------
 #
 # Lots of useful: https://gist.github.com/thoughtpolice/8f2fd36ae17cd11b8e7bd93a70e31ad6#file-jjconfig-toml
-
-
+#:tombi schema.strict = false
 
 [user]
 email = "damien@omad.net"
@@ -14,7 +13,7 @@ log = "present(@) | ancestors(immutable_heads().., 4) | trunk()"
 
 [ui]
 color = "auto"
-#diff-editor = "diffedit3"
+# diff-editor = "diffedit3"
 # merge-editor = "kdiff3"
 diff-editor = ":builtin"
 
@@ -24,6 +23,8 @@ colocate = true
 [templates]
 git_push_bookmark = "\"dra/push-\" ++ change_id.short()"
 
+[template-aliases]
+'format_field(key, value)' = 'key ++ ": " ++ value ++ " "'
 
 [aliases]
 # Find the closest ancestor with a bookmark pointing at it, and move it to the
@@ -36,8 +37,21 @@ push = ["util", "exec", "--", "uvx", "jj-pre-push", "push"]
 
 [[--scope]]
 --when.repositories = ["~/dev/easi/", "~/dev/csiro/", "~/dev/easi-gh/"]
+
 [--scope.user]
-email = "Damien.Ayers@csiro.au"
+email = "damien.ayers@csiro.au"
 
 [gg.ui]
-recent-workspaces = ["/Users/aye011/dev/easi-gh/csa-easi-tf-modules", "/Users/aye011/dev/easi-gh/csa-easi-aws-sub-apse2", "/Users/aye011/dev/easi-gh/csa-easi-flux-dev-admin", "/Users/aye011/dev/easi-gh/csa-easi-flux-platform-admin", "/Users/aye011/dev/easi/flux-v2-easi-platform-admin", "/Users/aye011/dev/damien-neets-finances/lazy-beancount", "/Users/aye011/dev/odc/datacube-core-pgstac-index", "/Users/aye011/dev/odc/datacube-core-stack-index", "/Users/aye011/dev/easi-gh/csa-easi-docs-server", "/Users/aye011/dev/easi-gh/csa-easi-observability-proxy"]
+recent-workspaces = [
+  "/Users/aye011/dev/psysonic",
+  "/Users/aye011/dev/prometheus-community-helm-charts",
+  "/Users/aye011/dev/easi-gh/csa-easi-tf-modules",
+  "/Users/aye011/dev/easi-gh/csa-easi-aws-sub-apse2",
+  "/Users/aye011/dev/easi-gh/csa-easi-flux-dev-admin",
+  "/Users/aye011/dev/easi-gh/csa-easi-flux-platform-admin",
+  "/Users/aye011/dev/easi/flux-v2-easi-platform-admin",
+  "/Users/aye011/dev/damien-neets-finances/lazy-beancount",
+  "/Users/aye011/dev/odc/datacube-core-pgstac-index",
+  "/Users/aye011/dev/odc/datacube-core-stack-index"
+]
+

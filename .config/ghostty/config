@@ -12,4 +12,7 @@ quick-terminal-position = center
 
 keybind = global:option+backquote=toggle_quick_terminal
 
+# Unbind the default "edit settings" keybinding
+# Instead this is configured with hammerspoon to launch
+# helix in a new ghostty window
 keybind = super+,=unbind

@@ -30,6 +30,7 @@ tap "terror/tap"
 tap "robusta-dev/homebrew-krr"
 tap "wader/tap"
 tap "ycd/tap"
+brew "act" # Local GitHub Actions executor
 brew "argo"
 brew "helm"
 brew "actionlint"
@@ -244,6 +245,7 @@ cask "font-libertinus-sans"
 cask "font-maple-mono"
 cask "font-maple-mono-nf"
 cask "freecad"
+cask "gg"
 cask "git-credential-manager"
 cask "gitify"
 cask "godot"
@@ -255,7 +257,6 @@ cask "iina"
 cask "imhex"
 cask "inkscape"
 cask "jellyfin-media-player"
-cask "jordanbaird-ice"
 cask "sourcemeta/apps/jsonschema"
 cask "jupyterlab-app"
 cask "kap"
@@ -428,10 +429,16 @@ brew "kdash"
 brew "xan"  # CLI CSV Toolkit
 brew "jsonnet"
 
+brew "fselect" # SQL syntax file system find
+
 # Process managers, a-la docker-compose without docker
 brew "mprocs"
 brew "tilt"
 brew "f1bonacc1/tap/process-compose"
+
+
+brew "xq" # HTML Prettifier and content extractor
+brew "fx" # Interactive jq thingy
 
 # Better Whois Tool (TUI)
 brew install "retlehs/tap/quien"
@@ -442,3 +449,7 @@ brew install "retlehs/tap/quien"
 # rockxy-community: HTTP proxy
 # tablen: Native SQL client
 # worksheet-crafter: Worksheet and lesson material creator
+
+
+brew "tag"
+brew "tinymist" # LSP tooling for typst

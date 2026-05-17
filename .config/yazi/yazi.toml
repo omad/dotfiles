@@ -1,4 +1,4 @@
-#:schema: https://yazi-rs.github.io/schemas/yazi.json
+# :schema: https://yazi-rs.github.io/schemas/yazi.json
 
 [plugin]
 prepend_previewers = [
@@ -16,6 +16,9 @@ prepend_previewers = [
   { mime = "application/subrip", run = "mediainfo" },
   # Adobe Illustrator, Adobe Photoshop is image/adobe.photoshop, already handled above
   { mime = "application/postscript", run = "mediainfo" },
+  { mime = "application/sqlite3", run = 'piper -- sqlite3 "$1" ".schema --indent"' },
+  { mime = "application/x-hdf5", run = 'piper -- h5dump --contents=1 "$1"' },
+
 ]
 
 prepend_preloaders = [
@@ -31,3 +34,17 @@ prepend_preloaders = [
   # Adobe Illustrator, Adobe Photoshop is image/adobe.photoshop, already handled above
   { mime = "application/postscript", run = "mediainfo" },
 ]
+
+[[plugin.prepend_fetchers]]
+url   = "*"
+run   = "git"
+group = "git"
+[[plugin.prepend_fetchers]]
+url    = "*"
+run    = "mactag"
+group  = "mactag"
+
+[[plugin.prepend_fetchers]]
+url    = "*/"
+run    = "mactag"
+group  = "mactag"

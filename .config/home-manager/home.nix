@@ -388,7 +388,7 @@
     starship # minimal blazing fast prompt
     delta
     jq
-    fx # interactive jq
+    # fx # interactive jq
     jiq # interactive jq
     htop
 

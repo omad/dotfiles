@@ -6,7 +6,7 @@
 
 function print_date_changes
     # Print how many changes per date
-    jj log -r 'zz::@' --no-graph --template \
+    jj log -r 'zzz::@' --no-graph --template \
      'concat(committer.timestamp().local().format("%Y-%m-%d"), " ", self.diff().stat().total_added() + self.diff().stat().total_removed(), "\n", )' \
     | awk '
     { dates[$1] += $2; }
@@ -20,8 +20,9 @@ end
 
 begin
     echo '
-    set terminal kittycairo
+    set terminal kittycairo scroll
     set xdata time
+    set xtics time format "%b\n%Y"
     set timefmt "%Y-%m-%d"
     set style fill solid
     plot "-" using 1:2 with boxes title "Changed lines"

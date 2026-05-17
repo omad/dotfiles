@@ -1,7 +1,7 @@
 #:tombi:
 [language-server]
 
-actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
+# actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
 tilt = { command = "tilt", args = ["lsp", "start"]} #, "--debug"] }
 
 vale-ls = {command = "vale-ls"}
@@ -10,6 +10,13 @@ colours-lsp = {command="colours-lsp"}
 esbonio =  {command = "esbonio"}
 autoconf-language-server =  {command = "autoconf-language-server"}
 make-language-server =  {command = "make-language-server"}
+
+[language-server.actions-language-server]
+command = "actions-languageserver"
+args = ["--stdio"]
+
+[language-server.actions-language-server.config.actions-language-server]
+sessionToken = ""
 
 [language-server.harper-ls]
 command = "harper-ls"
@@ -209,11 +216,19 @@ file-types = [
 [[language]]
 name = "github-action"
 scope = "source.yaml.github-action"
-language-servers = [ "actions-language-server", "yaml-language-server" ]
+language-servers = [ "actions-language-server", "yaml-language-server", "zizmor" ]
 file-types = [{ glob = ".github/workflows/*.yaml" }, { glob = ".github/workflows/*.yml" }]
 comment-token = "#"
 indent = { tab-width = 2, unit = "  " }
 grammar = "yaml"
+# [[language]]
+# name = "github-action"
+# scope = "source.yaml.github-action"
+# language-servers = [ "actions-language-server", "yaml-language-server" ]
+# file-types = [{ glob = ".github/workflows/*.yaml" }, { glob = ".github/workflows/*.yml" }]
+# comment-token = "#"
+# indent = { tab-width = 2, unit = "  " }
+# grammar = "yaml"
 
 [[language]]
 name = "d2"

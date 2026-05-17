@@ -65,8 +65,7 @@ end)
 
 -- Edit Ghostty config using helix inside Ghostty
 
-local modal = hs.hotkey.modal.new()
-modal:bind({"command"}, ",", function()
+local cmd_comma = hs.hotkey.new({"command"}, ",", function()
 -- Inside ghostty, if you set command, it implies "wait after command = true"
 -- So work around by just running a command. It's slower, but exits cleanly
         hs.osascript.applescript([[
@@ -78,12 +77,15 @@ tell application "Ghostty"
 end tell
           ]])
       end)
+
 hs.window.filter.new('Ghostty')
-  :subscribe(hs.window.filter.windowFocused,function()
-    modal:enter()
+  :subscribe(hs.window.filter.windowFocused, function()
+    -- log.i("Entered Ghostty'")
+    cmd_comma:enable()
   end)
-  :unsubscribe(hs.window.filter.windowUnfocused,function()
-    modal:exit()
+  :subscribe(hs.window.filter.windowUnfocused,function()
+    -- log.i("Left Ghostty'")
+    cmd_comma:disable()
   end)
 
 
