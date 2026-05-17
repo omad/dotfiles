@@ -9,9 +9,16 @@ auto-format=false
 bufferline="multiple"
 trim-trailing-whitespace = true
 end-of-line-diagnostics = "hint"
+
+rulers = [81, 101]
+
 [editor.inline-diagnostics]
 # cursor-line = "warning" # show warnings and errors on the cursorline inline
 # other-lines = "error"
+
+[editor.indent-guides]
+render = true
+skip-levels = 0
 
 [editor.auto-save]
 focus-lost = true
@@ -29,12 +36,15 @@ display-progress-messages = true
 
 [keys.select]
 "S-x" = ["extend_line_up", "extend_to_line_bounds"]
-
-# [keys.normal]
+X = "select_line_above"
+[keys.normal]
 # g = { a = "code_action" } # Maps `ga` to show possible code actions
 
+X = "select_line_above"
 
 [keys.normal." "]
+# Enable shrinking a selection with Shift+X, the inverse of just x.
+
 o = ":sh hx-gh-link.sh \"%{current_working_directory}\" \"%{buffer_name}\" \"%{cursor_line}\" \"%{selection_line_start}\" \"%{selection_line_end}\" open"
 O = ":sh hx-gh-link.sh \"%{current_working_directory}\" \"%{buffer_name}\" \"%{cursor_line}\" \"%{selection_line_start}\" \"%{selection_line_end}\" osc52"
 # [keys.normal.","]

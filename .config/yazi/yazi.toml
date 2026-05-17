@@ -1,0 +1,33 @@
+#:schema: https://yazi-rs.github.io/schemas/yazi.json
+
+[plugin]
+prepend_previewers = [
+  { url = "*.csv", run = "duckdb" },
+  { url = "*.tsv", run = "duckdb" },
+  { url = "*.json", run = "duckdb" },
+  { url = "*.parquet", run = "duckdb" },
+  { url = "*.txt", run = "duckdb" },
+  { url = "*.xlsx", run = "duckdb" },
+  { url = "*.db", run = "duckdb" },
+  { url = "*.duckdb", run = "duckdb" },
+  { mime = "application/bittorrent", run = "torrent-preview" },
+  # Replace magick, image, video with mediainfo
+  { mime = "{audio,video,image}/*", run = "mediainfo" },
+  { mime = "application/subrip", run = "mediainfo" },
+  # Adobe Illustrator, Adobe Photoshop is image/adobe.photoshop, already handled above
+  { mime = "application/postscript", run = "mediainfo" },
+]
+
+prepend_preloaders = [
+  { url = "*.csv", run = "duckdb", multi = false },
+  { url = "*.tsv", run = "duckdb", multi = false },
+  { url = "*.json", run = "duckdb", multi = false },
+  { url = "*.parquet", run = "duckdb", multi = false },
+  { url = "*.txt", run = "duckdb", multi = false },
+  { url = "*.xlsx", run = "duckdb", multi = false },
+  # Replace magick, image, video with mediainfo
+  { mime = "{audio,video,image}/*", run = "mediainfo" },
+  { mime = "application/subrip", run = "mediainfo" },
+  # Adobe Illustrator, Adobe Photoshop is image/adobe.photoshop, already handled above
+  { mime = "application/postscript", run = "mediainfo" },
+]

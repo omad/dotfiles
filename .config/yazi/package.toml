@@ -1,0 +1,27 @@
+[[plugin.deps]]
+use = "boydaihungst/mediainfo"
+rev = "49f5ab7"
+hash = "3b9ca58d8963d7213532d155340e0244"
+
+[[plugin.deps]]
+use = "kirasok/torrent-preview"
+rev = "f465282"
+hash = "d849ad596b8a77902e62a42403aeba40"
+
+[[plugin.deps]]
+use = "wylie102/duckdb"
+rev = "3f8c863"
+hash = "87b9233a74325e95011670ed20bbd0d4"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "4ffa48f"
+hash = "384464b6df8cb807425c521f8cd790f3"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "4ffa48f"
+hash = "f0c8c378184d5f8abd1b095a443d336d"
+
+[flavor]
+deps = []
