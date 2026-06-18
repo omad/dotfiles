@@ -9,6 +9,8 @@ email = "damien@omad.net"
 name = "Damien Ayers"
 
 [revsets]
+# present(x): The current comment (or none if it doesn't exist). But I don't know how it could ever not exist...
+# ancestors
 log = "present(@) | ancestors(immutable_heads().., 4) | trunk()"
 
 [ui]

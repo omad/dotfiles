@@ -272,7 +272,6 @@ cask "maccy"
 cask "macdown-3000"
 cask "macdroid"
 cask "meld"
-cask "mitmproxy"
 cask "mqttx"
 cask "neo4j-desktop"
 cask "neovide-app"
@@ -453,3 +452,12 @@ brew install "retlehs/tap/quien"
 
 brew "tag"
 brew "tinymist" # LSP tooling for typst
+brew "tlipinski/tap/rura" # TUI Shell Pipeline live editor/debugger
+brew "wrkflw" # Github Actions TUI validator and local executor
+brew "luarocks"
+
+tap "git-pkgs/git-pkgs"
+brew "forge"
+
+tap "borkdude/brew"
+brew "borkdude/brew/babashka"

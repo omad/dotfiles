@@ -146,6 +146,10 @@
         end
         # set -q KREW_ROOT; and ; or set -gx PATH $PATH $HOME/.krew/bin
 
+        # Fast switching with Ctrl-Z
+        # https://github.com/helix-editor/helix/wiki/Recipes#project-wide-search-and-replace-with-scooter
+        bind \cz 'fg 2>/dev/null; commandline -f repaint'
+
 
       '';
   };

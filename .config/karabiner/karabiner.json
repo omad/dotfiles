@@ -65,6 +65,7 @@
                     },
                     {
                         "description": "Mac OSX: Use Function Keys in Supported Apps, else use Media Keys",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [

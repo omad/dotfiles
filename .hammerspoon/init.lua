@@ -10,6 +10,7 @@
 local log = hs.logger.new('hs/init.lua', 'info')
 local hyper = { "cmd", "ctrl" }
 
+hs.loadSpoon("EmmyLua")
 
 -----------------------------------------------
 -- Reload config on write
@@ -40,7 +41,6 @@ local spoons_list = {
   "AClock",
   "Calendar",
   "CountDown",
-  "EmmyLua",
   "KSheet",
   "HSKeybindings",
   "Seal",
@@ -109,6 +109,16 @@ end
 table.insert(myConfigReloadTimes, os.date())
 log.i("Config reload times: ", hs.inspect(myConfigReloadTimes))
 
+-- Pomodoro in a web view
+-- wv = hs.webview.new(
+function ShowPomo()
+  local screen = hs.screen.find('Built%-in')
+  local rect = screen:frame()
+
+  local webview = hs.webview.new(rect)
+  webview:url("https://pomofocus.io/")
+  webview:show()
+end
 
 -- local myCanvas = {}
 -- Ref: https://github.com/brennydoogles/hammerspoon-multishade/blob/main/src/init.lua
@@ -403,6 +413,8 @@ hs.urlevent.bind("test1", function(eventName, params)
   end
 end)
 
+
+
 -- https://github.com/
 -- https://travis-ci.org/
 
@@ -511,3 +523,108 @@ end
 -- end
 
 -- hs.alert.show("Context-Aware Outlook Config Loaded")
+
+-- function applicationWatcher(appName, eventType, appObject)
+--     if (eventType == hs.application.watcher.activated) then
+--         if (appName == "Finder") then
+--             -- Bring all Finder windows forward when one gets activated
+--             appObject:selectMenuItem({"Window", "Bring All to Front"})
+--         elseif (appName == "Firefox") then
+--             hs.alert.show("Firefox focused")
+--         end
+--     end
+-- end
+-- appWatcher = hs.application.watcher.new(applicationWatcher)
+-- appWatcher:start()
+
+-- replace cmd-shift-p with cmd-shift-c
+local tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
+  local flags = e:getFlags()
+  local key = hs.keycodes.map[e:getKeyCode()]
+
+  if key == "p"
+    and flags.cmd
+    and flags.shift
+    -- and wf:isWindowAllowed(hs.window.focusedWindow())
+  then
+    hs.eventtap.keyStroke({ "cmd", "shift" }, "c", 0, hs.application.frontmostApplication())
+    return true
+  end
+
+  return false
+end)
+
+local in_jupyterlab = hs.window.filter.new(false):setAppFilter("Firefox", {
+  focused = true,
+  allowTitles = ".*JupyterLab.*",
+ })
+
+
+in_jupyterlab:subscribe(hs.window.filter.hasWindow, function (wind, appname, event)
+  log.i("inside jupyterlab")
+            tap:start()
+            end
+)
+in_jupyterlab:subscribe(hs.window.filter.hasNoWindows,
+  function (wind, appname, event)
+  log.i("not inside jupyterlab")
+            tap:stop()
+          end
+)
+
+code_server_tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
+  local flags = e:getFlags()
+  local key = hs.keycodes.map[e:getKeyCode()]
+  log.i("code-server eventtap", e)
+
+  if key == "p"
+    and flags.cmd
+    and flags.shift
+    -- and wf:isWindowAllowed(hs.window.focusedWindow())
+  then
+    -- hs.eventtap.keyStroke({}, "f1", 0, hs.application.frontmostApplication())
+    hs.eventtap.keyStroke({}, "f1", 0, hs.application.frontmostApplication())
+    return true
+  end
+
+  return false
+end)
+
+in_codeserver = hs.window.filter.new(false):setAppFilter("Firefox", {
+  focused = true,
+  allowTitles = ".*code%-server.*",
+ })
+
+
+in_codeserver:subscribe(hs.window.filter.hasWindow, function (wind, appname, event)
+  log.i("inside code-server")
+-- hs.alert.show("in code-server")
+-- hs.notify.new({ title = "Hammerspoon", informativeText = "in code-server" }):send()
+            code_server_tap:start()
+            end
+)
+in_codeserver:subscribe(hs.window.filter.hasNoWindows,
+  function (wind, appname, event)
+  log.i("not inside code-server")
+-- hs.notify.new({ title = "Hammerspoon", informativeText = "Not in code-server" }):send()
+-- hs.alert.show("out of code-server")
+            code_server_tap:stop()
+          end
+)
+
+
+-- wf:subscribe(hs.window.filter.hasWindow, tap:start)
+-- wf:subscribe(hs.window.filter.hasNoWindows, tap:start)
+
+-- tap:start()
+
+-- Optional toggle hotkey
+-- hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "p", function()
+--   if tap:isEnabled() then
+--     tap:stop()
+--     hs.alert.show("Remap OFF")
+--   else
+--     tap:start()
+--     hs.alert.show("Remap ON")
+--   end
+-- end)
