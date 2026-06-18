@@ -1,15 +1,14 @@
-#:tombi:
+# :tombi:
 [language-server]
-
 # actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
-tilt = { command = "tilt", args = ["lsp", "start"]} #, "--debug"] }
+tilt = { command = "tilt", args = ["lsp", "start"] }  # , "--debug"] }
 
-vale-ls = {command = "vale-ls"}
-ruff = {command="ruff", args=["server"]}
-colours-lsp = {command="colours-lsp"}
-esbonio =  {command = "esbonio"}
-autoconf-language-server =  {command = "autoconf-language-server"}
-make-language-server =  {command = "make-language-server"}
+vale-ls = { command = "vale-ls" }
+ruff = { command = "ruff", args = ["server"] }
+colours-lsp = { command = "colours-lsp" }
+esbonio = { command = "esbonio" }
+autoconf-language-server = { command = "autoconf-language-server" }
+make-language-server = { command = "make-language-server" }
 
 [language-server.actions-language-server]
 command = "actions-languageserver"
@@ -21,7 +20,7 @@ sessionToken = ""
 [language-server.harper-ls]
 command = "harper-ls"
 args = ["--stdio"]
-config.harper-ls = {dialect = "Australian"}
+config.harper-ls = { dialect = "Australian" }
 
 # [language-server.harper-ls.config.harper-ls]
 # # userDictPath = ""
@@ -56,7 +55,6 @@ hover = true
 schemaStore.enable = true
 kubernetesCRDStore.enable = true
 
-
 [language-server.yaml-language-server.config.yaml.schemas]
 "https://json.schemastore.org/github-workflow.json" = ".github/workflows/*.{yml,yaml}"
 
@@ -82,7 +80,7 @@ kubernetes = [
   "*kustomize.yaml"
 ]
 "https://raw.githubusercontent.com/readthedocs/readthedocs.org/master/readthedocs/rtd_tests/fixtures/spec/v2/schema.json" = [
-  '/.readthedocs.yaml',
+  "/.readthedocs.yaml",
 ]
 
 [language-server.rust-analyzer]
@@ -101,7 +99,6 @@ nixpkgs.expr = "import (builtins.getFlake \"/Users/aye011/dev/nixos\").inputs.ni
 nixos.expr = "(builtins.getFlake \"/Users/aye011/dev/nixos\").nixosConfigurations.nixos.options"
 home-manager.expr = "(builtins.getFlake \"/Users/aye011/.config/home-manager\").homeConfigurations.aye011.options"
 
-
 [language-server.taplo.config]
 # Workaround for nonsense of being nonfunctional outside git directories
 # (https://github.com/helix-editor/helix/issues/3897#issuecomment-2361674437)
@@ -112,7 +109,21 @@ command = "yaml-schema-router"
 args = [
   # "--log-file", "/tmp/yaml-router.log",
   # "--lsp-path", "/usr/bin/yaml-language-server"
-  "--lsp-path", "/Users/aye011/.local/state/fnm_multishells/28415_1774934309616/bin/yaml-language-server"
+  "--lsp-path",
+  "/Users/aye011/.local/state/fnm_multishells/28415_1774934309616/bin/yaml-language-server"
+]
+
+[language-server.lua-language-server]
+command = "lua-language-server"
+args = [
+  "--loglevel=info",
+  "--logpath=/Users/aye011/.cache/helix/lua-language-server.log"
+]
+
+[language-server.lua-language-server.config.Lua]
+workspace.library = [
+  "/opt/homebrew/lib/luarocks/rocks-5.5",
+  "/opt/homebrew/share/lua/5.5"
 ]
 
 [[language]]
@@ -124,8 +135,8 @@ formatter = { args = [
   "--parser",
   "markdown",
   "--prose-wrap",
-  "never",        # <always|never|preserve>
-], command = 'prettier' }
+  "never",  # <always|never|preserve>
+], command = "prettier" }
 language-servers = ["marksman", "harper-ls"]
 name = "markdown"
 
@@ -135,11 +146,9 @@ language-servers = ["ruff", "basedpyright"]
 # formatter = { command = "ruff" , args = ["format", "-"] }
 #  formatter = { command = "uvx", args = ["sh", "-c", "ruff check --fix - | ruff format -"] }
 
-
 [[language]]
 name = "rst"
 language-servers = ["esbonio", "harper-ls"]
-
 
 [[language]]
 name = "make"
@@ -163,10 +172,9 @@ file-types = [
   "bu",
   { glob = ".stylelintrc" },  # https://stylelint.io/user-guide/configure/
   { glob = ".puppeteerrc" },  # https://pptr.dev/guides/configuration
-   {glob = "*datacube.conf"}
+  { glob = "*datacube.conf" }
 ]
 # language-servers = [ "yaml-schema-router" ]
-
 
 # [[language]]
 # name = "javascript"
@@ -187,7 +195,6 @@ file-types = [
 # name = "tsx"
 # formatter = { command = 'deno', args = ["fmt", "-", "--ext", "tsx" ] }
 # auto-format = true
-
 
 # [[language]]
 # name = "html"
@@ -216,8 +223,11 @@ file-types = [
 [[language]]
 name = "github-action"
 scope = "source.yaml.github-action"
-language-servers = [ "actions-language-server", "yaml-language-server", "zizmor" ]
-file-types = [{ glob = ".github/workflows/*.yaml" }, { glob = ".github/workflows/*.yml" }]
+language-servers = ["actions-language-server", "yaml-language-server", "zizmor"]
+file-types = [
+  { glob = ".github/workflows/*.yaml" },
+  { glob = ".github/workflows/*.yml" }
+]
 comment-token = "#"
 indent = { tab-width = 2, unit = "  " }
 grammar = "yaml"
@@ -238,7 +248,6 @@ comment-tokens = "#"
 roots = [""]
 indent = { tab-width = 2, unit = "  " }
 
-
 [[language]]
 name = "kitty"
 scope = "source.kitty"
@@ -253,10 +262,10 @@ scope = "source.tilt"
 injection-regex = "[Tt]ilt(file)?"
 file-types = [{ glob = "Tiltfile" }, "tiltfile"]
 comment-token = "#"
-grammar = "python" # Uses starlark as grammar
+grammar = "python"  # Uses starlark as grammar
 indent = { tab-width = 4, unit = "    " }
 language-servers = ["tilt"]
-formatter = {command = "buildifier"} # Official formatter tool for starlark/bazel
+formatter = { command = "buildifier" }  # Official formatter tool for starlark/bazel
 auto-format = true
 
 # Replace to hopefully make tilt work
@@ -264,10 +273,20 @@ auto-format = true
 name = "starlark"
 scope = "source.starlark"
 injection-regex = "(starlark|bzl|bazel|buck)"
-file-types = ["bzl", "bazel", "star", { glob = "BUILD" }, { glob = "BUCK" }, { glob = "BUILD.*" }, { glob = "WORKSPACE" }, { glob = "WORKSPACE.bzlmod" }, { glob = "PACKAGE" }]
+file-types = [
+  "bzl",
+  "bazel",
+  "star",
+  { glob = "BUILD" },
+  { glob = "BUCK" },
+  { glob = "BUILD.*" },
+  { glob = "WORKSPACE" },
+  { glob = "WORKSPACE.bzlmod" },
+  { glob = "PACKAGE" }
+]
 comment-token = "#"
 indent = { tab-width = 4, unit = "    " }
-language-servers = [ "starpls" ]
+language-servers = ["starpls"]
 grammar = "python"
 
 [[language]]
@@ -276,6 +295,16 @@ scope = "source.prom"
 file-types = [{ glob = "*.prom" }]
 comment-tokens = "#"
 
+[[language]]
+auto-format = false
+comment-tokens = ["//"]
+file-types = ["rcl"]
+formatter = { command = "rcl", args = ["format", "-"] }
+grammar = "rcl"
+indent = { tab-width = 2, unit = "  " }
+name = "rcl"
+roots = ["build.rcl"]
+scope = "source.rcl"
 
 [[grammar]]
 source = { git = "https://github.com/ravsii/tree-sitter-d2", rev = "main" }
@@ -285,7 +314,10 @@ name = "d2"
 source = { git = "https://github.com/OXY2DEV/tree-sitter-kitty", rev = "main" }
 name = "kitty"
 
-
 [[grammar]]
 source = { git = "https://github.com/omad/tree-sitter-prom", rev = "main" }
 name = "prom"
+
+[[grammar]]
+name = "rcl"
+source = { git = "https://github.com/rcl-lang/tree-sitter-rcl.git", rev = "master" }
