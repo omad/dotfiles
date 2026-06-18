@@ -1,7 +1,7 @@
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "49f5ab7"
-hash = "3b9ca58d8963d7213532d155340e0244"
+rev = "a6d30a1"
+hash = "f3970de915c038d09fecf8d93d156fba"
 
 [[plugin.deps]]
 use = "kirasok/torrent-preview"
@@ -15,23 +15,23 @@ hash = "87b9233a74325e95011670ed20bbd0d4"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "1db18bb"
-hash = "384464b6df8cb807425c521f8cd790f3"
+rev = "598cdb6"
+hash = "d99cfbc3812e7738505f9e4bedb759cd"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "1db18bb"
+rev = "598cdb6"
 hash = "f0c8c378184d5f8abd1b095a443d336d"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mactag"
-rev = "1db18bb"
+rev = "598cdb6"
 hash = "235256b396f4da77ff8f5b8eacd7c113"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "1db18bb"
-hash = "c8d30a70659f1b880407e61c564ab4e8"
+rev = "598cdb6"
+hash = "88e56a64b7ce7c4314427452343fef17"
 
 [flavor]
 deps = []
