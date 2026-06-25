@@ -6,7 +6,7 @@ tilt = { command = "tilt", args = ["lsp", "start"] }  # , "--debug"] }
 vale-ls = { command = "vale-ls" }
 ruff = { command = "ruff", args = ["server"] }
 colours-lsp = { command = "colours-lsp" }
-esbonio = { command = "esbonio" }
+esbonio = { command = "esbonio", args = ["server"] }
 autoconf-language-server = { command = "autoconf-language-server" }
 make-language-server = { command = "make-language-server" }
 
@@ -148,6 +148,8 @@ language-servers = ["ruff", "basedpyright"]
 
 [[language]]
 name = "rst"
+indent = { tab-width = 3, unit = "   " }
+comment-token = ".."
 language-servers = ["esbonio", "harper-ls"]
 
 [[language]]
