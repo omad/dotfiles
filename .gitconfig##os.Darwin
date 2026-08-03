@@ -16,7 +16,7 @@
 [core]
 	autocrlf = input
 	safecrlf = warn
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/aye011/.gitignore_global
 	editor = vim
 [commit]
 #	gpgsign = true
@@ -102,3 +102,9 @@
 	useHttpPath = true
 [init]
 	defaultBranch = main
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

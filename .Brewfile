@@ -30,6 +30,7 @@ tap "terror/tap"
 tap "robusta-dev/homebrew-krr"
 tap "wader/tap"
 tap "ycd/tap"
+brew "harper" # Private Grammar checker LSP
 brew "act" # Local GitHub Actions executor
 brew "argo"
 brew "helm"
@@ -258,11 +259,10 @@ cask "imhex"
 cask "inkscape"
 cask "jellyfin-media-player"
 cask "sourcemeta/apps/jsonschema"
-cask "jupyterlab-app"
 cask "kap"
 cask "kitty"
 cask "kopiaui"
-cask "lens"
+cask "openlens"
 cask "lm-studio"
 cask "logitech-camera-settings"
 cask "logitech-options"
@@ -282,6 +282,7 @@ cask "openmtp"
 cask "pgadmin4"
 cask "murdercode/presto/presto"
 cask "pycharm"
+cask "qlmarkdown"
 cask "qmk-toolbox"
 cask "rclone-ui"
 cask "rustdesk"
@@ -458,6 +459,17 @@ brew "luarocks"
 
 tap "git-pkgs/git-pkgs"
 brew "forge"
+brew "kubie"  # Alternative to kubectx and kubens
 
 tap "borkdude/brew"
 brew "borkdude/brew/babashka"
+
+# FunkyBorders, borders around active macOS window
+# Especially helpful with Aerospace or another tiling WM
+tap FelixKratz/formulae
+brew borders
+
+brew "parallel"
+brew "rust-parallel"
+
+brew "cue-lang/tap/cue"

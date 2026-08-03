@@ -15,6 +15,7 @@ rulers = [81, 101]
 # Used for soft-wrap and :reflow
 text-width = 84
 
+
 [editor.soft-wrap]
 enable = true
 wrap-at-text-width = true
@@ -40,6 +41,8 @@ display-messages = true
 # display-inlay-hints = true
 auto-signature-help = true
 display-progress-messages = true
+
+snippets = true
 
 # https://helix-editor.vercel.app/help/recipes#more-intuitive-x-and-x-motions
 [keys.select]

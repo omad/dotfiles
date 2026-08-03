@@ -222,6 +222,10 @@
     "/opt/homebrew/bin"
   ];
 
+  home.sessionVariables = {
+    SOPS_AGE_SSH_PRIVATE_KEY_CMD = "op read 'op://Private/1Password SSH Key/private key?ssh-format=openssh'";
+  };
+
   # Default from HM 26.05.
   # The GNU man version this used to install doesn't do man -k or man -f properly.
   programs.man.package = null;
@@ -327,7 +331,7 @@
     just # command runner
 
     #    envsubst  # The a8m go implementation, not the gnu gettext one
-    prometheus # For promtool
+    # prometheus # For promtool
 
     glow # tui markdown reader
 
@@ -358,8 +362,6 @@
     # ruff # Installed via uvx
 
     skopeo # container registry sync tool
-
-    cue # cue language
 
     vale # Syntax aware prose linter
 
@@ -428,7 +430,7 @@
     kubeseal
     kustomize
     kubeconform
-    minikube
+    # minikube
     kubeswitch
 
     # The latest versions of flux aren't backwards compatible
@@ -471,7 +473,8 @@
 
     jless
 
-    watchexec
+    # Build failed Wed 15 Jul 2026 10:46:26 AEST
+    # watchexec
 
     # s5cmd
     niv

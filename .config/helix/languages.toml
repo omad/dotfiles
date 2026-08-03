@@ -1,4 +1,3 @@
-# :tombi:
 [language-server]
 # actions-language-server = {command = "actions-languageserver", args = ["--stdio"]}
 tilt = { command = "tilt", args = ["lsp", "start"] }  # , "--debug"] }
@@ -8,7 +7,8 @@ ruff = { command = "ruff", args = ["server"] }
 colours-lsp = { command = "colours-lsp" }
 esbonio = { command = "esbonio", args = ["server"] }
 autoconf-language-server = { command = "autoconf-language-server" }
-make-language-server = { command = "make-language-server" }
+make-ls = { command = "make-ls" }
+rumdl = { command = "rumdl", args = ["server"] }
 
 [language-server.actions-language-server]
 command = "actions-languageserver"
@@ -137,8 +137,11 @@ formatter = { args = [
   "--prose-wrap",
   "never",  # <always|never|preserve>
 ], command = "prettier" }
-language-servers = ["marksman", "harper-ls"]
+language-servers = ["marksman", "harper-ls", "rumdl"]
 name = "markdown"
+text-width = 80
+soft-wrap.enable = true
+soft-wrap.wrap-at-text-width = true
 
 [[language]]
 name = "python"
@@ -155,7 +158,7 @@ language-servers = ["esbonio", "harper-ls"]
 [[language]]
 name = "make"
 scope = "source.makefile"
-language-servers = ["make-language-server"]
+language-servers = ["make-ls"]
 
 [[language]]
 name = "yaml"
@@ -323,3 +326,94 @@ name = "prom"
 [[grammar]]
 name = "rcl"
 source = { git = "https://github.com/rcl-lang/tree-sitter-rcl.git", rev = "master" }
+
+
+# Ziggy
+[language-server.ziggy-lsp]
+command = "ziggy"
+args = ["lsp"]
+
+[language-server.ziggy-schema-lsp]
+command = "ziggy"
+args = ["lsp", "--schema"]
+
+[[language]]
+name = "ziggy"
+scope = "text.ziggy"
+roots = []
+injection-regex = "ziggy|zgy"
+file-types = ["ziggy", "zgy"]
+comment-token = "//"
+auto-format = true
+formatter = { command = "ziggy" , args = ["fmt", "--stdin"] }
+language-servers = [ "ziggy-lsp" ]
+
+[[grammar]]
+name = "ziggy"
+source = { path = "/Users/aye011/dev/ziggy/tree-sitter-ziggy" }
+
+[[language]]
+name = "ziggy_schema"
+scope = "text.ziggy_schema"
+roots = []
+injection-regex = "ziggy-schema|zgy-schema"
+file-types = ["ziggy-schema", "zgy-schema"]
+comment-token = "///"
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "ziggy" , args = ["fmt", "-", "--type", "schema"] }
+auto-format = true
+language-servers = [ "ziggy-schema-lsp" ]
+
+[[grammar]]
+name = "ziggy_schema"
+source = { path = "/Users/aye011/dev/ziggy/tree-sitter-ziggy-schema" }
+
+# SuperMD
+[[language]]
+name = "supermd"
+scope = "source.supermd"
+roots = []
+file-types = ["smd"]
+injection-regex = "supermd|smd"
+
+[[grammar]]
+name = "supermd"
+source = { path = "/Users/aye011/dev/supermd/tree-sitter/supermd" }
+
+[[language]]
+name = "supermd_inline"
+scope = "source.supermd.inline"
+injection-regex = "supermd_inline"
+file-types = []
+grammar = "supermd_inline"
+
+[[grammar]]
+name = "supermd_inline"
+source = { path = "/Users/aye011/dev/supermd/tree-sitter/supermd-inline" }
+
+
+# SuperHTML
+[language-server.superhtml-lsp]
+command = "superhtml"
+args = ["lsp"]
+
+[[language]]
+name = "html"
+scope = "source.html"
+roots = []
+file-types = ["html"]
+language-servers = [ "superhtml-lsp" ]
+
+[[language]]
+name = "superhtml"
+scope = "source.superhtml"
+roots = []
+file-types = ["shtml"]
+injection-regex = "superhtml|shtml"
+auto-format = true
+language-servers = [ "superhtml-lsp" ]
+
+[[grammar]]
+name = "superhtml"
+source = { path = "/Users/aye011/dev/superhtml/tree-sitter-superhtml" }
+

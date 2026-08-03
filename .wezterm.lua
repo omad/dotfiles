@@ -18,6 +18,10 @@ config.color_scheme = 'Tokyo Night'
 
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 
+-- Lets try adding `=` as a word separator, to make it easier to select
+-- paths and things in systemd config files and the lik
+config.selection_word_boundary = " \t\n{}[]()\"'`="
+
 local gui_font = wezterm.font {
   family = 'Roboto',
   weight = 'Medium',

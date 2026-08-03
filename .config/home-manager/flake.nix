@@ -4,11 +4,15 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # optnix.url = "github:water-sucks/optnix";
     # optnix.inputs.nixpkgs.follows = "nixpkgs";
     # nixvim.url = "github:nix-community/nixvim";

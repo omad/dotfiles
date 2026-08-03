@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+#
+# Thanks: https://stackoverflow.com/questions/68400120/how-to-generate-scram-sha-256-to-create-postgres-13-user
+# and https://github.com/supercaracal/scram-sha-256
+
+from base64 import standard_b64encode
+from hashlib import pbkdf2_hmac, sha256
+from os import urandom
+import hmac
+import sys
+import os
+
+
+salt_size = 16
+digest_len = 32
+iterations = 4096
+
+
+def b64enc(b: bytes) -> str:
+    return standard_b64encode(b).decode('utf8')
+
+
+def pg_scram_sha256(passwd: str) -> str:
+    salt = urandom(salt_size)
+    digest_key = pbkdf2_hmac('sha256', passwd.encode('utf8'), salt, iterations,
+                             digest_len)
+    client_key = hmac.digest(digest_key, 'Client Key'.encode('utf8'), 'sha256')
+    stored_key = sha256(client_key).digest()
+    server_key = hmac.digest(digest_key, 'Server Key'.encode('utf8'), 'sha256')
+    return (
+        f'SCRAM-SHA-256${iterations}:{b64enc(salt)}'
+        f'${b64enc(stored_key)}:{b64enc(server_key)}'
+    )
+
+
+def print_usage():
+    print("Usage: provide single password argument to encrypt or --generate to make one")
+    sys.exit(1)
+
+def generate_password(length=16):
+    import string
+    import secrets
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(length))
+    return password
+
+def main():
+    args = sys.argv[1:]
+
+    if args and len(args) > 1:
+        print_usage()
+
+    if args and args[0] == "--generate":
+        passwd = generate_password()
+    elif args:
+        passwd = args[0]
+    elif os.isatty(sys.stdin.fileno()):
+        passwd = input("Password: ").strip()
+    else:
+        passwd = sys.stdin.read().strip()
+
+    if not passwd:
+        print_usage()
+
+    print("Plaintext: ", passwd)
+    print("Hashed: ", pg_scram_sha256(passwd))
+
+
+if __name__ == "__main__":
+    main()
+
