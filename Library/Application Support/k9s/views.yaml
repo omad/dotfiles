@@ -1,0 +1,11 @@
+# $XDG_CONFIG_HOME/k9s/views.yaml
+views:
+  v1/nodes:
+    columns:
+      - ARCH:.metadata.labels.beta\.kubernetes\.io/arch
+      - INSTANCE:.metadata.labels.beta\.kubernetes\.io/instance-type
+      - ZONE:.metadata.labels.failure-domain\.beta\.kubernetes\.io/zone
+      - NODEPOOL:.metadata.labels.karpenter\.sh/nodepool
+      - NCPUS:.metadata.labels.eks\.amazonaws\.com/instance-cpu|W
+      - NRAM:.metadata.labels.eks\.amazonaws\.com/instance-memory|W
+      - LABELS|H
