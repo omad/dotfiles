@@ -422,7 +422,6 @@ brew "grizzly" # Old Grafana CLI
 brew "runme"
 brew "telnet"
 brew "grc"
-brew "thaw"
 brew "db-browser-for-sqlite"
 tap "kdash-rs/kdash"
 brew "kdash"
@@ -473,3 +472,7 @@ brew "parallel"
 brew "rust-parallel"
 
 brew "cue-lang/tap/cue"
+
+cask "fluidvoice"
+cask "voiceink"
+

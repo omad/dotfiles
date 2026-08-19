@@ -1,7 +1,19 @@
 function pg-k8s --description "Setup connection to RDS instance"
 
+    argparse 'h/help' 'context=' -- $argv
+    or return
+
+    if set -ql _flag_help
+        echo "Usage: pg-k8s [-h | --help] [--context=K8S_CONTEXT]" >&2
+        return 1
+    end
+
+    if set -ql _flag_context
+        alias kubectl="kubectl --context=$_flag_context"
+    end
+
     kubectl get secrets -A | awk '/db/ {print $1 " " $2}' \
-        | SHELL=/usr/bin/bash fzf -n1 --header="Choose k8s secret for credentials" \
+        | SHELL=(which bash) fzf -n1 --header="Choose k8s secret for credentials" \
             --preview 'kubectl get secrets -n {1} {2} -o yaml | ksd' \
         | read --delimiter ' ' secretnamespace secretname
     or return
@@ -34,7 +46,7 @@ function pg-k8s --description "Setup connection to RDS instance"
 
     set -g BASTI_PID (jobs -lp)
 
-    echo 
+    echo
     echo Host: localhost
     echo Port: $PGPORT
     echo Database: $PGDATABASE

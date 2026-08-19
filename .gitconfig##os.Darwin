@@ -53,7 +53,7 @@
 	newNormal = green bold
 	newHighlight = green bold 22
 [pull]
-	rebase = true
+	# rebase = true
 
 [merge]
     conflictstyle = diff3
@@ -95,7 +95,7 @@
 	trustExitCode = true
 [credential]
 	helper = osxkeychain
-	helper = 
+	helper =
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
 	helper = manager
@@ -104,7 +104,9 @@
 	defaultBranch = main
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[credential "https://github.com"]
+	username = omad

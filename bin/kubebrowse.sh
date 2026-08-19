@@ -8,8 +8,9 @@ TMP=$(mktemp)
 trap 'rm -f "$TMP"' EXIT
 cat "$INPUT" > "$TMP"
 
-# shellcheck disable=SC2016
-cmd_preview='
+
+# cmd_preview=$(cat << "EOF" | sed "s/\$TMP/$TMP/"
+cmd_preview=$(sed "s|\$TMP|$TMP|"<< "EOF"
 kind={1};
 name={2};
 ns={3};
@@ -24,8 +25,15 @@ fi
 # echo $filt
 # echo  yq e --colors "select($filt)" '"$TMP"'
 
-yq e --colors "select($filt)" '"$TMP"'
-'
+if [[ $kind == "null" && $name == "null" && $ns == "null" ]]; then
+  # This segment doesn't appear to be a K8s YAML, so split manually by record/row index
+  cat "$TMP" | perl -lnE 'BEGIN{$/ = "---\n"} print if $. == {n}+1'
+else
+  # echo yq e --colors "select($filt)" "$TMP"
+  yq e --colors "select($filt)" "$TMP"
+fi
+EOF
+)
 
 # Preprocess the YAML file we've captured to handle listed items results from the K8s API
 # like you get from `kubectl get pods -A` that have an `items:` key with a list of API Objects.

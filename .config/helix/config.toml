@@ -16,9 +16,9 @@ rulers = [81, 101]
 text-width = 84
 
 
-[editor.soft-wrap]
-enable = true
-wrap-at-text-width = true
+# [editor.soft-wrap]
+# enable = true
+# wrap-at-text-width = true
 
 [editor.inline-diagnostics]
 # cursor-line = "warning" # show warnings and errors on the cursorline inline
