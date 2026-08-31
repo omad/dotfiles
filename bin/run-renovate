@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -eu
+
+export RENOVATE_TOKEN=$(gh auth token)
+export RENOVATE_CONFIG_FILE="${HOME}"
+
+
+exec renovate "$@"
