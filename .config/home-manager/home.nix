@@ -43,24 +43,27 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
-    options = ["--cmd" "cd"];
+    options = [
+      "--cmd"
+      "cd"
+    ];
   };
 
-#   nixpkgs.overlays = [
-# #    (final: prev: {
-# #      granted = prev.granted.override {
-# #        withFish = true;
-# #      };
-# #    })
-#     (final: prev: {
-#       s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
-#         ldflags = [
-#           "-X github.com/peak/s5cmd/v2/version.Version=${previousAttrs.version}"
-#           "-X github.com/peak/s5cmd/v2/version.GitCommit=${previousAttrs.version}"
-#         ];
-#       });
-#     })
-#   ];
+  #   nixpkgs.overlays = [
+  # #    (final: prev: {
+  # #      granted = prev.granted.override {
+  # #        withFish = true;
+  # #      };
+  # #    })
+  #     (final: prev: {
+  #       s5cmd = prev.s5cmd.overrideAttrs (finalAttrs: previousAttrs: {
+  #         ldflags = [
+  #           "-X github.com/peak/s5cmd/v2/version.Version=${previousAttrs.version}"
+  #           "-X github.com/peak/s5cmd/v2/version.GitCommit=${previousAttrs.version}"
+  #         ];
+  #       });
+  #     })
+  #   ];
 
   # Fish Completions for `nix` and `home-manager`
   # Why isn't this setup automatically? Doing it this way is awfully hacky.
@@ -68,14 +71,21 @@
   # Okay, so, this *is* hacky. It actually looks more like nix and home-manager should be including themselves in XDG_DATA_DIRS.
   # From there, fish populates $__fish_vendor_completionsdirs
   # And it also looks for completions in $fish_complete_path
-  xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
-  xdg.configFile."fish/completions/home-manager.fish".source = "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
+  xdg.configFile."fish/completions/nix.fish".source =
+    "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
+  xdg.configFile."fish/completions/home-manager.fish".source =
+    "${pkgs.home-manager}/share/fish/vendor_completions.d/home-manager.fish";
 
   # Better ls
   programs.lsd.enable = true;
 
   # Advanced Shell History + Syncing
   # programs.atuin.enable = true;
+
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = false;
+  };
 
   programs.fish = {
     enable = true;
@@ -87,71 +97,79 @@
       k = "kubectl";
     };
 
-    shellInit = ''
-        # >>> mamba initialize >>>
-        # !! Contents within this block are managed by 'mamba init' !!
-        # set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
-        # set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
-        # $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
-        # <<< mamba initialize <<<
+    shellInit =
+    # lang=fish
+    ''
+      # >>> mamba initialize >>>
+      # !! Contents within this block are managed by 'mamba init' !!
+      # set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
+      # set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
+      # $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
+      # <<< mamba initialize <<<
 
-        fnm env --shell fish | source
+      fnm env --shell fish | source
 
-        # Set up the bun js tool
-        if test -d "$HOME/.bun"
-          set --export BUN_INSTALL "$HOME/.bun"
-          set --append PATH "$BUN_INSTALL/bin"
+      # Set up the bun js tool
+      if test -d "$HOME/.bun"
+        set --export BUN_INSTALL "$HOME/.bun"
+        set --append PATH "$BUN_INSTALL/bin"
+      end
+    '';
+    interactiveShellInit =
+    # lang=fish
+    ''
+      # Set up the granted/assume alias
+      # See https://docs.commonfate.io/granted/internals/shell-alias
+      alias assume="source (brew --prefix)/bin/assume.fish"
+
+      # WTF is this not managed by home-manager!?
+      # https://github.com/nix-community/home-manager/issues/5119
+      # Closed PR: https://github.com/nix-community/home-manager/pull/5199
+      # [fish: let plugin read vendor_* dirs which is used in nixpkgs fishPlugins by Vonfry · Pull Request #5237 · nix-community/home-manager](https://github.com/nix-community/home-manager/pull/5237)
+      set nix_profile_fish ~/.nix-profile/share/fish
+
+      # Add nix profile completions
+      for dir in completions generated_completions vendor_completions.d
+        if test -d "$nix_profile_fish/$dir"
+          set --append fish_complete_path "$nix_profile_fish/$dir"
         end
-      '';
-      interactiveShellInit = ''
-        # Set up the granted/assume alias
-        # See https://docs.commonfate.io/granted/internals/shell-alias
-        alias assume="source (brew --prefix)/bin/assume.fish"
+      end
 
-        # WTF is this not managed by home-manager!?
-        # https://github.com/nix-community/home-manager/issues/5119
-        # Closed PR: https://github.com/nix-community/home-manager/pull/5199
-        # [fish: let plugin read vendor_* dirs which is used in nixpkgs fishPlugins by Vonfry · Pull Request #5237 · nix-community/home-manager](https://github.com/nix-community/home-manager/pull/5237)
-        set nix_profile_fish ~/.nix-profile/share/fish
+      if test -d $nix_profile_fish/vendor_functions.d
+        # set fish_function_path $fish_function_path[1] $nix_profile_fish/vendor_functions.d $fish_function_path[2..-1]
+        set --append fish_function_path "$nix_profile_fish/vendor_functions.d"
+      end
+      if test -d $nix_profile_fish/vendor_completions.d
+        # set fish_complete_path $fish_complete_path[1] $nix_profile_fish/vendor_completions.d $fish_complete_path[2..-1]
+        set --append fish_complete_path "$nix_profile_fish/vendor_completions.d"
+      end
 
-        # Add nix profile completions
-        for dir in completions generated_completions vendor_completions.d
-          if test -d "$nix_profile_fish/$dir"
-            set --append fish_complete_path "$nix_profile_fish/$dir"
-          end
+      # Source initialization code if it exists.
+      if test -d $nix_profile_fish/vendor_conf.d
+        for f in $nix_profile_fish/vendor_conf.d/*.fish
+          source $f
         end
+      end
 
-        if test -d $nix_profile_fish/vendor_functions.d
-          # set fish_function_path $fish_function_path[1] $nix_profile_fish/vendor_functions.d $fish_function_path[2..-1]
-          set --append fish_function_path "$nix_profile_fish/vendor_functions.d"
-        end
-        if test -d $nix_profile_fish/vendor_completions.d
-          # set fish_complete_path $fish_complete_path[1] $nix_profile_fish/vendor_completions.d $fish_complete_path[2..-1]
-          set --append fish_complete_path "$nix_profile_fish/vendor_completions.d"
-        end
+      # Kubectl krew
+      if set -q KREW_ROOT; and test -d "$KREW_ROOT/.krew/bin"
 
-        # Source initialization code if it exists.
-        if test -d $nix_profile_fish/vendor_conf.d
-          for f in $nix_profile_fish/vendor_conf.d/*.fish
-            source $f
-          end
-        end
+        set --append PATH "$KREW_ROOT/.krew/bin"
+      else if test -d $HOME/.krew/bin
+        set --append PATH "$HOME/.krew/bin"
+      end
+      # set -q KREW_ROOT; and ; or set -gx PATH $PATH $HOME/.krew/bin
 
-        # Kubectl krew
-        if set -q KREW_ROOT; and test -d "$KREW_ROOT/.krew/bin"
+      # Fast switching with Ctrl-Z
+      # https://github.com/helix-editor/helix/wiki/Recipes#project-wide-search-and-replace-with-scooter
+      bind \cz 'fg 2>/dev/null; commandline -f repaint'
 
-          set --append PATH "$KREW_ROOT/.krew/bin"
-        else if test -d $HOME/.krew/bin
-          set --append PATH "$HOME/.krew/bin"
-        end
-        # set -q KREW_ROOT; and ; or set -gx PATH $PATH $HOME/.krew/bin
+      # Enable fzf Ctrl-T (filename/dirname) completion without clobbering atuin
+      if type -q fzf
+        fzf --fish | FZF_CTRL_R_COMMAND= FZF_ALT_C_COMMAND= source
+      end
 
-        # Fast switching with Ctrl-Z
-        # https://github.com/helix-editor/helix/wiki/Recipes#project-wide-search-and-replace-with-scooter
-        bind \cz 'fg 2>/dev/null; commandline -f repaint'
-
-
-      '';
+    '';
   };
   # This conflicts with the pop-os installed glib and mime type associations
   # creating and infinite loop and crash. Something with
@@ -179,20 +197,27 @@
     defaultEditor = true;
   };
 
-#  programs.granted.enable = true;
-#  programs.fish.shellAliases = {
-#    assume = "source ${pkgs.granted}/share/assume.fish";
-#  };
+  programs.nix-search-tv = {
+    enable = true;
+    settings = {
+          indexes = [ "nixpkgs" "home-manager" "nixos" ];
+    };
+    enableTelevisionIntegration = true;
+  };
+  #  programs.granted.enable = true;
+  #  programs.fish.shellAliases = {
+  #    assume = "source ${pkgs.granted}/share/assume.fish";
+  #  };
 
   # Rust TLDR client
-  # programs.tealdeer = {
-  #   enable = true;
-  #   settings = {
-  #     updates = {
-  #       auto_update = true;
-  #     };
-  #   };
-  # };
+  programs.tealdeer = {
+    enable = true;
+    settings = {
+      updates = {
+        auto_update = true;
+      };
+    };
+  };
 
   xsession.enable = false;
 
@@ -264,7 +289,6 @@
     enable = true;
   };
 
-
   #  services.lorri.enable = true;
   manual.manpages.enable = true;
 
@@ -276,14 +300,13 @@
     # nushell
     usql
 
-
     # ast-grep
 
     fastfetch
 
     nix-tree
     xh
-#    numbat
+    #    numbat
     #    scrcpy
 
     # I tried git from here because the pop-os deb install was crashing due to the envsubst version
@@ -299,7 +322,7 @@
     # jira-cli-go
 
     # Log Highlighter
-#    ccze # No aarch64, 2024-11-20
+    #    ccze # No aarch64, 2024-11-20
 
     hyperfine
 
@@ -324,7 +347,6 @@
 
     atac # HTTP/Rest TUI (rust)
 
-
     lazygit
     lazydocker
 
@@ -339,7 +361,6 @@
     tig
 
     bfs # Breadth first find alternative
-
 
     mqttui
 
@@ -389,7 +410,7 @@
     prettyping
     # spotify-tui # rust spotify client
     fd # fast find alternative
-    fzf # fuzzyfinder
+    # fzf # fuzzyfinder
     ripgrep
     starship # minimal blazing fast prompt
     delta
@@ -419,7 +440,7 @@
     nixd
     # marksman
     # harper # Grammar checking language server
-#    python3Packages.python-lsp-server
+    #    python3Packages.python-lsp-server
 
     # Kubernetes tools
     krew
@@ -478,7 +499,7 @@
 
     # s5cmd
     niv
-#    mitmproxy
+    #    mitmproxy
     rustscan
 
     btop
@@ -486,7 +507,6 @@
     tokei # source lines of code counter
 
     goaccess # Web Access Log Analyser
-
 
     #    hurl # Rust wrapper for programmatic curl
 
@@ -504,18 +524,20 @@
 
     navi # interactive cli cheat sheets
 
-
-
   ];
 
   systemd.user.paths.watch-download-torrents = {
-    Unit = { Description = "Watch Downloads"; };
+    Unit = {
+      Description = "Watch Downloads";
+    };
     Path = {
       PathChanged = "/Users/aye011/Downloads/";
       #           PathExistsGlob = "/home/aye011/Downloads/*.torrent";
       Unit = "watch-download-torrents.service";
     };
-    Install = { WantedBy = [ "paths.target" ]; };
+    Install = {
+      WantedBy = [ "paths.target" ];
+    };
 
   };
   systemd.user.services.watch-download-torrents =
@@ -532,7 +554,9 @@
       '';
     in
     {
-      Unit = { Description = "Act on Downloaded File"; };
+      Unit = {
+        Description = "Act on Downloaded File";
+      };
       Service = {
         WorkingDirectory = "/Users/aye011/Downloads/";
         ExecStart = "${script}";
@@ -540,15 +564,21 @@
       };
     };
   systemd.user.timers.cleanup-caches = {
-    Unit = { Description = "Cleanup Caches"; };
+    Unit = {
+      Description = "Cleanup Caches";
+    };
     Timer = {
       OnCalendar = "daily";
       Unit = "cleanup-caches.service";
     };
-    Install = { WantedBy = [ "timers.target" ]; };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
   };
   systemd.user.services.cleanup-caches = {
-    Unit = { Description = "Cleanup Caches"; };
+    Unit = {
+      Description = "Cleanup Caches";
+    };
     Service = {
       ExecStart = "docker system prune --force";
     };

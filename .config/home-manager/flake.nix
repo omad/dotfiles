@@ -100,6 +100,10 @@
         ];
       };
 
+      # error: flake 'path:/Users/aye011/.config/home-manager' does not provide attribute
+      # 'packages.aarch64-darwin.nixosConfigurations.SANDPOINT-BM.config.system.build.toplevel',
+      # 'legacyPackages.aarch64-darwin.nixosConfigurations.SANDPOINT-BM.config.system.build.toplevel' or
+      # 'nixosConfigurations.SANDPOINT-BM.config.system.build.toplevel'
       darwinConfigurations."SANDPOINT-BM" = nix-darwin.lib.darwinSystem {
         inherit system;
         modules = [ ./darwin.nix ];

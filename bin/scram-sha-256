@@ -49,7 +49,6 @@ def main():
     if args and len(args) > 1:
         print_usage()
 
-    breakpoint()
     if args and args[0] == "--generate":
         passwd = generate_password()
     elif args and args[0] == "--help" or args[0] == "-h":

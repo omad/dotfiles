@@ -1,12 +1,12 @@
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "e079a00"
-hash = "5e203acd4ff62c96cbc2887c8142d78"
+rev = "73a3658"
+hash = "157d32cd1681b6e4e9aa184037edd7da"
 
 [[plugin.deps]]
 use = "kirasok/torrent-preview"
-rev = "f465282"
-hash = "d849ad596b8a77902e62a42403aeba40"
+rev = "d745df6"
+hash = "cf91ea69fa7626160d7246dbda0ea545"
 
 [[plugin.deps]]
 use = "wylie102/duckdb"
@@ -15,23 +15,23 @@ hash = "87b9233a74325e95011670ed20bbd0d4"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "3f2b882"
-hash = "f23ecc89ce0f9eeefdd4cea14e2a9ba7"
+rev = "044c3cc"
+hash = "45a533508a9840cc5a10cf6129f63e6a"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "3f2b882"
-hash = "5b1c276b75cae91cbbdbe7863f39a540"
+rev = "044c3cc"
+hash = "87472b05a8c420100f6a2b9cde1e7746"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mactag"
-rev = "3f2b882"
-hash = "bca7e9afee0833da89b3eb6bbb228d1"
+rev = "044c3cc"
+hash = "34e3e12060f833cc21446f23a7ced8d1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "3f2b882"
-hash = "336548d9f67926e12d5584f60b790f1"
+rev = "044c3cc"
+hash = "5bb0bfab901d3601c370eafdd66edd31"
 
 [flavor]
 deps = []

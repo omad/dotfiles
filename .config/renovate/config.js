@@ -5,5 +5,6 @@ module.exports = {
   onboardingConfig: {
     extends: ['config:recommended'],
   },
+  persistRepoData: true,
   repositories: ['omad/nixos'],
 };

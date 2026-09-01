@@ -20,6 +20,7 @@ let
     # "dup"
     "flux"
     "get-all"
+    "get-all-namespace-resources"
     "eks-node-viewer"
     "kube-metrics"
     "helm-diff"

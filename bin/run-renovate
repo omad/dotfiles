@@ -2,8 +2,10 @@
 
 set -eu
 
-export RENOVATE_TOKEN=$(gh auth token)
-export RENOVATE_CONFIG_FILE="${HOME}"
+export RENOVATE_TOKEN
+RENOVATE_TOKEN=$(gh auth token)
 
+export RENOVATE_CONFIG_FILE="${HOME}/.config/renovate/config.js"
+export LOG_LEVEL=debug
 
 exec renovate "$@"

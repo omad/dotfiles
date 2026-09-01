@@ -10,6 +10,7 @@ cat "$INPUT" > "$TMP"
 
 
 # cmd_preview=$(cat << "EOF" | sed "s/\$TMP/$TMP/"
+# lang=bash
 cmd_preview=$(sed "s|\$TMP|$TMP|"<< "EOF"
 kind={1};
 name={2};
@@ -25,13 +26,29 @@ fi
 # echo $filt
 # echo  yq e --colors "select($filt)" '"$TMP"'
 
+# env | grep FZF
+if [[ $COLOURISE_PREVIEW == "1" ]]; then
+  YQ_COLORS="--colors"
+fi
 if [[ $kind == "null" && $name == "null" && $ns == "null" ]]; then
   # This segment doesn't appear to be a K8s YAML, so split manually by record/row index
   cat "$TMP" | perl -lnE 'BEGIN{$/ = "---\n"} print if $. == {n}+1'
 else
   # echo yq e --colors "select($filt)" "$TMP"
-  yq e --colors "select($filt)" "$TMP"
+  yq e $YQ_COLORS "select($filt)" "$TMP"
 fi
+EOF
+)
+
+# Select by document index instead of complex filter
+cmd_preview=$(sed "s|\$TMP|$TMP|"<< "EOF"
+if [[ $COLOURISE_PREVIEW == "1" ]]; then
+  YQ_COLORS="--colors"
+fi
+docindexes=$(echo {+n})
+query="select(di == ${docindexes// / or di == })"
+
+yq e $YQ_COLORS "${query}" "$TMP"
 EOF
 )
 
@@ -39,7 +56,7 @@ EOF
 # like you get from `kubectl get pods -A` that have an `items:` key with a list of API Objects.
 if head "${TMP}" | grep -q '^items:$'; then
   # Split in place the list of objects under items into separate YAML documents
-  yq -i '.items.[] | split_doc' "${TMP}"
+  yq --inplace '.items.[] | split_doc' "${TMP}"
 fi
 
 
@@ -50,18 +67,30 @@ fi
 
 # tv, tidy-viewer is prettier, but, totally unnecessary
  # | tv --no-dimensions --no-row-numbering --force-all-rows --color-always | sed '1,2d;$d' \
-SELECTED=$(yq   '[{"kind": .kind, "name": .metadata.name, "Namespace": .metadata.namespace}]'  "${TMP}" | yq -o csv \
+# SELECTED=$(yq   '[{"kind": .kind, "name": .metadata.name, "Namespace": .metadata.namespace}]'  "${TMP}" | yq -o csv \
+yq -o csv '[[documentIndex, .kind, .metadata.name, .metadata.namespace]]' "${TMP}" \
   | column -ts, \
- | fzf --ansi \
+  | fzf --ansi \
        --reverse \
+       --multi \
+       --with-nth 2.. \
        --info inline \
        --header-lines 1 \
        --with-shell="bash -c" \
-       --preview "$cmd_preview")
+       --header "ctrl-/ toggle-preview | ctrl-alt-c copy-document-to-clipboard
+ctrl-alt-e | ctrl-v
+TMPFILE: ${TMP}" \
+       --bind "ctrl-alt-c:execute-silent:$cmd_preview | pbcopy" \
+       --bind "ctrl-alt-e:execute-silent:(echo {}; echo {1}; echo {2}; env) | pbcopy" \
+       --bind "ctrl-v:preview(echo {+}; env | grep FZF)" \
+       --bind 'ctrl-/:toggle-preview' \
+       --bind "enter:become($cmd_preview)" \
+       --preview "COLOURISE_PREVIEW=1; $cmd_preview"
        # --preview-window up:border-down \
        # --preview-window down,90% \
 
-[ -z "$SELECTED" ] && exit 0
+# [ -z "$SELECTED" ] && exit 0
+
 
 # Reference
 # fzf --tmux 80%,100%,border-native --ansi \
@@ -77,14 +106,14 @@ SELECTED=$(yq   '[{"kind": .kind, "name": .metadata.name, "Namespace": .metadata
 # --footer 'Press Enter to checkout / CTRL-O to open in browser / CTRL-V to open in editor'
 
 # When selected, print the manifest (same code as in preview)
-kind=$(echo "$SELECTED" | cut -d',' -f1)
-name=$(echo "$SELECTED" | cut -d',' -f2)
-ns=$(echo "$SELECTED" | cut -d',' -f3)
+# kind=$(echo "$SELECTED" | cut -d',' -f1)
+# name=$(echo "$SELECTED" | cut -d',' -f2)
+# ns=$(echo "$SELECTED" | cut -d',' -f3)
 
-if [ "$ns" = "null" ] || [ -z "$ns" ]; then
-    FILTER=".kind == \"$kind\" and .metadata.name == \"$name\""
-else
-    FILTER=".kind == \"$kind\" and .metadata.name == \"$name\" and .metadata.namespace == \"$ns\""
-fi
+# if [ "$ns" = "null" ] || [ -z "$ns" ]; then
+#     FILTER=".kind == \"$kind\" and .metadata.name == \"$name\""
+# else
+#     FILTER=".kind == \"$kind\" and .metadata.name == \"$name\" and .metadata.namespace == \"$ns\""
+# fi
 
-yq e "select($FILTER)" "$TMP"
+# yq e "select($FILTER)" "$TMP"

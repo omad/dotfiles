@@ -139,9 +139,9 @@ formatter = { args = [
 ], command = "prettier" }
 language-servers = ["marksman", "harper-ls", "rumdl"]
 name = "markdown"
-text-width = 80
-soft-wrap.enable = true
-soft-wrap.wrap-at-text-width = true
+# text-width = 80
+# soft-wrap.enable = true
+# soft-wrap.wrap-at-text-width = true
 
 [[language]]
 name = "python"
