@@ -52,7 +52,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9",
                          "C", "D", "F", "G", "M", "Q",
-                         "R", "T", "W", "X", "Y", "Z"]
+                         "R", "T", "W", "Y", "Z"]
 # Possible values: (qwerty|dvorak|colemak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
@@ -147,7 +147,7 @@ outer.right =      0
     alt-t = 'workspace T'
     # alt-v = 'workspace V'
     alt-w = 'workspace W'
-    alt-x = 'workspace X'
+    # alt-x = 'workspace X'
     alt-y = 'workspace Y'
     alt-z = 'workspace Z'
 
@@ -189,7 +189,7 @@ outer.right =      0
     alt-shift-t = 'move-node-to-workspace T'
     # alt-shift-v = 'move-node-to-workspace V'
     alt-shift-w = 'move-node-to-workspace W'
-    alt-shift-x = 'move-node-to-workspace X'
+    # alt-shift-x = 'move-node-to-workspace X'
     alt-shift-y = 'move-node-to-workspace Y'
     alt-shift-z = 'move-node-to-workspace Z'
 

@@ -188,5 +188,10 @@ config.keys = {
   }
 }
 
+-- Use WezTerm's native terminfo (installed in ~/.terminfo) so apps like
+-- psql and pspg get accurate terminal capabilities instead of the
+-- xterm-256color fallback.
+config.term = 'wezterm'
+
 -- Finally, return the configuration to wezterm:
 return config

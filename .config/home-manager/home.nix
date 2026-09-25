@@ -34,6 +34,8 @@
 
   };
 
+  programs.moor.enable = true;
+
   # programs.neovim = {
   #   enable = true;
   #   vimAlias = true;
@@ -47,6 +49,17 @@
       "--cmd"
       "cd"
     ];
+  };
+
+  home = {
+    shellAliases = {
+      k = "kubecolor";
+      kubectl = "kubecolor";
+      kb = "kubebrowse.sh";
+      # l = null;
+      # ll = "ls -l";
+    };
+
   };
 
   #   nixpkgs.overlays = [
@@ -106,13 +119,66 @@
       # set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
       # $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
       # <<< mamba initialize <<<
+      # Lazy-load micromamba
+      if type -q micromamba
+        # >>> mamba initialize >>>
+        set -gx MAMBA_EXE "/Users/aye011/.local/bin/micromamba"
+        set -gx MAMBA_ROOT_PREFIX "/Users/aye011/micromamba"
+        function micromamba
+          $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
 
-      fnm env --shell fish | source
+          micromamba $argv
+        end
+        # <<< mamba initialize <<<
+      end
+
+      # Lazy-load fnm instead of running `fnm env` on every shell startup.
+      # `fnm env` cannot be cached (it embeds a per-shell multishell path), and
+      # spawning it on each shell is slow under the org security agents. Since
+      # per-directory Node switching isn't used, initialise fnm only when a
+      # Node-related command is first invoked.
+      if type -q fnm
+        for _cmd in node npm npx pnpm yarn fnm
+          function $_cmd --inherit-variable _cmd
+            functions -e node npm npx pnpm yarn fnm
+            fnm env --shell fish | source
+            $_cmd $argv
+          end
+        end
+      end
 
       # Set up the bun js tool
       if test -d "$HOME/.bun"
         set --export BUN_INSTALL "$HOME/.bun"
         set --append PATH "$BUN_INSTALL/bin"
+      end
+
+      # Lazy-load mise instead of `mise activate` on every shell startup.
+      # Homebrew ships /opt/homebrew/share/fish/vendor_conf.d/mise-activate.fish
+      # which runs `mise activate fish` (~145ms) + installs a per-prompt
+      # hook-env (~150ms) on every shell. That vendor file honours the
+      # MISE_FISH_AUTO_ACTIVATE env var, but conf.d runs BEFORE config.fish, so
+      # setting it here (or via home.sessionVariables) would be too late.
+      # It is therefore set as a fish UNIVERSAL variable (persisted in
+      # fish_variables), applied once here idempotently:
+      #   set -Ux MISE_FISH_AUTO_ACTIVATE 0
+      # Since mise is rarely used, activate it on demand via a wrapper.
+      if not set -q MISE_FISH_AUTO_ACTIVATE
+        set -Ux MISE_FISH_AUTO_ACTIVATE 0
+      end
+      if type -q mise
+        function mise
+          functions -e mise
+          /opt/homebrew/opt/mise/bin/mise activate fish | source
+          mise $argv
+        end
+      end
+
+      # Android SDK tools (conditional; can't live in home.sessionPath because
+      # it's gated on the SDK directory existing).
+      if test -d $HOME/Android/Sdk
+        set --append PATH "$HOME/Android/Sdk/platform-tools"
+        set --append PATH "$HOME/Android/Sdk/emulator"
       end
     '';
     interactiveShellInit =
@@ -237,7 +303,11 @@
   home.username = "aye011";
   home.homeDirectory = "/Users/aye011";
 
-  # Extra Paths to always set
+  # Extra Paths to always set.
+  # This is the single source of truth for PATH additions. Assembled once by
+  # home-manager into hm-session-vars.fish; do NOT use `fish_add_path -g`
+  # elsewhere (it mutates the universal fish_user_paths and makes PATH order
+  # nondeterministic across shells).
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/bin"
@@ -486,9 +556,9 @@
     pgmetrics
     # dive
     pup
-    docker-credential-helpers
-    docker-compose
-    docker-slim
+    # docker-credential-helpers
+    # docker-compose
+    # docker-slim
     # yt-dlp # Installed via brew now
     onefetch
 

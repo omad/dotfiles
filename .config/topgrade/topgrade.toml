@@ -33,7 +33,10 @@ repos = [
 # Arguments to pass Git when pulling Repositories
 #arguments = "--rebase --autostash"
 
-
+[uv]
+# Pass --force to `uv cache prune`, useful if you have long-running `uv` processes
+# (default: false)
+# cache_force = true
 # Commands to run before anything
 [pre_commands]
 "Update Home Manager Flake" = "nix flake update --flake ~/.config/home-manager/ && yadm commit -m 'Update Home Manager Flake' -- ~/.config/home-manager/flake.lock || true"
