@@ -52,7 +52,7 @@ repos = [
 
 
 "Cleanup Nix Store" = "nix-collect-garbage -d"
-"Cleanup Conda detritus" = "micromamba clean --all --yes"
+# "Cleanup Conda detritus" = "micromamba clean --all --yes"
 
 "Docker cleanup" = "docker system prune --force"
 
